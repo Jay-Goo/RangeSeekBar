@@ -25,8 +25,12 @@ thumbSize|dimension|按钮的尺寸
 cellMode|enum|刻度模式 **number** 根据刻度的实际所占比例分配位置*（markTextArray中必须都为数字）* **other** 平分当前布局*（markTextArray可以是任何字符）*
 seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个按钮 **range** 双向模式，有两个按钮 
 
-##通过布局文件设置属性
-` <com.jaygoo.widget.RangeSeekbar
+##Usage
+###第一步：
+
+###第二步：
+```xml
+    <com.jaygoo.widget.RangeSeekbar
         android:id="@+id/seekbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -36,13 +40,10 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
         app:lineColorEdge="@color/colorSeekBarDefalut"
         app:cellMode="number"
         app:seekBarMode="range"
-    />`
-
-##通过代码设置属性
-
+    />
+```
 
 
-##设置初始默认值
 
 
 ##获取响应值
