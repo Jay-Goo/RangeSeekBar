@@ -1,7 +1,7 @@
 
 # RangeSeekBar 
 
-![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2014_35_41.gif)
+![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
 ##Attributes
 attr | format | description
