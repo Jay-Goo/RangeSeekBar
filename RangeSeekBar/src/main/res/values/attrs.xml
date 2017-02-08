@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+
+    <declare-styleable name="RangeSeekbar">
+
+        <attr name="max" format="float"/>
+        <attr name="min" format="float"/>
+        <attr name="reserve" format="float"/>
+        <attr name="cells" format="integer"/>
+        <attr name="hideProgressHint" format="boolean"/>
+        <attr name="lineColorSelected" format="color"/>
+        <attr name="lineColorEdge" format="color"/>
+        <attr name="markTextArray" format="reference"/>
+        <attr name="seekBarResId" format="reference"/>
+        <!-- must use 9 path ！！！-->
+        <attr name="progressHintResId" format="reference"/>
+        <attr name="textPadding" format="dimension" />
+        <attr name="textSize" format="dimension" />
+        <attr name="hintBGHeight" format="dimension" />
+        <attr name="hintBGWith" format="dimension" />
+        <attr name="hintBGPadding" format="dimension" />
+        <attr name="seekbarHight" format="dimension"/>
+        <attr name="thumbSize" format="dimension"/>
+        <attr name="cellMode" format="enum">
+            <enum name="number" value="0"/>
+            <enum name="other" value="1"/>
+        </attr>
+        <attr name="seekBarMode" format="enum">
+            <enum name="single" value="1"/>
+            <enum name="rangle" value="2"/>
+        </attr>
+
+    </declare-styleable>
+</resources>
