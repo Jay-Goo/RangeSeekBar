@@ -1,10 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- ******************** 参数解释 ******************** -->
+
+    <!--最大值-->
+    <!--最小值-->
+    <!--两个按钮的最小间距-->
+    <!--cells 等于0为普通模式，大于1时切换为刻度模式-->
+    <!--是否关闭进度提示-->
+    <!--拖动后的Seekbar颜色-->
+    <!--默认的Seekbar颜色-->
+    <!--刻度文字，不设置的时候默认隐藏-->
+    <!--按钮的背景资源，不设置的时候默认为圆形按钮-->
+    <!--进度提示背景资源，必须使用 9 path文件-->
+    <!--刻度文字与进度条之间的距离-->
+    <!--刻度文字和进度提示文字的大小-->
+    <!--进度提示背景的高度，不设置时根据文字尺寸自适应-->
+    <!--进度提示背景的宽度，不设置时根据文字尺寸自适应-->
+    <!--进度提示背景和进度条之间的距离-->
+    <!--进度条的高度-->
+    <!--按钮的尺寸-->
+    <!--刻度模式
+    number 根据刻度的实际所占比例分配位置（markTextArray中必须都为数字）
+    other 平分当前布局（markTextArray可以是任何字符）
+    -->
+    <!--单向、双向模式 single 单向模式，只有一个按钮 range 双向模式，有两个按钮 -->
+
+    <!-- ******************** 参数解释 ******************** -->
+
+    <!-- ******************** Parameter Explanation ******************** -->
+
+    <!--The maximum-->
+    <!--The minimum-->
+    <!--The minimum distance between two buttons-->
+    <!--Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode-->
+    <!--Whether to close the progress prompt-->
+    <!--The Seekbar color after dragging-->
+    <!--The default Seekbar color-->
+    <!--Scale text, do not set the default when hidden-->
+    <!--Button background resources, do not set the default when the circular button-->
+    <!--Progress prompt background resources, you must use the 9 path file-->
+    <!--The distance between the scale text and the progress bar-->
+    <!--Scale text, and the size of the progress prompt text-->
+    <!--The height of the progress prompt background, not set according to the text size adaptive-->
+    <!--The with of the progress prompt background, not set according to the text size adaptive-->
+    <!--The progress indicates the distance between the background and the progress bar-->
+    <!--The height of the progress bar-->
+    <!--The size of the button-->
+    <!--Scale mode
+    Number according to the scale of the actual proportion of the distribution of the location (markTextArray must be a number)
+    Other bisects the current layout (markTextArray can be any character)
+    -->
+    <!--One-way, two-way mode single one-way mode, there is only one button range bidirectional mode, two buttons -->
+
+    <!-- ******************** Parameter Explanation ******************** -->
+
 
 
     <declare-styleable name="RangeSeekbar">
-
         <attr name="max" format="float"/>
         <attr name="min" format="float"/>
         <attr name="reserve" format="float"/>
