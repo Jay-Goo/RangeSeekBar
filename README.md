@@ -1,6 +1,9 @@
 
 # RangeSeekBar 
 
+[中文文档](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md) 
+
+
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
 ##Attributes
