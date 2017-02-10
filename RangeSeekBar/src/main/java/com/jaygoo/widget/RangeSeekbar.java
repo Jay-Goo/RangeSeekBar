@@ -522,7 +522,7 @@ public class RangeSeekbar extends View {
         };
 
         /**
-         * 碰撞检测
+         * 拖动检测
          * @param event
          * @return
          */
