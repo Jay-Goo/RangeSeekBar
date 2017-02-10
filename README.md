@@ -61,7 +61,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
     />
 ```
 
-
+## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
 ##Others 
