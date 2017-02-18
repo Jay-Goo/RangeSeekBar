@@ -42,7 +42,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.0'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.1'
 	}
    
 ```
@@ -64,7 +64,9 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 ```
 
 ## [Update]
-add thumbPrimaryColor、thumbSecondaryColor Attributes
+version | message
+-------- | ---
+v1.0.1 | add thumbPrimaryColor、thumbSecondaryColor Attributes
 
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 

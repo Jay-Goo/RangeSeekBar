@@ -38,7 +38,7 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.0'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.1'
 	}
 
 ```
@@ -60,7 +60,10 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 ```
 
 ## [更新]
-增加了thumbPrimaryColor、thumbSecondaryColor属性
+version | message
+-------- | ---
+v1.0.1 | 增加了thumbPrimaryColor、thumbSecondaryColor属性
+
 
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 
