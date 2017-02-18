@@ -1,36 +1,54 @@
 
 # RangeSeekBar 
 
-![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2014_35_41.gif)
+## [中文文档](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md) 
+
+
+![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
 ##Attributes
 attr | format | description
 -------- | ---|---
-min|float|最小值, `Float.MIN_VALUE` <= min < max，默认：0
-max|float|最大值, min < max <= `Float.MAX_VALUE`, 默认: 100
-reserve|float|两个按钮的最小间距
-cells|int|cells 等于0为普通模式，大于1时切换为刻度模式
-hideProgressHint|boolean|是否关闭进度提示
-lineColorSelected|color|拖动后的Seekbar颜色
-lineColorEdge|color|默认的Seekbar颜色
-thumbPrimaryColor|color|进度为最小值或最大值时按钮的颜色，默认：不调用
-thumbSecondaryColor|color|进度不为最小值或最大值时按钮的颜色，默认：不调用
-markTextArray|reference|刻度文字，不设置的时候默认隐藏按钮的背景资源，不设置的时候默认为圆形按钮
-seekBarResId|reference|按钮的背景资源，不设置的时候默认为圆形按钮
-progressHintResId|reference|进度提示背景资源，必须使用 **9 path**文件
-textPadding|dimension|刻度文字与进度条之间的距离textSize|dimension|刻度文字和进度提示文字的大小
-hintBGHeight|dimension|进度提示背景的高度，不设置时根据文字尺寸自适应
-hintBGWith|dimension|进度提示背景的宽度，不设置时根据文字尺寸自适应
-hintBGPadding|dimension|进度提示背景和进度条之间的距离
-seekbarHight|dimension|进度条的高度
-thumbSize|dimension|按钮的尺寸
-cellMode|enum|刻度模式 **number** 根据刻度的实际所占比例分配位置*（markTextArray中必须都为数字）* **other** 平分当前布局*（markTextArray可以是任何字符）*
-seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个按钮 **range** 双向模式，有两个按钮 
+min|float|min value, `Float.MIN_VALUE` <= min < max，Default：0
+max|float|max value, min < max <= `Float.MAX_VALUE`, Default: 100
+reserve|float|The minimum distance between two buttons
+cells|int|Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode
+hideProgressHint|boolean|Whether to close the progress prompt
+lineColorSelected|color|The Seekbar color after dragging
+lineColorEdge|color|The default Seekbar color
+thumbPrimaryColor|color|The color of the thumb when the progress is the minimum or maximum，default：none
+thumbSecondaryColor|color|The color of the thumb when the progress is not the minimum or maximum，default：none
+markTextArray|reference|Scale text, do not set the default when hidden
+seekBarResId|reference|Button background resources, do not set the default when the circular button
+progressHintResId|reference|Progress prompt background resources, you must use the **9 path file**
+textPadding|dimension|The distance between the scale text and the progress bar
+textSize|dimension|Scale text, and the size of the progress prompt text
+hintBGHeight|dimension|The height of the progress prompt background, not set according to the text size adaptive
+hintBGWith|dimension|The with of the progress prompt background, not set according to the text size adaptive
+hintBGPadding|dimension|The progress indicates the distance between the background and the progress bar
+seekbarHight|dimension|The height of the progress bar
+thumbSize|dimension|The size of the button
+cellMode|enum|Scale mode **number** according to the scale of the actual proportion of the distribution of the location *（markTextArray must be a number）* **other** bisects the current layout*（markTextArray can be any character）*
+seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range** Bidirectional selection SeekBar
 
 ##Usage
-###第一步：
+###Step1：
+```xml
+    allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+	
+	dependencies {
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.0'
+	}
+   
+```
 
-###第二步：
+
+###Step2：
 ```xml
     <com.jaygoo.widget.RangeSeekbar
         android:id="@+id/seekbar1"
@@ -45,17 +63,15 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
     />
 ```
 
+## [Update]
+add thumbPrimaryColor、thumbSecondaryColor Attributes
+
+## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
+##Others 
 
-##获取响应值
-
-
-##更加详细的源码分析和实现思路讲解
-[请戳这里](http://blog.csdn.net/bfbx5173/article/details/51869776) 
-
-##其它 
-希望你喜欢我的作品。`Star`是对我的最大支持. 谢谢
+I hope you like this RangeSeekBar. `Star` is the greatest support for me！ Thank U
 
 
 
