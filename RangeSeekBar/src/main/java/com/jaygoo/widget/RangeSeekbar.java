@@ -48,8 +48,6 @@ public class RangeSeekbar extends View {
     //single = 1; range = 2
     private final int mSeekBarMode ;
 
-
-
     //默认为1，当大于1时自动切回刻度模式
     //The default is 1, and when it is greater than 1,
     // it will automatically switch back to the scale mode
@@ -84,6 +82,12 @@ public class RangeSeekbar extends View {
     // the color of the unselected progress bar
     private int colorLineEdge;
 
+    //The foreground color of progress bar and thumb button.
+    private int colorPrimary;
+
+    //The background color of progress bar and thumb button.
+    private int colorSecondary;
+
     //刻度文字与提示文字的大小
     //Scale text and prompt text size
     private int mTextSize;
@@ -115,13 +119,10 @@ public class RangeSeekbar extends View {
     private CharSequence[] mTextArray;
 
     private Bitmap mProgressHintBG;
-
     private Paint mMainPaint = new Paint();
     private Paint mCursorPaint = new Paint();
     private Paint mProgressPaint;
-
     private RectF line = new RectF();
-
     private SeekBar leftSB ;
     private SeekBar rightSB;
     private SeekBar currTouch;
@@ -136,14 +137,16 @@ public class RangeSeekbar extends View {
     public RangeSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekbar);
+        cellsCount = t.getInt(R.styleable.RangeSeekbar_cells, 1);
+        reserveValue = t.getFloat(R.styleable.RangeSeekbar_reserve, 0);
         mMin = t.getFloat(R.styleable.RangeSeekbar_min, 0);
         mMax = t.getFloat(R.styleable.RangeSeekbar_max, 100);
-        float reserve = t.getFloat(R.styleable.RangeSeekbar_reserve, 0);
-        int cells = t.getInt(R.styleable.RangeSeekbar_cells, 1);
         mThumbResId = t.getResourceId(R.styleable.RangeSeekbar_seekBarResId, 0);
         mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekbar_progressHintResId, 0);
         colorLineSelected = t.getColor(R.styleable.RangeSeekbar_lineColorSelected, 0xFF4BD962);
         colorLineEdge = t.getColor(R.styleable.RangeSeekbar_lineColorEdge, 0xFFD7D7D7);
+        colorPrimary = t.getColor(R.styleable.RangeSeekbar_thumbPrimaryColor, 0);
+        colorSecondary = t.getColor(R.styleable.RangeSeekbar_thumbSecondaryColor, 0);
         mTextArray = t.getTextArray(R.styleable.RangeSeekbar_markTextArray);
         mHideProgressHint = t.getBoolean(R.styleable.RangeSeekbar_hideProgressHint,false);
         textPadding = (int)t.getDimension(R.styleable.RangeSeekbar_textPadding,dp2px(context,7));
@@ -164,7 +167,7 @@ public class RangeSeekbar extends View {
         }
 
         DEFALT_PADDING = mThumbSize / 2;
-        setRules(mMin, mMax, reserve, cells);
+        setRules(mMin, mMax, reserveValue, cellsCount);
         initPaint();
         initBitmap();
         t.recycle();
@@ -329,6 +332,7 @@ public class RangeSeekbar extends View {
         private RadialGradient shadowGradient;
         private Paint defaultPaint;
         private String mHintText2Draw;
+        private Boolean isPrimary = true;
 
 
         public SeekBar(int position) {
@@ -409,12 +413,18 @@ public class RangeSeekbar extends View {
                         text2Draw = mHintText2Draw;
                     }
 
+                    // if is the start，change the thumb color
+                    isPrimary = ((int)result[0] == (int)mMin);
+
                 }else {
                     if (mHintText2Draw == null){
                         text2Draw = (int)result[1] + "";
                     }else {
                         text2Draw = mHintText2Draw;
                     }
+
+                    isPrimary = ((int)result[1] == (int)mMax);
+
                 }
 
                 hintH = (int)mHintBGHeight;
@@ -423,7 +433,6 @@ public class RangeSeekbar extends View {
 
                 if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
             }
-
 
 
             if (bmp != null) {
@@ -502,12 +511,26 @@ public class RangeSeekbar extends View {
             canvas.restore();
             // draw body
             defaultPaint.setStyle(Paint.Style.FILL);
-            defaultPaint.setColor(te.evaluate(material, 0xFFFFFFFF, 0xFFE7E7E7));
+            if (isPrimary) {
+                //if not set the color，it will use default color
+                if (colorPrimary == 0){
+                    defaultPaint.setColor(te.evaluate(material, 0xFFFFFFFF, 0xFFE7E7E7));
+                }else {
+                    defaultPaint.setColor(colorPrimary);
+                }
+            }else {
+                if (colorSecondary == 0){
+                    defaultPaint.setColor(te.evaluate(material, 0xFFFFFFFF, 0xFFE7E7E7));
+                }else {
+                    defaultPaint.setColor(colorSecondary);
+                }
+            }
             canvas.drawCircle(centerX, centerY, radius, defaultPaint);
             // draw border
             defaultPaint.setStyle(Paint.Style.STROKE);
             defaultPaint.setColor(0xFFD7D7D7);
             canvas.drawCircle(centerX, centerY, radius, defaultPaint);
+
         }
 
         final TypeEvaluator<Integer> te = new TypeEvaluator<Integer>() {
@@ -522,7 +545,7 @@ public class RangeSeekbar extends View {
         };
 
         /**
-         * 碰撞检测
+         * 拖动检测
          * @param event
          * @return
          */

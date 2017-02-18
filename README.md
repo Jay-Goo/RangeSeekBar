@@ -13,6 +13,8 @@ cells|int|cells 等于0为普通模式，大于1时切换为刻度模式
 hideProgressHint|boolean|是否关闭进度提示
 lineColorSelected|color|拖动后的Seekbar颜色
 lineColorEdge|color|默认的Seekbar颜色
+thumbPrimaryColor|color|进度为最小值或最大值时按钮的颜色，默认：不调用
+thumbSecondaryColor|color|进度不为最小值或最大值时按钮的颜色，默认：不调用
 markTextArray|reference|刻度文字，不设置的时候默认隐藏按钮的背景资源，不设置的时候默认为圆形按钮
 seekBarResId|reference|按钮的背景资源，不设置的时候默认为圆形按钮
 progressHintResId|reference|进度提示背景资源，必须使用 **9 path**文件

@@ -38,8 +38,10 @@
         app:textSize="14sp"
         app:min="-20"
         app:max="100"
+        app:thumbPrimaryColor="@color/colorSeekBarDefalut"
+        app:thumbSecondaryColor="@color/colorAccent"
         app:seekbarHight="2dp"
-        app:thumbSize="26dp"
+        app:thumbSize="20dp"
         app:cellMode="number"
         app:seekBarMode="rangle"
     />

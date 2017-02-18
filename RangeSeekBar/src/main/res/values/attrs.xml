@@ -10,6 +10,8 @@
     <!--是否关闭进度提示-->
     <!--拖动后的Seekbar颜色-->
     <!--默认的Seekbar颜色-->
+    <!--进度为最小值或最大值时按钮的颜色，默认此属性不调用-->
+    <!--进度不为最小值或最大值时按钮的颜色，默认此属性不调用-->
     <!--刻度文字，不设置的时候默认隐藏-->
     <!--按钮的背景资源，不设置的时候默认为圆形按钮-->
     <!--进度提示背景资源，必须使用 9 path文件-->
@@ -37,6 +39,8 @@
     <!--Whether to close the progress prompt-->
     <!--The Seekbar color after dragging-->
     <!--The default Seekbar color-->
+    <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
+    <!--The color of the thumb moving, this property is not called-->
     <!--Scale text, do not set the default when hidden-->
     <!--Button background resources, do not set the default when the circular button-->
     <!--Progress prompt background resources, you must use the 9 path file-->
@@ -65,6 +69,8 @@
         <attr name="hideProgressHint" format="boolean"/>
         <attr name="lineColorSelected" format="color"/>
         <attr name="lineColorEdge" format="color"/>
+        <attr name="thumbPrimaryColor" format="color"/>
+        <attr name="thumbSecondaryColor" format="color"/>
         <attr name="markTextArray" format="reference"/>
         <attr name="seekBarResId" format="reference"/>
         <!-- must use 9 path ！！！-->
