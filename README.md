@@ -69,7 +69,7 @@ version | message
 v1.0.1 | add thumbPrimaryColor、thumbSecondaryColor Attributes
 v1.0.2 | fix Scroll conflict and make padding attributes efective
 v1.0.3 | fix bugs when range is 0 ~ 1
-v1.0.6 | config jitPack to make you look real source(why is 1.0.6 ? god knew it……)
+v1.0.6 | config jitPack to make you can see real source(why is 1.0.6 ? god knew it……)
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
