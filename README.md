@@ -42,7 +42,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.3'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.5'
 	}
    
 ```
