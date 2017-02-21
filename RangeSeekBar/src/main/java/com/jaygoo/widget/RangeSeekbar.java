@@ -28,6 +28,7 @@ import android.view.View;
 
 public class RangeSeekBar extends View {
 
+
     private static final float DEFAULT_RADIUS = 0.5f;
     private static int DEFAULT_PADDING = 10;
 
