@@ -3,6 +3,6 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#2ed184</color>
-    <color name="colorSeekBarDefalut">#c3c3c3</color>
+    <color name="colorSeekBarDefault">#c3c3c3</color>
 
 </resources>

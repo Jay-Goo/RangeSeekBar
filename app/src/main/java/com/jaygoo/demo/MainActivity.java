@@ -2,6 +2,7 @@ package com.jaygoo.demo;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.jaygoo.widget.RangeSeekbar;
@@ -11,6 +12,7 @@ public class MainActivity extends AppCompatActivity {
     private RangeSeekbar seekbar1;
     private RangeSeekbar seekbar2;
     private TextView tv2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,4 +43,5 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
+
 }

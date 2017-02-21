@@ -181,7 +181,8 @@ public class RangeSeekbar extends View {
         int heightSize  = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        heightNeeded = mThumbSize + mCursorTextHeight + (int)mHintBGHeight + 2 * DEFALT_PADDING + mHintBGPadding;
+        heightNeeded = mThumbSize + mCursorTextHeight + (int)mHintBGHeight + 2 * DEFALT_PADDING
+                + mHintBGPadding + getPaddingTop() + getPaddingBottom();
 
         /**
          * onMeasure传入的widthMeasureSpec和heightMeasureSpec不是一般的尺寸数值，而是将模式和尺寸组合在一起的数值
@@ -210,10 +211,10 @@ public class RangeSeekbar extends View {
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
 
-        lineLeft = 2 * DEFALT_PADDING;
-        lineRight = w - 2 * DEFALT_PADDING;
-        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekbarHight/2 + DEFALT_PADDING;
-        lineBottom = lineTop + mSeekbarHight;
+        lineLeft = 2 * DEFALT_PADDING + (int)(mHintBGWith/2) + getPaddingLeft();
+        lineRight = w - lineLeft - getPaddingRight();
+        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekbarHight/2 + DEFALT_PADDING + getPaddingTop();
+        lineBottom = lineTop + mSeekbarHight - getPaddingBottom();
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
         lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
@@ -720,8 +721,11 @@ public class RangeSeekbar extends View {
         }
     }
 
-    public void setEnable(boolean isEnable){
-        this.isEnable = isEnable;
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        this.isEnable = enabled;
     }
 
     public void setProgress(String progress){
@@ -765,6 +769,12 @@ public class RangeSeekbar extends View {
                     touchResult = true;
 
                 }
+
+                //Intercept parent TouchEvent
+                if(getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+
                 return touchResult;
             case MotionEvent.ACTION_MOVE:
 
@@ -812,6 +822,11 @@ public class RangeSeekbar extends View {
                     }
                     leftSB.slide(percent);
                     leftSB.isShowingHint = true;
+
+                    //Intercept parent TouchEvent
+                    if(getParent() != null) {
+                        getParent().requestDisallowInterceptTouchEvent(true);
+                    }
                 } else if (currTouch == rightSB) {
                     if (cellsCount > 1) {
                         if (x > lineRight) {
@@ -847,12 +862,28 @@ public class RangeSeekbar extends View {
                     callback.onRangeChanged(this, result[0], result[1],true);
                 }
                 invalidate();
+
+                //Intercept parent TouchEvent
+                if(getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
                 break;
             case MotionEvent.ACTION_CANCEL:
                 if (mSeekBarMode == 2) {
                     rightSB.isShowingHint = false;
                 }
                 leftSB.isShowingHint = false;
+
+                if (callback != null) {
+                    float[] result = getCurrentRange();
+                    callback.onRangeChanged(this, result[0], result[1],false);
+                }
+
+                //Intercept parent TouchEvent
+                if(getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
+                }
+
                 break;
             case MotionEvent.ACTION_UP:
                 if (mSeekBarMode == 2) {
@@ -863,7 +894,12 @@ public class RangeSeekbar extends View {
 
                 if (callback != null) {
                     float[] result = getCurrentRange();
-                    callback.onRangeChanged(this, result[0], result[1],true);
+                    callback.onRangeChanged(this, result[0], result[1],false);
+                }
+
+                //Intercept parent TouchEvent
+                if(getParent() != null) {
+                    getParent().requestDisallowInterceptTouchEvent(true);
                 }
                 break;
         }

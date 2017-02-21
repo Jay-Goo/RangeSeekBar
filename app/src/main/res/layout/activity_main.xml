@@ -17,7 +17,7 @@
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorAccent"
         app:seekBarResId="@drawable/seekbar_thumb"
-        app:lineColorEdge="@color/colorSeekBarDefalut"
+        app:lineColorEdge="@color/colorSeekBarDefault"
         app:cellMode="number"
         app:seekBarMode="single"
     />
@@ -30,20 +30,19 @@
     <com.jaygoo.widget.RangeSeekbar
         android:id="@+id/seekbar2"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorPrimary"
-        app:lineColorEdge="@color/colorSeekBarDefalut"
+        app:lineColorEdge="@color/colorSeekBarDefault"
         app:textPadding="17dp"
-        app:textSize="14sp"
-        app:min="-20"
+        app:min="0"
         app:max="100"
-        app:thumbPrimaryColor="@color/colorSeekBarDefalut"
+        app:thumbPrimaryColor="@color/colorSeekBarDefault"
         app:thumbSecondaryColor="@color/colorAccent"
         app:seekbarHight="2dp"
-        app:thumbSize="20dp"
+        app:thumbSize="13dp"
         app:cellMode="number"
-        app:seekBarMode="rangle"
+        app:seekBarMode="single"
     />
     <com.jaygoo.widget.RangeSeekbar
         android:id="@+id/seekbar3"
@@ -51,7 +50,7 @@
         android:layout_height="120dp"
         app:markTextArray="@array/negativeMarkArray"
         app:lineColorSelected="@color/colorAccent"
-        app:lineColorEdge="@color/colorSeekBarDefalut"
+        app:lineColorEdge="@color/colorSeekBarDefault"
         app:textPadding="17dp"
         app:textSize="16sp"
         app:min="-100"
@@ -69,7 +68,7 @@
         android:layout_height="80dp"
         app:markTextArray="@array/wordsArray"
         app:lineColorSelected="@color/colorPrimary"
-        app:lineColorEdge="@color/colorSeekBarDefalut"
+        app:lineColorEdge="@color/colorSeekBarDefault"
         app:textPadding="17dp"
         app:cells="4"
         app:hideProgressHint="true"
@@ -80,4 +79,5 @@
         app:cellMode="other"
         app:seekBarMode="single"
     />
+
 </LinearLayout>
