@@ -26,7 +26,7 @@ textSize|dimension|Scale text, and the size of the progress prompt text
 hintBGHeight|dimension|The height of the progress prompt background, not set according to the text size adaptive
 hintBGWith|dimension|The with of the progress prompt background, not set according to the text size adaptive
 hintBGPadding|dimension|The progress indicates the distance between the background and the progress bar
-seekbarHight|dimension|The height of the progress bar
+seekBarHeight|dimension|The height of the progress bar
 thumbSize|dimension|The size of the button
 cellMode|enum|Scale mode **number** according to the scale of the actual proportion of the distribution of the location *（markTextArray must be a number）* **other** bisects the current layout*（markTextArray can be any character）*
 seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range** Bidirectional selection SeekBar
@@ -42,7 +42,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.1'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.3'
 	}
    
 ```
@@ -50,14 +50,14 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 
 ###Step2：
 ```xml
-    <com.jaygoo.widget.RangeSeekbar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorAccent"
         app:seekBarResId="@drawable/seekbar_thumb"
-        app:lineColorEdge="@color/colorSeekBarDefalut"
+        app:lineColorEdge="@color/colorSeekBarDefault"
         app:cellMode="number"
         app:seekBarMode="range"
     />
@@ -67,7 +67,8 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 version | message
 -------- | ---
 v1.0.1 | add thumbPrimaryColor、thumbSecondaryColor Attributes
-
+v1.0.2 | fix Scroll conflict and make padding attributes efective
+v1.0.3 | fix bugs when range is 0 ~ 1
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 

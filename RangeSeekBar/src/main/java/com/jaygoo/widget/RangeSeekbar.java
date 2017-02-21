@@ -21,12 +21,11 @@ import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
 
-public class RangeSeekbar extends View {
+public class RangeSeekBar extends View {
 
     private static final float DEFALT_RADIUS = 0.5f;
     private static int DEFALT_PADDING = 10;
@@ -130,34 +129,34 @@ public class RangeSeekbar extends View {
     private OnRangeChangedListener callback;
 
 
-    public RangeSeekbar(Context context) {
+    public RangeSeekBar(Context context) {
         this(context, null);
     }
 
-    public RangeSeekbar(Context context, AttributeSet attrs) {
+    public RangeSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekbar);
-        cellsCount = t.getInt(R.styleable.RangeSeekbar_cells, 1);
-        reserveValue = t.getFloat(R.styleable.RangeSeekbar_reserve, 0);
-        mMin = t.getFloat(R.styleable.RangeSeekbar_min, 0);
-        mMax = t.getFloat(R.styleable.RangeSeekbar_max, 100);
-        mThumbResId = t.getResourceId(R.styleable.RangeSeekbar_seekBarResId, 0);
-        mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekbar_progressHintResId, 0);
-        colorLineSelected = t.getColor(R.styleable.RangeSeekbar_lineColorSelected, 0xFF4BD962);
-        colorLineEdge = t.getColor(R.styleable.RangeSeekbar_lineColorEdge, 0xFFD7D7D7);
-        colorPrimary = t.getColor(R.styleable.RangeSeekbar_thumbPrimaryColor, 0);
-        colorSecondary = t.getColor(R.styleable.RangeSeekbar_thumbSecondaryColor, 0);
-        mTextArray = t.getTextArray(R.styleable.RangeSeekbar_markTextArray);
-        mHideProgressHint = t.getBoolean(R.styleable.RangeSeekbar_hideProgressHint,false);
-        textPadding = (int)t.getDimension(R.styleable.RangeSeekbar_textPadding,dp2px(context,7));
-        mTextSize = (int)t.getDimension(R.styleable.RangeSeekbar_textSize,dp2px(context,12));
-        mHintBGHeight = t.getDimension(R.styleable.RangeSeekbar_hintBGHeight,0);
-        mHintBGWith = t.getDimension(R.styleable.RangeSeekbar_hintBGWith,0);
-        mSeekbarHight = (int)t.getDimension(R.styleable.RangeSeekbar_seekbarHight,dp2px(context,2));
-        mHintBGPadding = (int)t.getDimension(R.styleable.RangeSeekbar_hintBGPadding,0);
-        mThumbSize = (int)t.getDimension(R.styleable.RangeSeekbar_thumbSize,dp2px(context,26));
-        mCellMode = t.getInt(R.styleable.RangeSeekbar_cellMode , 0);
-        mSeekBarMode = t.getInt(R.styleable.RangeSeekbar_seekBarMode , 2);
+        TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
+        cellsCount = t.getInt(R.styleable.RangeSeekBar_cells, 1);
+        reserveValue = t.getFloat(R.styleable.RangeSeekBar_reserve, 0);
+        mMin = t.getFloat(R.styleable.RangeSeekBar_min, 0);
+        mMax = t.getFloat(R.styleable.RangeSeekBar_max, 100);
+        mThumbResId = t.getResourceId(R.styleable.RangeSeekBar_seekBarResId, 0);
+        mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekBar_progressHintResId, 0);
+        colorLineSelected = t.getColor(R.styleable.RangeSeekBar_lineColorSelected, 0xFF4BD962);
+        colorLineEdge = t.getColor(R.styleable.RangeSeekBar_lineColorEdge, 0xFFD7D7D7);
+        colorPrimary = t.getColor(R.styleable.RangeSeekBar_thumbPrimaryColor, 0);
+        colorSecondary = t.getColor(R.styleable.RangeSeekBar_thumbSecondaryColor, 0);
+        mTextArray = t.getTextArray(R.styleable.RangeSeekBar_markTextArray);
+        mHideProgressHint = t.getBoolean(R.styleable.RangeSeekBar_hideProgressHint,false);
+        textPadding = (int)t.getDimension(R.styleable.RangeSeekBar_textPadding,dp2px(context,7));
+        mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_textSize,dp2px(context,12));
+        mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_hintBGHeight,0);
+        mHintBGWith = t.getDimension(R.styleable.RangeSeekBar_hintBGWith,0);
+        mSeekbarHight = (int)t.getDimension(R.styleable.RangeSeekBar_seekBarHeight,dp2px(context,2));
+        mHintBGPadding = (int)t.getDimension(R.styleable.RangeSeekBar_hintBGPadding,0);
+        mThumbSize = (int)t.getDimension(R.styleable.RangeSeekBar_thumbSize,dp2px(context,26));
+        mCellMode = t.getInt(R.styleable.RangeSeekBar_cellMode , 0);
+        mSeekBarMode = t.getInt(R.styleable.RangeSeekBar_seekBarMode , 2);
 
         if (mSeekBarMode == 2){
             leftSB = new SeekBar(-1);
@@ -211,10 +210,10 @@ public class RangeSeekbar extends View {
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
 
-        lineLeft = 2 * DEFALT_PADDING + (int)(mHintBGWith/2) + getPaddingLeft();
+        lineLeft = 2 * DEFALT_PADDING  + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
-        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekbarHight/2 + DEFALT_PADDING + getPaddingTop();
-        lineBottom = lineTop + mSeekbarHight - getPaddingBottom();
+        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekbarHight/2 + DEFALT_PADDING ;
+        lineBottom = lineTop + mSeekbarHight ;
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
         lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
@@ -245,9 +244,9 @@ public class RangeSeekbar extends View {
                     mCursorPaint.setColor(colorLineEdge);
                     x = lineLeft + i * mPartLength - mCursorPaint.measureText(text2Draw)/2;
                 }else {
-                    int num = Integer.parseInt(text2Draw);
+                    float num = Float.parseFloat(text2Draw);
                     float[] result = getCurrentRange();
-                    if (num >= (int)result[0] && num <= (int)result[1] && mSeekBarMode == 2){
+                    if (compareFloat(num,result[0]) != -1 && compareFloat(num,result[1]) != 1 && mSeekBarMode == 2){
                         mCursorPaint.setColor(getResources().getColor(R.color.colorAccent));
                     }else {
                         mCursorPaint.setColor(colorLineEdge);
@@ -415,7 +414,7 @@ public class RangeSeekbar extends View {
                     }
 
                     // if is the start，change the thumb color
-                    isPrimary = ((int)result[0] == (int)mMin);
+                    isPrimary = (compareFloat(result[0],mMin) == 0);
 
                 }else {
                     if (mHintText2Draw == null){
@@ -424,8 +423,7 @@ public class RangeSeekbar extends View {
                         text2Draw = mHintText2Draw;
                     }
 
-                    isPrimary = ((int)result[1] == (int)mMax);
-
+                    isPrimary = (compareFloat(result[1],mMax) == 0);
                 }
 
                 hintH = (int)mHintBGHeight;
@@ -593,8 +591,9 @@ public class RangeSeekbar extends View {
     //*********************************** SeekBar ***********************************//
 
     public interface OnRangeChangedListener {
-        void onRangeChanged(RangeSeekbar view, float min, float max, boolean isFromUser);
+        void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser);
     }
+
 
 
     public void setOnRangeChangedListener(OnRangeChangedListener listener) {
@@ -642,7 +641,7 @@ public class RangeSeekbar extends View {
     public void setValue(float value) {
         setValue(value,mMax);
     }
-    public void setRules(float min, float max) {
+    public void setRange(float min, float max) {
         setRules(min, max, reserveCount, cellsCount);
     }
 
@@ -728,7 +727,7 @@ public class RangeSeekbar extends View {
         this.isEnable = enabled;
     }
 
-    public void setProgress(String progress){
+    public void setProgressDescription(String progress){
         if (leftSB != null){
             leftSB.setProgressHint(progress);
         }
@@ -737,13 +736,13 @@ public class RangeSeekbar extends View {
         }
     }
 
-    public void setLeftProgress(String progress){
+    public void setLeftProgressDescription(String progress){
         if (leftSB != null){
             leftSB.setProgressHint(progress);
         }
     }
 
-    public void setRightProgress(String progress){
+    public void setRightProgressDescription(String progress){
         if (rightSB != null){
             rightSB.setProgressHint(progress);
         }
@@ -974,5 +973,27 @@ public class RangeSeekbar extends View {
     private  int dp2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * Compare the size of two floating point numbers
+     * @param a
+     * @param b
+     * @return
+     * 1 is a > b
+     * -1 is a < b
+     * 0 is a == b
+     */
+    private int compareFloat(float a, float b){
+
+        int ta = Math.round(a * 1000);
+        int tb = Math.round(b * 1000);
+        if (ta > tb){
+            return 1;
+        }else if (ta < tb){
+            return -1;
+        }else {
+            return 0;
+        }
     }
 }

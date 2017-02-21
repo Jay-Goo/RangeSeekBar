@@ -9,6 +9,13 @@
         <item>100</item>
     </string-array>
 
+    <string-array name="markArray2">
+        <item>-1</item>
+        <item>-0.5</item>
+        <item>0.1</item>
+        <item>0.5</item>
+        <item>0.9</item>
+    </string-array>
     <string-array name="negativeMarkArray">
         <item>-100</item>
         <item>中间</item>

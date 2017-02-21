@@ -10,7 +10,7 @@
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     tools:context="com.jaygoo.demo.MainActivity">
 
-    <com.jaygoo.widget.RangeSeekbar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,24 +27,24 @@
         android:layout_height="40dp"
         android:gravity="center"
     />
-    <com.jaygoo.widget.RangeSeekbar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar2"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
-        app:markTextArray="@array/markArray"
-        app:lineColorSelected="@color/colorPrimary"
+        android:layout_height="90dp"
+        app:markTextArray="@array/markArray2"
+        app:lineColorSelected="@color/colorAccent"
         app:lineColorEdge="@color/colorSeekBarDefault"
         app:textPadding="17dp"
-        app:min="0"
-        app:max="100"
+        app:min="-1"
+        app:max="1"
         app:thumbPrimaryColor="@color/colorSeekBarDefault"
         app:thumbSecondaryColor="@color/colorAccent"
-        app:seekbarHight="2dp"
-        app:thumbSize="13dp"
+        app:seekBarHeight="4dp"
+        app:thumbSize="20dp"
         app:cellMode="number"
-        app:seekBarMode="single"
+        app:seekBarMode="range"
     />
-    <com.jaygoo.widget.RangeSeekbar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"
         android:layout_width="match_parent"
         android:layout_height="120dp"
@@ -57,12 +57,12 @@
         app:max="100"
         app:reserve="60"
         app:hintBGHeight="50dp"
-        app:seekbarHight="2dp"
+        app:seekBarHeight="2dp"
         app:thumbSize="26dp"
         app:cellMode="other"
-        app:seekBarMode="rangle"
+        app:seekBarMode="range"
     />
-    <com.jaygoo.widget.RangeSeekbar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar4"
         android:layout_width="match_parent"
         android:layout_height="80dp"
@@ -74,7 +74,7 @@
         app:hideProgressHint="true"
         app:textSize="12sp"
         app:hintBGHeight="28dp"
-        app:seekbarHight="8dp"
+        app:seekBarHeight="8dp"
         app:thumbSize="26dp"
         app:cellMode="other"
         app:seekBarMode="single"

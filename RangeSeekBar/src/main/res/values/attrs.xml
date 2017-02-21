@@ -61,7 +61,7 @@
 
 
 
-    <declare-styleable name="RangeSeekbar">
+    <declare-styleable name="RangeSeekBar">
         <attr name="max" format="float"/>
         <attr name="min" format="float"/>
         <attr name="reserve" format="float"/>
@@ -80,7 +80,7 @@
         <attr name="hintBGHeight" format="dimension" />
         <attr name="hintBGWith" format="dimension" />
         <attr name="hintBGPadding" format="dimension" />
-        <attr name="seekbarHight" format="dimension"/>
+        <attr name="seekBarHeight" format="dimension"/>
         <attr name="thumbSize" format="dimension"/>
         <attr name="cellMode" format="enum">
             <enum name="number" value="0"/>
@@ -88,7 +88,7 @@
         </attr>
         <attr name="seekBarMode" format="enum">
             <enum name="single" value="1"/>
-            <enum name="rangle" value="2"/>
+            <enum name="range" value="2"/>
         </attr>
 
     </declare-styleable>
