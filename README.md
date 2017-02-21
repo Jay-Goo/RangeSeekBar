@@ -42,7 +42,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.3'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.6'
 	}
    
 ```
@@ -69,6 +69,7 @@ version | message
 v1.0.1 | add thumbPrimaryColor、thumbSecondaryColor Attributes
 v1.0.2 | fix Scroll conflict and make padding attributes efective
 v1.0.3 | fix bugs when range is 0 ~ 1
+v1.0.6 | config jitPack to make you look real source(why is 1.0.6 ? god knew it……)
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
