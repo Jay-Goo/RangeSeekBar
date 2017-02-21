@@ -20,6 +20,7 @@ import android.graphics.Shader;
 import android.graphics.Typeface;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -27,8 +28,8 @@ import android.view.View;
 
 public class RangeSeekBar extends View {
 
-    private static final float DEFALT_RADIUS = 0.5f;
-    private static int DEFALT_PADDING = 10;
+    private static final float DEFAULT_RADIUS = 0.5f;
+    private static int DEFAULT_PADDING = 10;
 
     //进度提示的背景 The background of the progress
     private final int mProgressHintBGId;
@@ -60,7 +61,7 @@ public class RangeSeekBar extends View {
     //The progress indicates the distance between the background and the button
     private int mHintBGPadding;
 
-    private int mSeekbarHight;
+    private int mSeekBarHeight;
     private int mThumbSize;
 
     //两个按钮之间的最小距离
@@ -152,7 +153,7 @@ public class RangeSeekBar extends View {
         mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_textSize,dp2px(context,12));
         mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_hintBGHeight,0);
         mHintBGWith = t.getDimension(R.styleable.RangeSeekBar_hintBGWith,0);
-        mSeekbarHight = (int)t.getDimension(R.styleable.RangeSeekBar_seekBarHeight,dp2px(context,2));
+        mSeekBarHeight = (int)t.getDimension(R.styleable.RangeSeekBar_seekBarHeight,dp2px(context,2));
         mHintBGPadding = (int)t.getDimension(R.styleable.RangeSeekBar_hintBGPadding,0);
         mThumbSize = (int)t.getDimension(R.styleable.RangeSeekBar_thumbSize,dp2px(context,26));
         mCellMode = t.getInt(R.styleable.RangeSeekBar_cellMode , 0);
@@ -165,7 +166,7 @@ public class RangeSeekBar extends View {
             leftSB = new SeekBar(-1);
         }
 
-        DEFALT_PADDING = mThumbSize / 2;
+        DEFAULT_PADDING = mThumbSize / 2;
         setRules(mMin, mMax, reserveValue, cellsCount);
         initPaint();
         initBitmap();
@@ -180,7 +181,7 @@ public class RangeSeekBar extends View {
         int heightSize  = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        heightNeeded = mThumbSize + mCursorTextHeight + (int)mHintBGHeight + 2 * DEFALT_PADDING
+        heightNeeded = mThumbSize + mCursorTextHeight + (int)mHintBGHeight + 2 * DEFAULT_PADDING
                 + mHintBGPadding + getPaddingTop() + getPaddingBottom();
 
         /**
@@ -210,10 +211,10 @@ public class RangeSeekBar extends View {
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
 
-        lineLeft = 2 * DEFALT_PADDING  + getPaddingLeft();
+        lineLeft = 2 * DEFAULT_PADDING  + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
-        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekbarHight/2 + DEFALT_PADDING ;
-        lineBottom = lineTop + mSeekbarHight ;
+        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekBarHeight/2 + DEFAULT_PADDING ;
+        lineBottom = lineTop + mSeekBarHeight ;
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
         lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
@@ -247,7 +248,7 @@ public class RangeSeekBar extends View {
                     float num = Float.parseFloat(text2Draw);
                     float[] result = getCurrentRange();
                     if (compareFloat(num,result[0]) != -1 && compareFloat(num,result[1]) != 1 && mSeekBarMode == 2){
-                        mCursorPaint.setColor(getResources().getColor(R.color.colorAccent));
+                        mCursorPaint.setColor(ContextCompat.getColor(getContext(),R.color.colorAccent));
                     }else {
                         mCursorPaint.setColor(colorLineEdge);
                     }
@@ -382,7 +383,7 @@ public class RangeSeekBar extends View {
 
             } else {
                 defaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                int radius = (int) (widthSize * DEFALT_RADIUS);
+                int radius = (int) (widthSize * DEFAULT_RADIUS);
                 int barShadowRadius = (int) (radius * 0.95f);
                 int mShadowCenterX = widthSize/2;
                 int mShadowCenterY = heightSize/2;
@@ -427,7 +428,7 @@ public class RangeSeekBar extends View {
                 }
 
                 hintH = (int)mHintBGHeight;
-                hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+ 2 * DEFALT_PADDING)
+                hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+ 2 * DEFAULT_PADDING)
                         : mHintBGWith);
 
                 if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
@@ -455,7 +456,7 @@ public class RangeSeekBar extends View {
                 if (isShowingHint) {
                     Rect rect = new Rect();
                     rect.left = widthSize / 2 - hintW / 2;
-                    rect.top = DEFALT_PADDING;
+                    rect.top = DEFAULT_PADDING;
                     rect.right = rect.left + hintW;
                     rect.bottom = rect.top + hintH;
                     drawNinepath(canvas,mProgressHintBG,rect);
@@ -467,7 +468,7 @@ public class RangeSeekBar extends View {
                     // TODO: 2017/2/6
                     //这里和背景形状有关，暂时根据本图形状比例计算
                     //Here and the background shape, temporarily based on the shape of this figure ratio calculation
-                    int y = hintH / 3   + DEFALT_PADDING  + mCursorTextHeight / 2  ;
+                    int y = hintH / 3   + DEFAULT_PADDING  + mCursorTextHeight / 2  ;
 
                     canvas.drawText(text2Draw,x,y,mCursorPaint);
                 }
@@ -497,8 +498,8 @@ public class RangeSeekBar extends View {
         private void drawDefault(Canvas canvas) {
 
             int centerX = widthSize/2;
-            int centerY = lineBottom - mSeekbarHight / 2 ;
-            int radius = (int) (widthSize * DEFALT_RADIUS);
+            int centerY = lineBottom - mSeekBarHeight / 2 ;
+            int radius = (int) (widthSize * DEFAULT_RADIUS);
             // draw shadow
             defaultPaint.setStyle(Paint.Style.FILL);
             canvas.save();
