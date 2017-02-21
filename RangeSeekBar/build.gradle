@@ -44,20 +44,20 @@ task sourcesJar(type: Jar) {
     classifier = 'sources'
 }
 
-task javadoc(type: Javadoc) {
-    failOnError  false
-    source = android.sourceSets.main.java.sourceFiles
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-    classpath += configurations.compile
-}
+//task javadoc(type: Javadoc) {
+//    failOnError  false
+//    source = android.sourceSets.main.java.sourceFiles
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//    classpath += configurations.compile
+//}
+//
+//// 制作文档(Javadoc)
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
 
-// 制作文档(Javadoc)
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
-}
+//artifacts {
+//    archives sourcesJar
+//    archives javadocJar
+//}
