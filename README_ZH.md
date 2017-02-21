@@ -38,7 +38,7 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.3'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.5'
 	}
 
 ```
