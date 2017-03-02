@@ -38,7 +38,7 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.6'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
 	}
 
 ```
@@ -66,6 +66,7 @@ v1.0.1 | 增加了thumbPrimaryColor、thumbSecondaryColor属性
 v1.0.2 | 修复滑动冲突，添加padding属性，使其生效
 v1.0.3 | 修复当范围为0 ~ 1 的时候产生的一些bug
 v1.0.6 | 配置 jitPack，可以让你看到真正的源码 (别问我为啥是1.0.6，我想静静……)
+v1.0.7 | 令seekbar布局居中，让你的布局和其他布局配合更简单
 
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 

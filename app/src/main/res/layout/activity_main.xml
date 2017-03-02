@@ -10,17 +10,22 @@
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     tools:context="com.jaygoo.demo.MainActivity">
 
-    <com.jaygoo.widget.RangeSeekBar
-        android:id="@+id/seekbar1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:markTextArray="@array/markArray"
-        app:lineColorSelected="@color/colorAccent"
-        app:seekBarResId="@drawable/seekbar_thumb"
-        app:lineColorEdge="@color/colorSeekBarDefault"
-        app:cellMode="number"
-        app:seekBarMode="single"
-    />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/seekbar1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/view1"
+            app:markTextArray="@array/markArray"
+            app:lineColorSelected="@color/colorAccent"
+            app:seekBarResId="@drawable/seekbar_thumb"
+            app:lineColorEdge="@color/colorSeekBarDefault"
+            app:cellMode="number"
+            app:seekBarMode="single"
+        />
+
+
     <TextView
         android:id="@+id/progress2_tv"
         android:layout_width="match_parent"
@@ -58,6 +63,7 @@
         app:reserve="60"
         app:hintBGHeight="50dp"
         app:seekBarHeight="2dp"
+        app:hintBGWith="60dp"
         app:thumbSize="26dp"
         app:cellMode="other"
         app:seekBarMode="range"

@@ -22,6 +22,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -30,8 +31,11 @@ public class RangeSeekBar extends View {
 
 
     private static final float DEFAULT_RADIUS = 0.5f;
-    private static int DEFAULT_PADDING = 10;
 
+    //default seekbar's padding left and right
+    private  int DEFAULT_PADDING_LEFT_AND_RIGHT;
+
+    private int defaultPaddingTop;
     //进度提示的背景 The background of the progress
     private final int mProgressHintBGId;
 
@@ -167,11 +171,20 @@ public class RangeSeekBar extends View {
             leftSB = new SeekBar(-1);
         }
 
-        DEFAULT_PADDING = mThumbSize / 2;
+        // if you don't set the mHintBGWith or the mHintBGWith < default value, if will use default value
+        if (mHintBGWith == 0) {
+            DEFAULT_PADDING_LEFT_AND_RIGHT = dp2px(context, 25);
+        }else {
+            DEFAULT_PADDING_LEFT_AND_RIGHT = Math.max((int)(mHintBGWith / 2+ dp2px(context, 5)),dp2px(context, 25));
+
+        }
+
         setRules(mMin, mMax, reserveValue, cellsCount);
         initPaint();
         initBitmap();
         t.recycle();
+
+        defaultPaddingTop = mSeekBarHeight / 2;
 
         mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
     }
@@ -182,8 +195,7 @@ public class RangeSeekBar extends View {
         int heightSize  = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
 
-        heightNeeded = mThumbSize + mCursorTextHeight + (int)mHintBGHeight + 2 * DEFAULT_PADDING
-                + mHintBGPadding + getPaddingTop() + getPaddingBottom();
+        heightNeeded = 2*(lineTop)+mSeekBarHeight;
 
         /**
          * onMeasure传入的widthMeasureSpec和heightMeasureSpec不是一般的尺寸数值，而是将模式和尺寸组合在一起的数值
@@ -212,9 +224,9 @@ public class RangeSeekBar extends View {
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
 
-        lineLeft = 2 * DEFAULT_PADDING  + getPaddingLeft();
+        lineLeft = DEFAULT_PADDING_LEFT_AND_RIGHT  + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
-        lineTop = (int)mHintBGHeight+ mThumbSize/2 -mSeekBarHeight/2 + DEFAULT_PADDING ;
+        lineTop = (int)mHintBGHeight + mThumbSize/2 -mSeekBarHeight/2 ;
         lineBottom = lineTop + mSeekBarHeight ;
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
@@ -429,7 +441,7 @@ public class RangeSeekBar extends View {
                 }
 
                 hintH = (int)mHintBGHeight;
-                hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+ 2 * DEFAULT_PADDING)
+                hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+  DEFAULT_PADDING_LEFT_AND_RIGHT)
                         : mHintBGWith);
 
                 if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
@@ -445,7 +457,7 @@ public class RangeSeekBar extends View {
                     rect.top = bottom -  hintH - bmp.getHeight();
                     rect.right = rect.left + hintW;
                     rect.bottom = rect.top + hintH;
-                    drawNinepath(canvas,mProgressHintBG,rect);
+                    drawNinePath(canvas,mProgressHintBG,rect);
                     mCursorPaint.setColor(Color.WHITE);
 
                     int x = (int)(left + (bmp.getWidth() / 2) - mCursorPaint.measureText(text2Draw) / 2);
@@ -457,10 +469,10 @@ public class RangeSeekBar extends View {
                 if (isShowingHint) {
                     Rect rect = new Rect();
                     rect.left = widthSize / 2 - hintW / 2;
-                    rect.top = DEFAULT_PADDING;
+                    rect.top = defaultPaddingTop;
                     rect.right = rect.left + hintW;
                     rect.bottom = rect.top + hintH;
-                    drawNinepath(canvas,mProgressHintBG,rect);
+                    drawNinePath(canvas,mProgressHintBG,rect);
 
                     mCursorPaint.setColor(Color.WHITE);
 
@@ -469,7 +481,7 @@ public class RangeSeekBar extends View {
                     // TODO: 2017/2/6
                     //这里和背景形状有关，暂时根据本图形状比例计算
                     //Here and the background shape, temporarily based on the shape of this figure ratio calculation
-                    int y = hintH / 3   + DEFAULT_PADDING  + mCursorTextHeight / 2  ;
+                    int y = hintH / 3   + defaultPaddingTop  + mCursorTextHeight / 2  ;
 
                     canvas.drawText(text2Draw,x,y,mCursorPaint);
                 }
@@ -485,7 +497,7 @@ public class RangeSeekBar extends View {
          * @param bmp
          * @param rect
          */
-        public void drawNinepath(Canvas c, Bitmap bmp, Rect rect){
+        public void drawNinePath(Canvas c, Bitmap bmp, Rect rect){
             NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
             patch.draw(c, rect);
         }
