@@ -33,6 +33,7 @@ cellMode|enum|Scale mode **number** according to the scale of the actual proport
 seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range** Bidirectional selection SeekBar
 
 ##Usage
+
 ###Step1：
 ```xml
     allprojects {
