@@ -29,7 +29,9 @@ cellMode|enum|刻度模式 **number** 根据刻度的实际所占比例分配位
 seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个按钮 **range** 双向模式，有两个按钮
 
 ##Usage
+
 ###第一步：
+
 ```xml
     allprojects {
 		repositories {
@@ -46,6 +48,7 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 
 
 ###第二步：
+
 ```xml
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
