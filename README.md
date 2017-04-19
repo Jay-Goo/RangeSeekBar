@@ -7,6 +7,7 @@
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
 ##Attributes
+
 attr | format | description
 -------- | ---|---
 min|float|min value, `Float.MIN_VALUE` <= min < max，Default：0
