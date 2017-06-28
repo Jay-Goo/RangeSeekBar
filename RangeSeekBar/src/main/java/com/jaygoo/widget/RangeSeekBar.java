@@ -184,9 +184,20 @@ public class RangeSeekBar extends View {
         initBitmap();
         t.recycle();
 
-        defaultPaddingTop = mSeekBarHeight / 2;
+        defaultPaddingTop = mSeekBarHeight / 2 ;
+        if (mHideProgressHint){
+            mHintBGHeight = mCursorPaint.measureText("国");
+        }else {
+            mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
+        }
 
-        mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
+        //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
+        //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
+        //Android7.0以上：onMeasure--->onSizeChanged
+        lineTop = (int)mHintBGHeight + mThumbSize/2 -mSeekBarHeight/2 ;
+        lineBottom = lineTop + mSeekBarHeight ;
+        lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
+
     }
 
     @Override
@@ -194,8 +205,7 @@ public class RangeSeekBar extends View {
 
         int heightSize  = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-
-        heightNeeded = 2*(lineTop)+mSeekBarHeight;
+        heightNeeded = 2 * lineTop + mSeekBarHeight;
 
         /**
          * onMeasure传入的widthMeasureSpec和heightMeasureSpec不是一般的尺寸数值，而是将模式和尺寸组合在一起的数值
@@ -206,8 +216,7 @@ public class RangeSeekBar extends View {
         if (heightMode == MeasureSpec.EXACTLY) {
             heightSize = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
         } else if (heightMode == MeasureSpec.AT_MOST) {
-            heightSize = MeasureSpec.makeMeasureSpec(
-                    heightSize < heightNeeded ? heightSize : heightNeeded, MeasureSpec.EXACTLY);
+            heightSize = MeasureSpec.makeMeasureSpec(heightNeeded, MeasureSpec.AT_MOST);
         } else {
             heightSize = MeasureSpec.makeMeasureSpec(
                     heightNeeded, MeasureSpec.EXACTLY);
@@ -223,14 +232,10 @@ public class RangeSeekBar extends View {
         //计算进度条的位置，并根据它初始化两个按钮的位置
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
-
         lineLeft = DEFAULT_PADDING_LEFT_AND_RIGHT  + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
-        lineTop = (int)mHintBGHeight + mThumbSize/2 -mSeekBarHeight/2 ;
-        lineBottom = lineTop + mSeekBarHeight ;
         lineWidth = lineRight - lineLeft;
         line.set(lineLeft, lineTop, lineRight, lineBottom);
-        lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
 
         leftSB.onSizeChanged(lineLeft, lineBottom, mThumbSize, lineWidth, cellsCount > 1, mThumbResId, getContext());
         if (mSeekBarMode == 2) {
@@ -242,7 +247,6 @@ public class RangeSeekBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         //绘制刻度，并且根据当前位置是否在刻度范围内设置不同的颜色显示
         // Draw the scales, and according to the current position is set within
         // the scale range of different color display

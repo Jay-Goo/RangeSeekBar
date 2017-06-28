@@ -11,18 +11,16 @@
     tools:context="com.jaygoo.demo.MainActivity">
 
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/seekbar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/view1"
-            app:markTextArray="@array/markArray"
-            app:lineColorSelected="@color/colorAccent"
-            app:seekBarResId="@drawable/seekbar_thumb"
-            app:lineColorEdge="@color/colorSeekBarDefault"
-            app:cellMode="number"
-            app:seekBarMode="single"
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/seekbar1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:markTextArray="@array/markArray"
+        app:lineColorSelected="@color/colorAccent"
+        app:seekBarResId="@drawable/seekbar_thumb"
+        app:lineColorEdge="@color/colorSeekBarDefault"
+        app:cellMode="number"
+        app:seekBarMode="single"
         />
 
 
@@ -31,11 +29,11 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:gravity="center"
-    />
+        />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar2"
         android:layout_width="match_parent"
-        android:layout_height="90dp"
+        android:layout_height="wrap_content"
         app:markTextArray="@array/markArray2"
         app:lineColorSelected="@color/colorAccent"
         app:lineColorEdge="@color/colorSeekBarDefault"
@@ -48,7 +46,7 @@
         app:thumbSize="20dp"
         app:cellMode="number"
         app:seekBarMode="range"
-    />
+        />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"
         android:layout_width="match_parent"
@@ -67,7 +65,7 @@
         app:thumbSize="26dp"
         app:cellMode="other"
         app:seekBarMode="range"
-    />
+        />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar4"
         android:layout_width="match_parent"
@@ -84,6 +82,6 @@
         app:thumbSize="26dp"
         app:cellMode="other"
         app:seekBarMode="single"
-    />
+        />
 
 </LinearLayout>
