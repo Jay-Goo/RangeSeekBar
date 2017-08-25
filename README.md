@@ -6,7 +6,7 @@
 
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
-##Attributes
+## Attributes
 
 attr | format | description
 -------- | ---|---
@@ -32,9 +32,10 @@ thumbSize|dimension|The size of the button
 cellMode|enum|Scale mode **number** according to the scale of the actual proportion of the distribution of the location *（markTextArray must be a number）* **other** bisects the current layout*（markTextArray can be any character）*
 seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range** Bidirectional selection SeekBar
 
-##Usage
+## Usage
 
-###Step1：
+### Step1：
+
 ```xml
     allprojects {
 		repositories {
@@ -50,7 +51,8 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 ```
 
 
-###Step2：
+### Step2：
+
 ```xml
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
@@ -66,6 +68,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 ```
 
 ## [Update]
+
 version | message
 -------- | ---
 v1.0.1 | add thumbPrimaryColor、thumbSecondaryColor Attributes
@@ -77,7 +80,7 @@ v1.0.7 | set the seekbar gravity center to make the layout  easier
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
-##Others 
+## Others 
 
 I hope you like this RangeSeekBar. `Star` is the greatest support for me！ Thank U
 
