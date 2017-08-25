@@ -191,7 +191,12 @@ public class RangeSeekBar extends View {
         t.recycle();
 
         defaultPaddingTop = mSeekBarHeight / 2 ;
-        mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
+
+        if (mProgressHintMode == ALWAYS_HIDE && mTextArray == null){
+            mHintBGHeight = mCursorPaint.measureText("国");
+        }else {
+            mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
+        }
 
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
