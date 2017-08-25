@@ -3,7 +3,7 @@
 
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
-##Attributes
+## Attributes
 
 attr | format | description
 -------- | ---|---
@@ -11,7 +11,7 @@ min|float|最小值, `Float.MIN_VALUE` <= min < max，默认：0
 max|float|最大值, min < max <= `Float.MAX_VALUE`, 默认: 100
 reserve|float|两个按钮的最小间距
 cells|int|cells 等于0为普通模式，大于1时切换为刻度模式
-hideProgressHint|boolean|是否关闭进度提示
+progressHintMode|enum|进度提示模式 **defaultMode**：当拖动时显示 **alwaysHide**：一直隐藏 **alwaysShow**：一直显示
 lineColorSelected|color|拖动后的Seekbar颜色
 lineColorEdge|color|默认的Seekbar颜色
 thumbPrimaryColor|color|进度为最小值或最大值时按钮的颜色，默认：不调用
@@ -28,9 +28,9 @@ thumbSize|dimension|按钮的尺寸
 cellMode|enum|刻度模式 **number** 根据刻度的实际所占比例分配位置*（markTextArray中必须都为数字）* **other** 平分当前布局*（markTextArray可以是任何字符）*
 seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个按钮 **range** 双向模式，有两个按钮
 
-##Usage
+## Usage
 
-###第一步：
+### 第一步：
 
 ```xml
     allprojects {
@@ -41,13 +41,13 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.8'
 	}
 
 ```
 
 
-###第二步：
+### 第二步：
 
 ```xml
     <com.jaygoo.widget.RangeSeekBar
@@ -71,7 +71,7 @@ v1.0.2 | 修复滑动冲突，添加padding属性，使其生效
 v1.0.3 | 修复当范围为0 ~ 1 的时候产生的一些bug
 v1.0.6 | 配置 jitPack，可以让你看到真正的源码 (别问我为啥是1.0.6，我想静静……)
 v1.0.7 | 令seekbar布局居中，让你的布局和其他布局配合更简单
-
+v1.0.8 | 添加进度提示模式属性，添加color 属性setter
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 ##其它
