@@ -183,7 +183,6 @@ public class RangeSeekBar extends View {
             DEFAULT_PADDING_LEFT_AND_RIGHT = dp2px(context, 25);
         }else {
             DEFAULT_PADDING_LEFT_AND_RIGHT = Math.max((int)(mHintBGWith / 2+ dp2px(context, 5)),dp2px(context, 25));
-
         }
 
         setRules(mMin, mMax, reserveValue, cellsCount);
@@ -192,7 +191,6 @@ public class RangeSeekBar extends View {
         t.recycle();
 
         defaultPaddingTop = mSeekBarHeight / 2 ;
-
         mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
 
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
@@ -206,7 +204,6 @@ public class RangeSeekBar extends View {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-
         int heightSize  = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         heightNeeded = 2 * lineTop + mSeekBarHeight;
@@ -225,7 +222,6 @@ public class RangeSeekBar extends View {
             heightSize = MeasureSpec.makeMeasureSpec(
                     heightNeeded, MeasureSpec.EXACTLY);
         }
-
         super.onMeasure(widthMeasureSpec, heightSize);
     }
 
@@ -259,7 +255,6 @@ public class RangeSeekBar extends View {
             mPartLength = lineWidth / (mTextArray.length - 1);
             for (int i = 0; i < mTextArray.length; i++) {
                 final String text2Draw  =  mTextArray[i].toString();
-
                 float x;
                 //平分显示
                 if (mCellMode == 1){
@@ -278,7 +273,6 @@ public class RangeSeekBar extends View {
                             - mCursorPaint.measureText(text2Draw) / 2;
                 }
                 float y = lineTop - textPadding;
-
                 canvas.drawText(text2Draw, x, y,mCursorPaint);
             }
         }
@@ -320,8 +314,6 @@ public class RangeSeekBar extends View {
         //Calculate the height of the text
         Paint.FontMetrics fm = mCursorPaint.getFontMetrics();
         mCursorTextHeight = (int) (Math.ceil(fm.descent - fm.ascent) + 2);
-
-
     }
 
 
@@ -335,13 +327,11 @@ public class RangeSeekBar extends View {
         }else {
             mProgressHintBG = BitmapFactory.decodeResource(getResources(), R.drawable.progress_hint_bg);
         }
-
     }
 
     //*********************************** SeekBar ***********************************//
 
     private class SeekBar {
-
         private int lineWidth;
         private int widthSize, heightSize;
         private int left, right, top, bottom;
@@ -425,36 +415,31 @@ public class RangeSeekBar extends View {
             int hintW = 0,hintH = 0;
             float[] result = getCurrentRange();
 
-//            if (mHideProgressHint){
-//                isShowingHint = false;
-//            }
-                if (isLeft){
-                    if (mHintText2Draw == null){
-                        text2Draw = (int)result[0] + "";
-                    }else {
-                        text2Draw = mHintText2Draw;
-                    }
-
-                    // if is the start，change the thumb color
-                    isPrimary = (compareFloat(result[0],mMin) == 0);
-
+            if (isLeft){
+                if (mHintText2Draw == null){
+                    text2Draw = (int)result[0] + "";
                 }else {
-                    if (mHintText2Draw == null){
-                        text2Draw = (int)result[1] + "";
-                    }else {
-                        text2Draw = mHintText2Draw;
-                    }
-
-                    isPrimary = (compareFloat(result[1],mMax) == 0);
+                    text2Draw = mHintText2Draw;
                 }
 
-                hintH = (int)mHintBGHeight;
-                hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+  DEFAULT_PADDING_LEFT_AND_RIGHT)
-                        : mHintBGWith);
+                // if is the start，change the thumb color
+                isPrimary = (compareFloat(result[0],mMin) == 0);
 
-                if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
+            }else {
+                if (mHintText2Draw == null){
+                    text2Draw = (int)result[1] + "";
+                }else {
+                    text2Draw = mHintText2Draw;
+                }
 
+                isPrimary = (compareFloat(result[1],mMax) == 0);
+            }
 
+            hintH = (int)mHintBGHeight;
+            hintW =(int)(mHintBGWith == 0 ? (mCursorPaint.measureText(text2Draw)+  DEFAULT_PADDING_LEFT_AND_RIGHT)
+                    : mHintBGWith);
+
+            if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
 
             if (bmp != null) {
                 canvas.drawBitmap(bmp, left, lineTop - bmp.getHeight() / 2, null);
@@ -872,7 +857,6 @@ public class RangeSeekBar extends View {
                     }
                     leftSB.slide(percent);
                     isShowProgressHint(leftSB, true);
-//                    leftSB.isShowingHint = true;
 
                     //Intercept parent TouchEvent
                     if(getParent() != null) {
@@ -905,7 +889,6 @@ public class RangeSeekBar extends View {
                         }
                     }
                     rightSB.slide(percent);
-//                    rightSB.isShowingHint = true;
                     isShowProgressHint(rightSB, true);
                 }
 
@@ -922,10 +905,8 @@ public class RangeSeekBar extends View {
                 break;
             case MotionEvent.ACTION_CANCEL:
                 if (mSeekBarMode == 2) {
-//                    rightSB.isShowingHint = false;
                     isShowProgressHint(rightSB, false);
                 }
-//                leftSB.isShowingHint = false;
                 isShowProgressHint(leftSB, false);
                 if (callback != null) {
                     float[] result = getCurrentRange();
@@ -940,10 +921,8 @@ public class RangeSeekBar extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (mSeekBarMode == 2) {
-//                    rightSB.isShowingHint = false;
                     isShowProgressHint(rightSB, false);
                 }
-//                leftSB.isShowingHint = false;
                 isShowProgressHint(leftSB, false);
                 currTouch.materialRestore();
 
