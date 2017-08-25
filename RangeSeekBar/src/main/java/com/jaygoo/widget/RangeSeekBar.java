@@ -29,6 +29,13 @@ import android.view.View;
 
 public class RangeSeekBar extends View {
 
+    //the progress hint mode
+    //defaultMode: show hint when you move the thumb
+    //alwaysHide: hide progress hint all the time
+    //alwaysShow: show progress hint all the time
+    private static final int DEFAULT_MODE = 0;
+    private static final int ALWAYS_HIDE = 1;
+    private static final int ALWAYS_SHOW = 2;
 
     private static final float DEFAULT_RADIUS = 0.5f;
 
@@ -117,7 +124,7 @@ public class RangeSeekBar extends View {
 
     private boolean isEnable = true;
 
-    private final boolean mHideProgressHint;
+    private int mProgressHintMode;
 
     //刻度上显示的文字
     //The texts displayed on the scale
@@ -153,7 +160,7 @@ public class RangeSeekBar extends View {
         colorPrimary = t.getColor(R.styleable.RangeSeekBar_thumbPrimaryColor, 0);
         colorSecondary = t.getColor(R.styleable.RangeSeekBar_thumbSecondaryColor, 0);
         mTextArray = t.getTextArray(R.styleable.RangeSeekBar_markTextArray);
-        mHideProgressHint = t.getBoolean(R.styleable.RangeSeekBar_hideProgressHint,false);
+        mProgressHintMode = t.getInt(R.styleable.RangeSeekBar_progressHintMode,DEFAULT_MODE);
         textPadding = (int)t.getDimension(R.styleable.RangeSeekBar_textPadding,dp2px(context,7));
         mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_textSize,dp2px(context,12));
         mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_hintBGHeight,0);
@@ -185,11 +192,8 @@ public class RangeSeekBar extends View {
         t.recycle();
 
         defaultPaddingTop = mSeekBarHeight / 2 ;
-        if (mHideProgressHint){
-            mHintBGHeight = mCursorPaint.measureText("国");
-        }else {
-            mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
-        }
+
+        mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
 
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
@@ -421,9 +425,9 @@ public class RangeSeekBar extends View {
             int hintW = 0,hintH = 0;
             float[] result = getCurrentRange();
 
-            if (mHideProgressHint){
-                isShowingHint = false;
-            }else {
+//            if (mHideProgressHint){
+//                isShowingHint = false;
+//            }
                 if (isLeft){
                     if (mHintText2Draw == null){
                         text2Draw = (int)result[0] + "";
@@ -449,7 +453,7 @@ public class RangeSeekBar extends View {
                         : mHintBGWith);
 
                 if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
-            }
+
 
 
             if (bmp != null) {
@@ -663,6 +667,19 @@ public class RangeSeekBar extends View {
         setRules(min, max, reserveCount, cellsCount);
     }
 
+    public void setLineColor(int colorLineEdge, int colorLineSelected){
+        this.colorLineEdge = colorLineEdge;
+        this.colorLineSelected = colorLineSelected;
+    }
+
+    public void setThumbPrimaryColor(int thumbPrimaryColor){
+        this.colorPrimary = thumbPrimaryColor;
+    }
+
+    public void setThumbSecondaryColor(int thumbSecondaryColor){
+        this.colorSecondary = thumbSecondaryColor;
+    }
+
     public void setRules(float min, float max, float reserve, int cells) {
         if (max <= min) {
             throw new IllegalArgumentException("setRules() max must be greater than min ! #max:" + max + " #min:" + min);
@@ -739,6 +756,7 @@ public class RangeSeekBar extends View {
     }
 
 
+
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
@@ -763,6 +781,21 @@ public class RangeSeekBar extends View {
     public void setRightProgressDescription(String progress){
         if (rightSB != null){
             rightSB.setProgressHint(progress);
+        }
+    }
+
+    private void isShowProgressHint(SeekBar seekBar, boolean isEnable){
+
+        switch (mProgressHintMode){
+            case DEFAULT_MODE:
+                seekBar.isShowingHint = isEnable;
+                break;
+            case ALWAYS_SHOW:
+                seekBar.isShowingHint = true;
+                break;
+            case ALWAYS_HIDE:
+                seekBar.isShowingHint = false;
+                break;
         }
     }
 
@@ -838,7 +871,8 @@ public class RangeSeekBar extends View {
                         }
                     }
                     leftSB.slide(percent);
-                    leftSB.isShowingHint = true;
+                    isShowProgressHint(leftSB, true);
+//                    leftSB.isShowingHint = true;
 
                     //Intercept parent TouchEvent
                     if(getParent() != null) {
@@ -871,7 +905,8 @@ public class RangeSeekBar extends View {
                         }
                     }
                     rightSB.slide(percent);
-                    rightSB.isShowingHint = true;
+//                    rightSB.isShowingHint = true;
+                    isShowProgressHint(rightSB, true);
                 }
 
                 if (callback != null) {
@@ -887,10 +922,11 @@ public class RangeSeekBar extends View {
                 break;
             case MotionEvent.ACTION_CANCEL:
                 if (mSeekBarMode == 2) {
-                    rightSB.isShowingHint = false;
+//                    rightSB.isShowingHint = false;
+                    isShowProgressHint(rightSB, false);
                 }
-                leftSB.isShowingHint = false;
-
+//                leftSB.isShowingHint = false;
+                isShowProgressHint(leftSB, false);
                 if (callback != null) {
                     float[] result = getCurrentRange();
                     callback.onRangeChanged(this, result[0], result[1],false);
@@ -904,9 +940,11 @@ public class RangeSeekBar extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (mSeekBarMode == 2) {
-                    rightSB.isShowingHint = false;
+//                    rightSB.isShowingHint = false;
+                    isShowProgressHint(rightSB, false);
                 }
-                leftSB.isShowingHint = false;
+//                leftSB.isShowingHint = false;
+                isShowProgressHint(leftSB, false);
                 currTouch.materialRestore();
 
                 if (callback != null) {
@@ -1014,4 +1052,5 @@ public class RangeSeekBar extends View {
             return 0;
         }
     }
+
 }

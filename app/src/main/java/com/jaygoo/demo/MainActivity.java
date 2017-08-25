@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
         seekbar1.setValue(10);
         seekbar2.setValue(-0.5f,0.8f);
-
         seekbar1.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
             @Override
             public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {

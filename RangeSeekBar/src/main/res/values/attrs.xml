@@ -7,7 +7,7 @@
     <!--最小值-->
     <!--两个按钮的最小间距-->
     <!--cells 等于0为普通模式，大于1时切换为刻度模式-->
-    <!--是否关闭进度提示-->
+    <!--进度提示模式 default：当拖动时显示 alwaysHide：一直隐藏 alwaysShow：一直显示-->
     <!--拖动后的Seekbar颜色-->
     <!--默认的Seekbar颜色-->
     <!--进度为最小值或最大值时按钮的颜色，默认此属性不调用-->
@@ -36,7 +36,11 @@
     <!--The minimum-->
     <!--The minimum distance between two buttons-->
     <!--Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode-->
-    <!--Whether to close the progress prompt-->
+    <!--the progress hint mode
+    defaultMode: show hint when you move the thumb
+    alwaysHide: hide progress hint all the time
+    alwaysShow: show progress hint all the time
+    -->
     <!--The Seekbar color after dragging-->
     <!--The default Seekbar color-->
     <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
@@ -66,7 +70,11 @@
         <attr name="min" format="float"/>
         <attr name="reserve" format="float"/>
         <attr name="cells" format="integer"/>
-        <attr name="hideProgressHint" format="boolean"/>
+        <attr name="progressHintMode" format="enum">
+            <enum name="defaultMode" value="0"/>
+            <enum name="alwaysHide" value="1"/>
+            <enum name="alwaysShow" value="2"/>
+        </attr>
         <attr name="lineColorSelected" format="color"/>
         <attr name="lineColorEdge" format="color"/>
         <attr name="thumbPrimaryColor" format="color"/>

@@ -33,7 +33,7 @@
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar2"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="120dp"
         app:markTextArray="@array/markArray2"
         app:lineColorSelected="@color/colorAccent"
         app:lineColorEdge="@color/colorSeekBarDefault"
@@ -46,6 +46,7 @@
         app:thumbSize="20dp"
         app:cellMode="number"
         app:seekBarMode="range"
+        app:progressHintMode="alwaysShow"
         />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"
@@ -69,13 +70,13 @@
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar4"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="120dp"
         app:markTextArray="@array/wordsArray"
         app:lineColorSelected="@color/colorPrimary"
         app:lineColorEdge="@color/colorSeekBarDefault"
         app:textPadding="17dp"
         app:cells="4"
-        app:hideProgressHint="true"
+        app:progressHintMode="alwaysHide"
         app:textSize="12sp"
         app:hintBGHeight="28dp"
         app:seekBarHeight="8dp"
