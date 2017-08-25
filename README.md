@@ -1,7 +1,7 @@
 
 # RangeSeekBar 
 
-## [中文文档](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md) 
+## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md) 
 
 
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
@@ -14,7 +14,7 @@ min|float|min value, `Float.MIN_VALUE` <= min < max，Default：0
 max|float|max value, min < max <= `Float.MAX_VALUE`, Default: 100
 reserve|float|The minimum distance between two buttons
 cells|int|Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode
-hideProgressHint|boolean|Whether to close the progress prompt
+progressHintMode|enum|the progress hint mode. **defaultMode**: show hint when you move the thumb;**alwaysHide**: hide progress hint all the time;**alwaysShow**: show progress hint all the time.
 lineColorSelected|color|The Seekbar color after dragging
 lineColorEdge|color|The default Seekbar color
 thumbPrimaryColor|color|The color of the thumb when the progress is the minimum or maximum，default：none
@@ -45,7 +45,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.7'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.8'
 	}
    
 ```
@@ -76,7 +76,7 @@ v1.0.2 | fix Scroll conflict and make padding attributes efective
 v1.0.3 | fix bugs when range is 0 ~ 1
 v1.0.6 | config jitPack to make you can see real source(why is 1.0.6 ? god knew it……)
 v1.0.7 | set the seekbar gravity center to make the layout  easier
-
+v1.0.8 | add progressHintMode and some color attrs setter
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
