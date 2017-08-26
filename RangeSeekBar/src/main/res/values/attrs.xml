@@ -46,7 +46,7 @@
     <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
     <!--The color of the thumb moving, this property is not called-->
     <!--Scale text, do not set the default when hidden-->
-    <!--Button background resources, do not set the default when the circular button-->
+    <!--thumb Button background resources, do not set the default when the circular button-->
     <!--Progress prompt background resources, you must use the 9 path file-->
     <!--The distance between the scale text and the progress bar-->
     <!--Scale text, and the size of the progress prompt text-->
@@ -80,7 +80,7 @@
         <attr name="thumbPrimaryColor" format="color"/>
         <attr name="thumbSecondaryColor" format="color"/>
         <attr name="markTextArray" format="reference"/>
-        <attr name="seekBarResId" format="reference"/>
+        <attr name="thumbResId" format="reference"/>
         <!-- must use 9 path ！！！-->
         <attr name="progressHintResId" format="reference"/>
         <attr name="textPadding" format="dimension" />

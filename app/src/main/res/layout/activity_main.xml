@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorAccent"
-        app:seekBarResId="@drawable/seekbar_thumb"
+        app:thumbResId="@drawable/seekbar_thumb"
         app:lineColorEdge="@color/colorSeekBarDefault"
         app:cellMode="number"
         app:seekBarMode="single"

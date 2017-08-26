@@ -33,32 +33,32 @@ public class RangeSeekBar extends View {
     //defaultMode: show hint when you move the thumb
     //alwaysHide: hide progress hint all the time
     //alwaysShow: show progress hint all the time
-    private static final int DEFAULT_MODE = 0;
-    private static final int ALWAYS_HIDE = 1;
-    private static final int ALWAYS_SHOW = 2;
+    public static final int HINT_MODE_DEFAULT = 0;
+    public static final int HINT_MODE_ALWAYS_HIDE = 1;
+    public static final int HINT_MODE_ALWAYS_SHOW = 2;
 
     private static final float DEFAULT_RADIUS = 0.5f;
 
     //default seekbar's padding left and right
-    private  int DEFAULT_PADDING_LEFT_AND_RIGHT;
+    private int DEFAULT_PADDING_LEFT_AND_RIGHT;
 
     private int defaultPaddingTop;
     //进度提示的背景 The background of the progress
-    private final int mProgressHintBGId;
+    private int mProgressHintBGId;
 
     // 按钮的背景   The background of the Drag button
-    private final int mThumbResId;
+    private int mThumbResId;
 
     //刻度模式：number根据数字实际比例排列；other 均分排列
     //Scale mode:
     // number according to the actual proportion of the number of arranged;
     // other equally arranged
-    private final int mCellMode;
+    private int mCellMode;
 
     //single是Seekbar模式，range是RangeSeekbar
     //single is Seekbar mode, range is angeSeekbar
     //single = 1; range = 2
-    private final int mSeekBarMode ;
+    private int mSeekBarMode ;
 
     //默认为1，当大于1时自动切回刻度模式
     //The default is 1, and when it is greater than 1,
@@ -153,14 +153,14 @@ public class RangeSeekBar extends View {
         reserveValue = t.getFloat(R.styleable.RangeSeekBar_reserve, 0);
         mMin = t.getFloat(R.styleable.RangeSeekBar_min, 0);
         mMax = t.getFloat(R.styleable.RangeSeekBar_max, 100);
-        mThumbResId = t.getResourceId(R.styleable.RangeSeekBar_seekBarResId, 0);
+        mThumbResId = t.getResourceId(R.styleable.RangeSeekBar_thumbResId, 0);
         mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekBar_progressHintResId, 0);
         colorLineSelected = t.getColor(R.styleable.RangeSeekBar_lineColorSelected, 0xFF4BD962);
         colorLineEdge = t.getColor(R.styleable.RangeSeekBar_lineColorEdge, 0xFFD7D7D7);
         colorPrimary = t.getColor(R.styleable.RangeSeekBar_thumbPrimaryColor, 0);
         colorSecondary = t.getColor(R.styleable.RangeSeekBar_thumbSecondaryColor, 0);
         mTextArray = t.getTextArray(R.styleable.RangeSeekBar_markTextArray);
-        mProgressHintMode = t.getInt(R.styleable.RangeSeekBar_progressHintMode,DEFAULT_MODE);
+        mProgressHintMode = t.getInt(R.styleable.RangeSeekBar_progressHintMode,HINT_MODE_DEFAULT);
         textPadding = (int)t.getDimension(R.styleable.RangeSeekBar_textPadding,dp2px(context,7));
         mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_textSize,dp2px(context,12));
         mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_hintBGHeight,0);
@@ -192,7 +192,7 @@ public class RangeSeekBar extends View {
 
         defaultPaddingTop = mSeekBarHeight / 2 ;
 
-        if (mProgressHintMode == ALWAYS_HIDE && mTextArray == null){
+        if (mProgressHintMode == HINT_MODE_ALWAYS_HIDE && mTextArray == null){
             mHintBGHeight = mCursorPaint.measureText("国");
         }else {
             mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
@@ -653,6 +653,7 @@ public class RangeSeekBar extends View {
     public void setValue(float value) {
         setValue(value,mMax);
     }
+
     public void setRange(float min, float max) {
         setRules(min, max, reserveCount, cellsCount);
     }
@@ -668,6 +669,38 @@ public class RangeSeekBar extends View {
 
     public void setThumbSecondaryColor(int thumbSecondaryColor){
         this.colorSecondary = thumbSecondaryColor;
+    }
+
+    public void setCellsCount(int cellsCount) {
+        this.cellsCount = cellsCount;
+    }
+
+    public void setThumbSize(int mThumbSize) {
+        this.mThumbSize = mThumbSize;
+    }
+
+    public void setLineWidth(int lineWidth) {
+        this.lineWidth = lineWidth;
+    }
+
+    public void setProgressHintMode(int mProgressHintMode) {
+        this.mProgressHintMode = mProgressHintMode;
+    }
+
+    public void setProgressHintBGId(int mProgressHintBGId) {
+        this.mProgressHintBGId = mProgressHintBGId;
+    }
+
+    public void setThumbResId(int mThumbResId) {
+        this.mThumbResId = mThumbResId;
+    }
+
+    public void setCellMode(int mCellMode) {
+        this.mCellMode = mCellMode;
+    }
+
+    public void setSeekBarMode(int mSeekBarMode) {
+        this.mSeekBarMode = mSeekBarMode;
     }
 
     public void setRules(float min, float max, float reserve, int cells) {
@@ -777,13 +810,13 @@ public class RangeSeekBar extends View {
     private void isShowProgressHint(SeekBar seekBar, boolean isEnable){
 
         switch (mProgressHintMode){
-            case DEFAULT_MODE:
+            case HINT_MODE_DEFAULT:
                 seekBar.isShowingHint = isEnable;
                 break;
-            case ALWAYS_SHOW:
+            case HINT_MODE_ALWAYS_SHOW:
                 seekBar.isShowingHint = true;
                 break;
-            case ALWAYS_HIDE:
+            case HINT_MODE_ALWAYS_HIDE:
                 seekBar.isShowingHint = false;
                 break;
         }
