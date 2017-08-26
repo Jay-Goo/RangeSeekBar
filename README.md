@@ -45,7 +45,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.0.9'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.1.0'
 	}
    
 ```
@@ -77,7 +77,7 @@ v1.0.3 | fix bugs when range is 0 ~ 1
 v1.0.6 | config jitPack to make you can see real source(why is 1.0.6 ? god knew it……)
 v1.0.7 | set the seekbar gravity center to make the layout  easier
 v1.0.8 | fix issue #2, #3
-v1.0.9 | add progressHintMode and some color attrs setter
+v1.1.0 | add progressHintMode and some color attrs setter
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
