@@ -20,7 +20,7 @@ lineColorEdge|color|The default Seekbar color
 thumbPrimaryColor|color|The color of the thumb when the progress is the minimum or maximum，default：none
 thumbSecondaryColor|color|The color of the thumb when the progress is not the minimum or maximum，default：none
 markTextArray|reference|Scale text, do not set the default when hidden
-seekBarResId|reference|Button background resources, do not set the default when the circular button
+thumbResId|reference|Button background resources, do not set the default when the circular button
 progressHintResId|reference|Progress prompt background resources, you must use the **9 path file**
 textPadding|dimension|The distance between the scale text and the progress bar
 textSize|dimension|Scale text, and the size of the progress prompt text
@@ -60,7 +60,7 @@ seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range*
         android:layout_height="wrap_content"
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorAccent"
-        app:seekBarResId="@drawable/seekbar_thumb"
+        app:thumbResId="@drawable/seekbar_thumb"
         app:lineColorEdge="@color/colorSeekBarDefault"
         app:cellMode="number"
         app:seekBarMode="range"

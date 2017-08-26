@@ -17,7 +17,7 @@ lineColorEdge|color|默认的Seekbar颜色
 thumbPrimaryColor|color|进度为最小值或最大值时按钮的颜色，默认：不调用
 thumbSecondaryColor|color|进度不为最小值或最大值时按钮的颜色，默认：不调用
 markTextArray|reference|刻度文字，不设置的时候默认隐藏按钮的背景资源，不设置的时候默认为圆形按钮
-seekBarResId|reference|按钮的背景资源，不设置的时候默认为圆形按钮
+thumbResId|reference|按钮的背景资源，不设置的时候默认为圆形按钮
 progressHintResId|reference|进度提示背景资源，必须使用 **9 path**文件
 textPadding|dimension|刻度文字与进度条之间的距离textSize|dimension|刻度文字和进度提示文字的大小
 hintBGHeight|dimension|进度提示背景的高度，不设置时根据文字尺寸自适应
@@ -56,7 +56,7 @@ seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个�
         android:layout_height="wrap_content"
         app:markTextArray="@array/markArray"
         app:lineColorSelected="@color/colorAccent"
-        app:seekBarResId="@drawable/seekbar_thumb"
+        app:thumbResId="@drawable/seekbar_thumb"
         app:lineColorEdge="@color/colorSeekBarDefault"
         app:cellMode="number"
         app:seekBarMode="range"
@@ -75,7 +75,7 @@ v1.0.8 | 修复issue #2，#3
 v1.0.9 | 添加进度提示模式属性，添加color 属性setter
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 
-##其它
+## 其它
 希望你喜欢我的作品。`Star`是对我的最大支持. 谢谢
 
 
