@@ -66,35 +66,35 @@
 
 
     <declare-styleable name="RangeSeekBar">
-        <attr name="max" format="float"/>
-        <attr name="min" format="float"/>
-        <attr name="reserve" format="float"/>
-        <attr name="cells" format="integer"/>
-        <attr name="progressHintMode" format="enum">
+        <attr name="rsb_max" format="float"/>
+        <attr name="rsb_min" format="float"/>
+        <attr name="rsb_reserve" format="float"/>
+        <attr name="rsb_cells" format="integer"/>
+        <attr name="rsb_progressHintMode" format="enum">
             <enum name="defaultMode" value="0"/>
             <enum name="alwaysHide" value="1"/>
             <enum name="alwaysShow" value="2"/>
         </attr>
-        <attr name="lineColorSelected" format="color"/>
-        <attr name="lineColorEdge" format="color"/>
-        <attr name="thumbPrimaryColor" format="color"/>
-        <attr name="thumbSecondaryColor" format="color"/>
-        <attr name="markTextArray" format="reference"/>
-        <attr name="thumbResId" format="reference"/>
+        <attr name="rsb_lineColorSelected" format="color"/>
+        <attr name="rsb_lineColorEdge" format="color"/>
+        <attr name="rsb_thumbPrimaryColor" format="color"/>
+        <attr name="rsb_thumbSecondaryColor" format="color"/>
+        <attr name="rsb_markTextArray" format="reference"/>
+        <attr name="rsb_thumbResId" format="reference"/>
         <!-- must use 9 path ！！！-->
-        <attr name="progressHintResId" format="reference"/>
-        <attr name="textPadding" format="dimension" />
-        <attr name="textSize" format="dimension" />
-        <attr name="hintBGHeight" format="dimension" />
-        <attr name="hintBGWith" format="dimension" />
-        <attr name="hintBGPadding" format="dimension" />
-        <attr name="seekBarHeight" format="dimension"/>
-        <attr name="thumbSize" format="dimension"/>
-        <attr name="cellMode" format="enum">
+        <attr name="rsb_progressHintResId" format="reference"/>
+        <attr name="rsb_textPadding" format="dimension" />
+        <attr name="rsb_textSize" format="dimension" />
+        <attr name="rsb_hintBGHeight" format="dimension" />
+        <attr name="rsb_hintBGWith" format="dimension" />
+        <attr name="rsb_hintBGPadding" format="dimension" />
+        <attr name="rsb_seekBarHeight" format="dimension"/>
+        <attr name="rsb_thumbSize" format="dimension"/>
+        <attr name="rsb_cellMode" format="enum">
             <enum name="number" value="0"/>
             <enum name="other" value="1"/>
         </attr>
-        <attr name="seekBarMode" format="enum">
+        <attr name="rsb_seekBarMode" format="enum">
             <enum name="single" value="1"/>
             <enum name="range" value="2"/>
         </attr>

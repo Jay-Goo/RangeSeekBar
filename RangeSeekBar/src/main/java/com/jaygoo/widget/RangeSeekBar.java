@@ -18,6 +18,8 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
@@ -149,27 +151,27 @@ public class RangeSeekBar extends View {
     public RangeSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
-        cellsCount = t.getInt(R.styleable.RangeSeekBar_cells, 1);
-        reserveValue = t.getFloat(R.styleable.RangeSeekBar_reserve, 0);
-        mMin = t.getFloat(R.styleable.RangeSeekBar_min, 0);
-        mMax = t.getFloat(R.styleable.RangeSeekBar_max, 100);
-        mThumbResId = t.getResourceId(R.styleable.RangeSeekBar_thumbResId, 0);
-        mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekBar_progressHintResId, 0);
-        colorLineSelected = t.getColor(R.styleable.RangeSeekBar_lineColorSelected, 0xFF4BD962);
-        colorLineEdge = t.getColor(R.styleable.RangeSeekBar_lineColorEdge, 0xFFD7D7D7);
-        colorPrimary = t.getColor(R.styleable.RangeSeekBar_thumbPrimaryColor, 0);
-        colorSecondary = t.getColor(R.styleable.RangeSeekBar_thumbSecondaryColor, 0);
-        mTextArray = t.getTextArray(R.styleable.RangeSeekBar_markTextArray);
-        mProgressHintMode = t.getInt(R.styleable.RangeSeekBar_progressHintMode,HINT_MODE_DEFAULT);
-        textPadding = (int)t.getDimension(R.styleable.RangeSeekBar_textPadding,dp2px(context,7));
-        mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_textSize,dp2px(context,12));
-        mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_hintBGHeight,0);
-        mHintBGWith = t.getDimension(R.styleable.RangeSeekBar_hintBGWith,0);
-        mSeekBarHeight = (int)t.getDimension(R.styleable.RangeSeekBar_seekBarHeight,dp2px(context,2));
-        mHintBGPadding = (int)t.getDimension(R.styleable.RangeSeekBar_hintBGPadding,0);
-        mThumbSize = (int)t.getDimension(R.styleable.RangeSeekBar_thumbSize,dp2px(context,26));
-        mCellMode = t.getInt(R.styleable.RangeSeekBar_cellMode , 0);
-        mSeekBarMode = t.getInt(R.styleable.RangeSeekBar_seekBarMode , 2);
+        cellsCount = t.getInt(R.styleable.RangeSeekBar_rsb_cells, 1);
+        reserveValue = t.getFloat(R.styleable.RangeSeekBar_rsb_reserve, 0);
+        mMin = t.getFloat(R.styleable.RangeSeekBar_rsb_min, 0);
+        mMax = t.getFloat(R.styleable.RangeSeekBar_rsb_max, 100);
+        mThumbResId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumbResId, 0);
+        mProgressHintBGId = t.getResourceId(R.styleable.RangeSeekBar_rsb_progressHintResId, 0);
+        colorLineSelected = t.getColor(R.styleable.RangeSeekBar_rsb_lineColorSelected, 0xFF4BD962);
+        colorLineEdge = t.getColor(R.styleable.RangeSeekBar_rsb_lineColorEdge, 0xFFD7D7D7);
+        colorPrimary = t.getColor(R.styleable.RangeSeekBar_rsb_thumbPrimaryColor, 0);
+        colorSecondary = t.getColor(R.styleable.RangeSeekBar_rsb_thumbSecondaryColor, 0);
+        mTextArray = t.getTextArray(R.styleable.RangeSeekBar_rsb_markTextArray);
+        mProgressHintMode = t.getInt(R.styleable.RangeSeekBar_rsb_progressHintMode,HINT_MODE_DEFAULT);
+        textPadding = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_textPadding,dp2px(context,7));
+        mTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_textSize,dp2px(context,12));
+        mHintBGHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_hintBGHeight,0);
+        mHintBGWith = t.getDimension(R.styleable.RangeSeekBar_rsb_hintBGWith,0);
+        mSeekBarHeight = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_seekBarHeight,dp2px(context,2));
+        mHintBGPadding = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_hintBGPadding,0);
+        mThumbSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_thumbSize,dp2px(context,26));
+        mCellMode = t.getInt(R.styleable.RangeSeekBar_rsb_cellMode , 0);
+        mSeekBarMode = t.getInt(R.styleable.RangeSeekBar_rsb_seekBarMode , 2);
 
         if (mSeekBarMode == 2){
             leftSB = new SeekBar(-1);
@@ -328,7 +330,7 @@ public class RangeSeekBar extends View {
      */
     private void initBitmap() {
         if (mProgressHintBGId != 0) {
-            mProgressHintBG = BitmapFactory.decodeResource(getResources(), mProgressHintBGId);
+            mProgressHintBG = drawableToBitmap(getResources().getDrawable(mProgressHintBGId));
         }else {
             mProgressHintBG = BitmapFactory.decodeResource(getResources(), R.drawable.progress_hint_bg);
         }
@@ -387,7 +389,7 @@ public class RangeSeekBar extends View {
             }
 
             if (bmpResId > 0) {
-                Bitmap original = BitmapFactory.decodeResource(context.getResources(), bmpResId);
+                Bitmap original = drawableToBitmap(getResources().getDrawable(bmpResId));
 
                 if (original != null) {
                     Matrix matrix = new Matrix();
@@ -976,6 +978,29 @@ public class RangeSeekBar extends View {
                 break;
         }
         return super.onTouchEvent(event);
+    }
+
+    Bitmap drawableToBitmap (Drawable drawable) {
+        Bitmap bitmap = null;
+
+        if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if(bitmapDrawable.getBitmap() != null) {
+                return bitmapDrawable.getBitmap();
+            }
+        }
+
+        if(drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+            // Single color bitmap will be created of mThumbSize x mThumbSize pixel
+            bitmap = Bitmap.createBitmap(mThumbSize, mThumbSize, Bitmap.Config.ARGB_8888);
+        } else {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        }
+
+        Canvas canvas = new Canvas(bitmap);
+        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+        drawable.draw(canvas);
+        return bitmap;
     }
 
     @Override

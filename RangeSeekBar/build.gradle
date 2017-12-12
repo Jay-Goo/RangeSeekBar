@@ -3,14 +3,15 @@ apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.Jay-Goo'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+
 
     defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.1.0"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode rootProject.ext.versionCode
+        versionName rootProject.ext.versionName
 
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
@@ -24,13 +25,10 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    compile 'com.android.support:appcompat-v7:25.1.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    testCompile 'junit:junit:4.12'
+    implementation "com.android.support:appcompat-v7:$buildToolsVersion"
+
 }
 
 // 指定编码
