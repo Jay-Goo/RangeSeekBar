@@ -38,6 +38,7 @@ public class RangeSeekBar extends View {
     public static final int HINT_MODE_DEFAULT = 0;
     public static final int HINT_MODE_ALWAYS_HIDE = 1;
     public static final int HINT_MODE_ALWAYS_SHOW = 2;
+    public static final int HINT_MODE_FORCE_SHOW = 3;
 
     private static final float DEFAULT_RADIUS = 0.5f;
 
@@ -194,7 +195,7 @@ public class RangeSeekBar extends View {
 
         defaultPaddingTop = mSeekBarHeight / 2 ;
 
-        if (mProgressHintMode == HINT_MODE_ALWAYS_HIDE && mTextArray == null){
+        if (mProgressHintMode == HINT_MODE_ALWAYS_HIDE  && mTextArray == null){
             mHintBGHeight = mCursorPaint.measureText("国");
         }else {
             mHintBGHeight = mHintBGHeight == 0 ? (mCursorPaint.measureText("国") * 3) : mHintBGHeight;
@@ -295,8 +296,14 @@ public class RangeSeekBar extends View {
             canvas.drawRect(leftSB.left + leftSB.widthSize / 2 , lineTop,
                     leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent, lineBottom, mMainPaint);
         }
+        if (mProgressHintMode == HINT_MODE_FORCE_SHOW){
+            isShowProgressHint(leftSB, true);
+        }
         leftSB.draw(canvas);
         if (mSeekBarMode == 2) {
+            if (mProgressHintMode == HINT_MODE_FORCE_SHOW){
+                isShowProgressHint(rightSB, true);
+            }
             rightSB.draw(canvas);
         }
     }
@@ -606,6 +613,8 @@ public class RangeSeekBar extends View {
 
     public interface OnRangeChangedListener {
         void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser);
+        void onStartTrackingTouch(RangeSeekBar view, boolean isLeft);
+        void onStopTrackingTouch(RangeSeekBar view, boolean isLeft);
     }
 
 
@@ -816,6 +825,7 @@ public class RangeSeekBar extends View {
                 seekBar.isShowingHint = isEnable;
                 break;
             case HINT_MODE_ALWAYS_SHOW:
+            case HINT_MODE_FORCE_SHOW:
                 seekBar.isShowingHint = true;
                 break;
             case HINT_MODE_ALWAYS_HIDE:
@@ -850,6 +860,9 @@ public class RangeSeekBar extends View {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
 
+                if (callback != null) {
+                    callback.onStartTrackingTouch(this, currTouch == leftSB);
+                }
                 return touchResult;
             case MotionEvent.ACTION_MOVE:
 
@@ -942,6 +955,7 @@ public class RangeSeekBar extends View {
                 if(getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
                 }
+
                 break;
             case MotionEvent.ACTION_CANCEL:
                 if (mSeekBarMode == 2) {
@@ -974,6 +988,10 @@ public class RangeSeekBar extends View {
                 //Intercept parent TouchEvent
                 if(getParent() != null) {
                     getParent().requestDisallowInterceptTouchEvent(true);
+                }
+
+                if (callback != null) {
+                    callback.onStopTrackingTouch(this, currTouch == leftSB);
                 }
                 break;
         }

@@ -46,7 +46,7 @@
         app:rsb_thumbSize="20dp"
         app:rsb_cellMode="number"
         app:rsb_seekBarMode="range"
-        app:rsb_progressHintMode="alwaysShow"
+        app:rsb_progressHintMode="forceShow"
         />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"

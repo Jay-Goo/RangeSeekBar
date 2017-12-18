@@ -74,6 +74,7 @@
             <enum name="defaultMode" value="0"/>
             <enum name="alwaysHide" value="1"/>
             <enum name="alwaysShow" value="2"/>
+            <enum name="forceShow" value="3"/>
         </attr>
         <attr name="rsb_lineColorSelected" format="color"/>
         <attr name="rsb_lineColorEdge" format="color"/>
