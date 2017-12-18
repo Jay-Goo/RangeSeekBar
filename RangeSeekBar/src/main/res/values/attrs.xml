@@ -39,6 +39,7 @@
     <!--the progress hint mode
     defaultMode: show hint when you move the thumb
     alwaysHide: hide progress hint all the time
+    touchAlwaysShow: show progress hint all the time after touch
     alwaysShow: show progress hint all the time
     -->
     <!--The Seekbar color after dragging-->
@@ -73,8 +74,8 @@
         <attr name="rsb_progressHintMode" format="enum">
             <enum name="defaultMode" value="0"/>
             <enum name="alwaysHide" value="1"/>
-            <enum name="alwaysShow" value="2"/>
-            <enum name="forceShow" value="3"/>
+            <enum name="touchAlwaysShow" value="2"/>
+            <enum name="alwaysShow" value="3"/>
         </attr>
         <attr name="rsb_lineColorSelected" format="color"/>
         <attr name="rsb_lineColorEdge" format="color"/>

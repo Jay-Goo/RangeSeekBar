@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-
         seekbar2.setOnRangeChangedListener(new RangeSeekBar.OnRangeChangedListener() {
             @Override
             public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {

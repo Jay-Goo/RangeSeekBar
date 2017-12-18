@@ -37,8 +37,8 @@ public class RangeSeekBar extends View {
     //alwaysShow: show progress hint all the time
     public static final int HINT_MODE_DEFAULT = 0;
     public static final int HINT_MODE_ALWAYS_HIDE = 1;
-    public static final int HINT_MODE_ALWAYS_SHOW = 2;
-    public static final int HINT_MODE_FORCE_SHOW = 3;
+    public static final int HINT_MODE_TOUCH_ALWAYS_SHOW = 2;
+    public static final int HINT_MODE_ALWAYS_SHOW = 3;
 
     private static final float DEFAULT_RADIUS = 0.5f;
 
@@ -296,12 +296,12 @@ public class RangeSeekBar extends View {
             canvas.drawRect(leftSB.left + leftSB.widthSize / 2 , lineTop,
                     leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent, lineBottom, mMainPaint);
         }
-        if (mProgressHintMode == HINT_MODE_FORCE_SHOW){
+        if (mProgressHintMode == HINT_MODE_ALWAYS_SHOW){
             isShowProgressHint(leftSB, true);
         }
         leftSB.draw(canvas);
         if (mSeekBarMode == 2) {
-            if (mProgressHintMode == HINT_MODE_FORCE_SHOW){
+            if (mProgressHintMode == HINT_MODE_ALWAYS_SHOW){
                 isShowProgressHint(rightSB, true);
             }
             rightSB.draw(canvas);
@@ -825,7 +825,7 @@ public class RangeSeekBar extends View {
                 seekBar.isShowingHint = isEnable;
                 break;
             case HINT_MODE_ALWAYS_SHOW:
-            case HINT_MODE_FORCE_SHOW:
+            case HINT_MODE_TOUCH_ALWAYS_SHOW:
                 seekBar.isShowingHint = true;
                 break;
             case HINT_MODE_ALWAYS_HIDE:
