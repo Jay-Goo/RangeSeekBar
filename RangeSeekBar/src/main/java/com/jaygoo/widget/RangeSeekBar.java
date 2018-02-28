@@ -85,8 +85,11 @@ public class RangeSeekBar extends View {
     private int mCursorTextHeight;
     private int mPartLength;
     private int heightNeeded;
-    private int lineCorners;
     private int lineWidth;
+
+    //进度条圆角
+    //radius of progress bar
+    private float lineRadius;
 
     //选择过的进度条颜色
     // the color of the selected progress bar
@@ -136,7 +139,8 @@ public class RangeSeekBar extends View {
     private Paint mMainPaint = new Paint();
     private Paint mCursorPaint = new Paint();
     private Paint mProgressPaint;
-    private RectF line = new RectF();
+    private RectF backgroundLineRect = new RectF();
+    private RectF foregroundLineRect = new RectF();
     private SeekBar leftSB ;
     private SeekBar rightSB;
     private SeekBar currTouch;
@@ -172,6 +176,7 @@ public class RangeSeekBar extends View {
         mThumbSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_thumbSize,dp2px(context,26));
         mCellMode = t.getInt(R.styleable.RangeSeekBar_rsb_cellMode , 0);
         mSeekBarMode = t.getInt(R.styleable.RangeSeekBar_rsb_seekBarMode , 2);
+        lineRadius = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_lineRadius,-1);
 
         if (mSeekBarMode == 2){
             leftSB = new SeekBar(-1);
@@ -205,8 +210,8 @@ public class RangeSeekBar extends View {
         //Android7.0以上：onMeasure--->onSizeChanged
         lineTop = (int)mHintBGHeight + mThumbSize/2 -mSeekBarHeight/2 ;
         lineBottom = lineTop + mSeekBarHeight ;
-        lineCorners = (int) ((lineBottom - lineTop) * 0.45f);
-
+        //default value
+        if (lineRadius < 0) lineRadius = (int) ((lineBottom - lineTop) * 0.45f);
     }
 
     @Override
@@ -242,7 +247,7 @@ public class RangeSeekBar extends View {
         lineLeft = DEFAULT_PADDING_LEFT_AND_RIGHT  + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
         lineWidth = lineRight - lineLeft;
-        line.set(lineLeft, lineTop, lineRight, lineBottom);
+        backgroundLineRect.set(lineLeft, lineTop, lineRight, lineBottom);
 
         leftSB.onSizeChanged(lineLeft, lineBottom, mThumbSize, lineWidth, cellsCount > 1, mThumbResId, getContext());
         if (mSeekBarMode == 2) {
@@ -286,14 +291,22 @@ public class RangeSeekBar extends View {
         //绘制进度条
         // draw the progress bar
         mMainPaint.setColor(colorLineEdge);
-        canvas.drawRoundRect(line, lineCorners, lineCorners, mMainPaint);
+
+        canvas.drawRoundRect(backgroundLineRect, lineRadius, lineRadius, mMainPaint);
         mMainPaint.setColor(colorLineSelected);
+
         if (mSeekBarMode == 2) {
-            canvas.drawRect(leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent, lineTop,
-                    rightSB.left + rightSB.widthSize / 2 + rightSB.lineWidth * rightSB.currPercent, lineBottom, mMainPaint);
+            foregroundLineRect.top = lineTop;
+            foregroundLineRect.left = leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent;
+            foregroundLineRect.right = rightSB.left + rightSB.widthSize / 2 + rightSB.lineWidth * rightSB.currPercent;
+            foregroundLineRect.bottom = lineBottom;
+            canvas.drawRoundRect(foregroundLineRect, lineRadius, lineRadius, mMainPaint);
         }else {
-            canvas.drawRect(leftSB.left + leftSB.widthSize / 2 , lineTop,
-                    leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent, lineBottom, mMainPaint);
+            foregroundLineRect.top = lineTop;
+            foregroundLineRect.left = leftSB.left + leftSB.widthSize / 2 ;
+            foregroundLineRect.right = leftSB.left + leftSB.widthSize / 2 + leftSB.lineWidth * leftSB.currPercent;
+            foregroundLineRect.bottom = lineBottom;
+            canvas.drawRoundRect(foregroundLineRect, lineRadius, lineRadius, mMainPaint);
         }
         if (mProgressHintMode == HINT_MODE_ALWAYS_SHOW){
             isShowProgressHint(leftSB, true);
@@ -455,7 +468,7 @@ public class RangeSeekBar extends View {
             if (hintW < 1.5f * hintH) hintW = (int)(1.5f * hintH);
 
             if (bmp != null) {
-                canvas.drawBitmap(bmp, left, lineTop - bmp.getHeight() / 2, null);
+                canvas.drawBitmap(bmp, left,  lineTop + (mSeekBarHeight - bmp.getHeight()) / 2, null);
                 if (isShowingHint) {
 
                     Rect rect = new Rect();

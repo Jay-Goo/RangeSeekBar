@@ -77,13 +77,13 @@
         app:rsb_lineColorEdge="@color/colorSeekBarDefault"
         app:rsb_textPadding="17dp"
         app:rsb_cells="4"
-        app:rsb_progressHintMode="alwaysHide"
         app:rsb_textSize="12sp"
-        app:rsb_hintBGHeight="28dp"
-        app:rsb_seekBarHeight="8dp"
+        app:rsb_hintBGHeight="38dp"
+        app:rsb_seekBarHeight="4dp"
         app:rsb_thumbSize="26dp"
         app:rsb_cellMode="other"
         app:rsb_seekBarMode="single"
+        app:rsb_lineRadius="0dp"
         />
 
 </LinearLayout>

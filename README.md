@@ -31,6 +31,7 @@ rsb_seekBarHeight|dimension|The height of the progress bar
 rsb_thumbSize|dimension|The size of the button
 rsb_cellMode|enum|Scale mode **number** according to the scale of the actual proportion of the distribution of the location *（markTextArray must be a number）* **other** bisects the current layout*（markTextArray can be any character）*
 rsb_seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **range** Bidirectional selection SeekBar
+rsb_thumbRadius|dimension|The radius of the progress bar
 
 ## Usage
 
@@ -45,7 +46,7 @@ rsb_seekBarMode| enum |One-way, two-way mode **single** like normal seekbar **ra
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.0'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.1'
 	}
    
 ```
@@ -79,6 +80,7 @@ v1.0.7 | set the seekbar gravity center to make the layout  easier
 v1.0.8 | fix issue #2, #3
 v1.1.0 | add progressHintMode and some color attrs setter
 v1.2.0 | thumbResId support custom drawable；Property name refactoring to prevent naming conflicts；adjust rsb_progressHintMode，add onStopTrackingTouch，onStartTrackingTouch Listeners
+v1.2.1 | fix issue #23, #17. add radius of progress
 
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 

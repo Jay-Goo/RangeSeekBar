@@ -27,6 +27,7 @@
     other 平分当前布局（markTextArray可以是任何字符）
     -->
     <!--单向、双向模式 single 单向模式，只有一个按钮 range 双向模式，有两个按钮 -->
+    <!--进度条圆角-->
 
     <!-- ******************** 参数解释 ******************** -->
 
@@ -61,7 +62,7 @@
     Other bisects the current layout (markTextArray can be any character)
     -->
     <!--One-way, two-way mode single one-way mode, there is only one button range bidirectional mode, two buttons -->
-
+    <!--the radius of progressbar-->
     <!-- ******************** Parameter Explanation ******************** -->
 
 
@@ -100,6 +101,6 @@
             <enum name="single" value="1"/>
             <enum name="range" value="2"/>
         </attr>
-
+        <attr name="rsb_lineRadius" format="dimension"/>
     </declare-styleable>
 </resources>

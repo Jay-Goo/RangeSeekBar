@@ -27,6 +27,7 @@ rsb_seekBarHeight|dimension|进度条的高度
 rsb_thumbSize|dimension|按钮的尺寸
 rsb_cellMode|enum|刻度模式 **number** 根据刻度的实际所占比例分配位置*（markTextArray中必须都为数字）* **other** 平分当前布局*（markTextArray可以是任何字符）*
 rsb_seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一个按钮 **range** 双向模式，有两个按钮
+rsb_thumbRadius|dimension|进度条圆角
 
 ## Usage
 
@@ -41,7 +42,7 @@ rsb_seekBarMode| enum |单向、双向模式 **single** 单向模式，只有一
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.0'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.1'
 	}
 
 ```
@@ -74,6 +75,7 @@ v1.0.7 | 令seekbar布局居中，让你的布局和其他布局配合更简单
 v1.0.8 | 修复issue #2，#3
 v1.1.0 | 添加进度提示模式属性，添加color 属性setter
 v1.2.0 | thumbResId支持自定义drawable；属性名重构，防止命名冲突；调整rsb_progressHintMode，新增onStopTrackingTouch，onStartTrackingTouch Listeners
+v1.2.1 | fix issue #23, #17. 支持自定义进度条圆角
 
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 
