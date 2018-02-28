@@ -24,7 +24,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -1049,7 +1048,7 @@ public class RangeSeekBar extends View {
         setValue(currSelectedMin, currSelectedMax);
     }
 
-    private class SavedState extends BaseSavedState {
+    private static class SavedState extends BaseSavedState {
         private float minValue;
         private float maxValue;
         private float reserveValue;
@@ -1081,6 +1080,16 @@ public class RangeSeekBar extends View {
             out.writeFloat(currSelectedMin);
             out.writeFloat(currSelectedMax);
         }
+
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 
     /**
