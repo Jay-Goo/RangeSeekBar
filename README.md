@@ -46,7 +46,7 @@ rsb_thumbRadius|dimension|The radius of the progress bar
 	}
 	
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.1'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.2'
 	}
    
 ```
@@ -81,6 +81,8 @@ v1.0.8 | fix issue #2, #3
 v1.1.0 | add progressHintMode and some color attrs setter
 v1.2.0 | thumbResId support custom drawable；Property name refactoring to prevent naming conflicts；adjust rsb_progressHintMode，add onStopTrackingTouch，onStartTrackingTouch Listeners
 v1.2.1 | fix issue #23, #17. add radius of progress
+v1.2.2 | fix custom progressHintResId crash
+
 
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 

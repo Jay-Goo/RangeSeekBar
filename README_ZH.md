@@ -42,7 +42,7 @@ rsb_thumbRadius|dimension|进度条圆角
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.1'
+	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.2'
 	}
 
 ```
@@ -76,6 +76,7 @@ v1.0.8 | 修复issue #2，#3
 v1.1.0 | 添加进度提示模式属性，添加color 属性setter
 v1.2.0 | thumbResId支持自定义drawable；属性名重构，防止命名冲突；调整rsb_progressHintMode，新增onStopTrackingTouch，onStartTrackingTouch Listeners
 v1.2.1 | fix issue #23, #17. 支持自定义进度条圆角
+v1.2.2 | fix 自定义属性 progressHintResId 闪退
 
 ## [博客讲解](http://blog.csdn.net/google_acmer/article/details/54971421)
 

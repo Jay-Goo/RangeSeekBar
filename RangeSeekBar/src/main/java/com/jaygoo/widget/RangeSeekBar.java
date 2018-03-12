@@ -349,7 +349,7 @@ public class RangeSeekBar extends View {
      */
     private void initBitmap() {
         if (mProgressHintBGId != 0) {
-            mProgressHintBG = drawableToBitmap(getResources().getDrawable(mProgressHintBGId));
+            mProgressHintBG = BitmapFactory.decodeResource(getResources(), mProgressHintBGId);
         }else {
             mProgressHintBG = BitmapFactory.decodeResource(getResources(), R.drawable.progress_hint_bg);
         }
