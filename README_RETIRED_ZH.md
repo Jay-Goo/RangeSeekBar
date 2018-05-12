@@ -1,5 +1,5 @@
 
-# RangeSeekBar 
+# RangeSeekBar v1.x[停止维护]
 
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
 
