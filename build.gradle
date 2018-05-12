@@ -1,4 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+project.ext{
+    compileSdkVersion = 27
+    buildToolsVersion = "27.0.2"
+    applicationId = "com.jaygoo.demo"
+    minSdkVersion = 16
+    targetSdkVersion = 27
+    versionCode = 2
+    versionName = "2.0.0"
+}
 
 buildscript {
     repositories {
@@ -7,7 +16,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.0.1'
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.5'
+        classpath "com.github.dcendents:android-maven-gradle-plugin:2.0"
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -24,13 +33,3 @@ task clean(type: Delete) {
     delete rootProject.buildDir
 }
 
-project.ext{
-    compileSdkVersion = 27
-    buildToolsVersion = "27.0.2"
-    applicationId = "com.jaygoo.demo"
-    minSdkVersion = 16
-    targetSdkVersion = 27
-    versionCode = 2
-    versionName = "2.0.0"
-
-}

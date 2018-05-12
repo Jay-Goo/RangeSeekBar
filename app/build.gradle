@@ -25,5 +25,5 @@ dependencies {
 
     implementation "com.android.support:appcompat-v7:$buildToolsVersion"
 
-    compile project(':RangeSeekBar')
+    implementation project(':RangeSeekBar')
 }
