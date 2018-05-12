@@ -2,10 +2,10 @@
 # RangeSeekBar
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
+<div align="center">
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
+</div>
 
-<div style="float:left;margin:2px;"><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif"  width="283" height="500" ></div>
-
-<div style="float:left;margin:2px;"><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif"  width="283" height="500" ></div>
 
 # Attention
 
