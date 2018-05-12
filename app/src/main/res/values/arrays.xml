@@ -25,11 +25,11 @@
     </string-array>
 
     <string-array name="wordsArray">
-        <item>初级码农</item>
-        <item>中级码农</item>
-        <item>高级码农</item>
-        <item>CTO</item>
-        <item>卒</item>
+        <item>Lv1</item>
+        <item>Lv2</item>
+        <item>Lv3</item>
+        <item>Lv4</item>
+        <item>Lv5</item>
     </string-array>
 
 </resources>

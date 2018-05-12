@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<Button
+    android:id="@+id/action_btn"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:textAllCaps="false"
+    android:background="@color/colorPrimary"
+    android:textColor="@android:color/white"
+    android:text="Click Me To Show VerticalRangeSeekbar"
+    android:stateListAnimator="@null"
+    xmlns:android="http://schemas.android.com/apk/res/android"/>

@@ -1,106 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- ******************** 参数解释 ******************** -->
-
-    <!--最大值-->
-    <!--最小值-->
-    <!--两个按钮的最小间距-->
-    <!--cells 等于0为普通模式，大于1时切换为刻度模式-->
-    <!--进度提示模式 default：当拖动时显示 alwaysHide：一直隐藏 alwaysShow：一直显示-->
-    <!--拖动后的Seekbar颜色-->
-    <!--默认的Seekbar颜色-->
-    <!--进度为最小值或最大值时按钮的颜色，默认此属性不调用-->
-    <!--进度不为最小值或最大值时按钮的颜色，默认此属性不调用-->
-    <!--刻度文字，不设置的时候默认隐藏-->
-    <!--按钮的背景资源，不设置的时候默认为圆形按钮-->
-    <!--进度提示背景资源，必须使用 9 path文件-->
-    <!--刻度文字与进度条之间的距离-->
-    <!--刻度文字和进度提示文字的大小-->
-    <!--进度提示背景的高度，不设置时根据文字尺寸自适应-->
-    <!--进度提示背景的宽度，不设置时根据文字尺寸自适应-->
-    <!--进度提示背景和进度条之间的距离-->
-    <!--进度条的高度-->
-    <!--按钮的尺寸-->
-    <!--刻度模式
-    number 根据刻度的实际所占比例分配位置（markTextArray中必须都为数字）
-    other 平分当前布局（markTextArray可以是任何字符）
-    -->
-    <!--单向、双向模式 single 单向模式，只有一个按钮 range 双向模式，有两个按钮 -->
-    <!--进度条圆角-->
-
-    <!-- ******************** 参数解释 ******************** -->
-
-    <!-- ******************** Parameter Explanation ******************** -->
-
-    <!--The maximum-->
-    <!--The minimum-->
-    <!--The minimum distance between two buttons-->
-    <!--Cells equal to 0 for the normal mode, greater than 1 to switch to scale mode-->
-    <!--the progress hint mode
-    defaultMode: show hint when you move the thumb
-    alwaysHide: hide progress hint all the time
-    touchAlwaysShow: show progress hint all the time after touch
-    alwaysShow: show progress hint all the time
-    -->
-    <!--The Seekbar color after dragging-->
-    <!--The default Seekbar color-->
-    <!--The color of the thumb when the progress is minimum or maximum, by default this property is not called-->
-    <!--The color of the thumb moving, this property is not called-->
-    <!--Scale text, do not set the default when hidden-->
-    <!--thumb Button background resources, do not set the default when the circular button-->
-    <!--Progress prompt background resources, you must use the 9 path file-->
-    <!--The distance between the scale text and the progress bar-->
-    <!--Scale text, and the size of the progress prompt text-->
-    <!--The height of the progress prompt background, not set according to the text size adaptive-->
-    <!--The with of the progress prompt background, not set according to the text size adaptive-->
-    <!--The progress indicates the distance between the background and the progress bar-->
-    <!--The height of the progress bar-->
-    <!--The size of the button-->
-    <!--Scale mode
-    Number according to the scale of the actual proportion of the distribution of the location (markTextArray must be a number)
-    Other bisects the current layout (markTextArray can be any character)
-    -->
-    <!--One-way, two-way mode single one-way mode, there is only one button range bidirectional mode, two buttons -->
-    <!--the radius of progressbar-->
-    <!-- ******************** Parameter Explanation ******************** -->
-
-
-
     <declare-styleable name="RangeSeekBar">
+        <!--RangeSeekBar common attrs-->
+
+        <!--The maximum-->
         <attr name="rsb_max" format="float"/>
+
+        <!--The minimum-->
         <attr name="rsb_min" format="float"/>
-        <attr name="rsb_reserve" format="float"/>
-        <attr name="rsb_cells" format="integer"/>
-        <attr name="rsb_progressHintMode" format="enum">
-            <enum name="defaultMode" value="0"/>
-            <enum name="alwaysHide" value="1"/>
-            <enum name="touchAlwaysShow" value="2"/>
-            <enum name="alwaysShow" value="3"/>
-        </attr>
-        <attr name="rsb_lineColorSelected" format="color"/>
-        <attr name="rsb_lineColorEdge" format="color"/>
-        <attr name="rsb_thumbPrimaryColor" format="color"/>
-        <attr name="rsb_thumbSecondaryColor" format="color"/>
-        <attr name="rsb_markTextArray" format="reference"/>
-        <attr name="rsb_thumbResId" format="reference"/>
-        <!-- must use 9 path ！！！-->
-        <attr name="rsb_progressHintResId" format="reference"/>
-        <attr name="rsb_textPadding" format="dimension" />
-        <attr name="rsb_textSize" format="dimension" />
-        <attr name="rsb_hintBGHeight" format="dimension" />
-        <attr name="rsb_hintBGWith" format="dimension" />
-        <attr name="rsb_hintBGPadding" format="dimension" />
-        <attr name="rsb_seekBarHeight" format="dimension"/>
-        <attr name="rsb_thumbSize" format="dimension"/>
-        <attr name="rsb_cellMode" format="enum">
-            <enum name="number" value="0"/>
-            <enum name="other" value="1"/>
-        </attr>
-        <attr name="rsb_seekBarMode" format="enum">
+
+        <!--RangeSeekBar mode, single is normal seekBar, range is RangeSeekBar-->
+        <attr name="rsb_mode" format="enum">
             <enum name="single" value="1"/>
             <enum name="range" value="2"/>
         </attr>
-        <attr name="rsb_lineRadius" format="dimension"/>
+
+        <!--The min interval of the thumbs -->
+        <attr name="rsb_range_interval" format="float"/>
+
+        <!-- 0 for the normal mode, greater than 1 to switch to scale mode-->
+        <attr name="rsb_tick_mark_number" format="integer"/>
+
+        <!--Scale mode
+        Number according to the scale of the actual proportion of the distribution of the location (markTextArray must be a number)
+        Other bisects the current layout (markTextArray can be any character)
+        -->
+        <attr name="rsb_tick_mark_mode" format="enum">
+            <enum name="number" value="0"/>
+            <enum name="other" value="1"/>
+        </attr>
+
+        <!--The tick mark text gravity -->
+        <attr name="rsb_tick_mark_gravity" format="enum">
+            <enum name="left" value="0"/>
+            <enum name="center" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+
+        <!--The tick mark text array -->
+        <attr name="rsb_tick_mark_text_array" format="reference"/>
+
+        <!--The tick mark text margin bottom to progress -->
+        <attr name="rsb_tick_mark_text_margin" format="dimension" />
+
+        <attr name="rsb_tick_mark_text_size" format="dimension" />
+
+        <attr name="rsb_tick_mark_text_color" format="color" />
+
+        <!--it just work in range && number mode now-->
+        <attr name="rsb_tick_mark_in_range_text_color" format="color" />
+
+        <attr name="rsb_progress_height" format="dimension"/>
+
+        <attr name="rsb_progress_radius" format="dimension"/>
+
+        <!--the color of progress bar when in progress-->
+        <attr name="rsb_progress_color" format="color"/>
+
+        <!--the default color of the progress bar-->
+        <attr name="rsb_progress_default_color" format="color"/>
+
+        <!--the vertical RangeSeekBar draw orientation-->
+        <attr name="rsb_orientation" format="enum">
+            <enum name="left" value="-1"/>
+            <enum name="right" value="1"/>
+        </attr>
+
+        <!--SeekBar attrs-->
+        <attr name="rsb_indicator_show_mode" format="enum">
+            <enum name="showWhenTouch" value="0"/>
+            <enum name="alwaysHide" value="1"/>
+            <enum name="alwaysShowAfterTouch" value="2"/>
+            <enum name="alwaysShow" value="3"/>
+        </attr>
+        <attr name="rsb_indicator_height" format="dimension" />
+        <attr name="rsb_indicator_width" format="dimension" />
+        <!--indicator margin bottom to progress bar-->
+        <attr name="rsb_indicator_margin" format="dimension" />
+        <attr name="rsb_indicator_text_size" format="dimension" />
+        <attr name="rsb_indicator_text_color" format="color" />
+        <!--indicator arrow size, it just work when you not use rsb_indicator_drawable -->
+        <attr name="rsb_indicator_arrow_size" format="dimension" />
+        <!-- must use 9 path ！！！-->
+        <attr name="rsb_indicator_drawable" format="reference"/>
+        <attr name="rsb_indicator_background_color" format="color" />
+        <attr name="rsb_indicator_padding_left" format="dimension" />
+        <attr name="rsb_indicator_padding_right" format="dimension" />
+        <attr name="rsb_indicator_padding_top" format="dimension" />
+        <attr name="rsb_indicator_padding_bottom" format="dimension" />
+        <attr name="rsb_thumb_drawable" format="reference"/>
+        <!--the thumb inactivated is when you don't touch the thumb button-->
+        <attr name="rsb_thumb_inactivated_drawable" format="reference"/>
+        <attr name="rsb_thumb_size" format="dimension"/>
     </declare-styleable>
+
 </resources>

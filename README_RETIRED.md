@@ -1,7 +1,7 @@
 
-# RangeSeekBar
+# RangeSeekBar 
 
-## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
+## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_RETIRED_ZH.md)
 
 
 ![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/2017-02-08%2019_27_55.gif)
@@ -44,11 +44,11 @@ rsb_thumbRadius|dimension|The radius of the progress bar
 			maven { url 'https://jitpack.io' }
 		}
 	}
-
+	
 	dependencies {
 	        compile 'com.github.Jay-Goo:RangeSeekBar:v1.2.2'
 	}
-
+   
 ```
 
 
@@ -87,7 +87,7 @@ v1.2.2 | fix custom progressHintResId crash
 ## [Blog](http://blog.csdn.net/google_acmer/article/details/54971421)
 
 
-## Others
+## Others 
 
 I hope you like this RangeSeekBar. `Star` is the greatest support for me！ Thank U
 
