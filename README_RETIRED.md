@@ -1,5 +1,5 @@
 
-# RangeSeekBar 
+# RangeSeekBar v1.x[RETIRED] 
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_RETIRED_ZH.md)
 
