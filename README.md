@@ -1,6 +1,6 @@
-
-
-![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png)
+<div style="text-align: center;">
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
+</div>
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 <div>
