@@ -2,7 +2,7 @@
 # RangeSeekBar
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
-<div align="center">
+<div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
 </div>
 
@@ -15,7 +15,7 @@
 
 ## Usage
 
-### dependencies：
+### Dependencies
 
 ```xml
     allprojects {
@@ -26,13 +26,13 @@
 	}
 
 	dependencies {
-	        compile 'com.github.Jay-Goo:RangeSeekBar:v2.0.0'
+	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.0'
 	}
 
 ```
 
 
-### RangeSeekBar：
+### RangeSeekBar
 ```
  <com.jaygoo.widget.RangeSeekBar
         android:layout_width="match_parent"
@@ -41,7 +41,7 @@
         />
 ```
 
-### VerticalRangeSeekBar：
+### VerticalRangeSeekBar
 ```
   <com.jaygoo.widget.VerticalRangeSeekBar
         android:layout_width="50dp"
@@ -50,11 +50,14 @@
 	app:rsb_orientation="right"
         />
 ```
+`VerticalRangeSeekBar` rotates `RangeSeekBar` 90 degrees, and its attribute usage is same as `RangeSeekBar` .The only difference is  the 
+`rsb_orientation`, it controls the direction of rotation.
+
 ##  Attributes
  If you want to know more attributes's usage , please to see [attrs](https://github.com/Jay-Goo/RangeSeekBar/blob/master/RangeSeekBar/src/main/res/values/attrs.xml)
 
 ## WIKI
-You can know more information from wiki.
+You can know more information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
 
 ## Give Me A Star
 I hope you like RangeSeekBar. `Star` is the greatest support for me！ Thank you !
