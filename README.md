@@ -1,5 +1,6 @@
 
-# RangeSeekBar
+
+![image](https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png)
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 <div>
@@ -59,9 +60,12 @@
 ## WIKI
 You can know more information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
 
-## Give Me A Star
-I hope you like RangeSeekBar. `Star` is the greatest support for me！ Thank you !
+## Give me a Star
+Hope you like RangeSeekBar. `Star` is the greatest support for me！ Thank you !
 
+## License
 
+Copyright 2018 JayGoo
 
+Licensed under the Apache License.
 
