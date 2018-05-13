@@ -2,6 +2,8 @@
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
 </div>
 
+[![](https://jitpack.io/v/JinJieGu/RangeSeekBar.svg)](https://jitpack.io/#JinJieGu/RangeSeekBar)
+
 <div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
 </div>
@@ -26,7 +28,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.0'
+	        implementation 'com.github.JinJieGu:RangeSeekBar:v2.0.0'
 	}
 
 ```
