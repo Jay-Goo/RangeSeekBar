@@ -60,6 +60,10 @@
 
 ## WIKI
 你可以从[wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki)获取更多的信息和用法.
+### [属性方法](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
+### [常见问题](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
+### [更新日志](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
+### [贡献者](https://github.com/Jay-Goo/RangeSeekBar/wiki/Contributors)
 
 ## 给我个Star吧
 真心希望你能喜欢RangeSeekBar， `Star` 是对我最大的支持，谢谢！
