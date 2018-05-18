@@ -2,7 +2,7 @@
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
 </div>
 
-[![](https://jitpack.io/v/JinJieGu/RangeSeekBar.svg)](https://jitpack.io/#JinJieGu/RangeSeekBar)
+[![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
 <div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
