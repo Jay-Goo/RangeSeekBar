@@ -61,6 +61,10 @@
 
 ## WIKI
 You can know more information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
+### [Attribute methods](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
+### [FAQ](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
+### [Change Log](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
+### [Contributors](https://github.com/Jay-Goo/RangeSeekBar/wiki/Contributors)
 
 ## Give me a Star
 Hope you like RangeSeekBar. `Star` is the greatest support for me！ Thank you !
