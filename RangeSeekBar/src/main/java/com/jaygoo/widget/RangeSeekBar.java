@@ -741,12 +741,20 @@ public class RangeSeekBar extends View {
         this.progressHeight = progressHeight;
     }
 
-    public float getMaxValue() {
+    public float getMinProgress() {
+        return minProgress;
+    }
+
+    public void setMinProgress(float minProgress) {
+        this.minProgress = minProgress;
+    }
+
+    public float getMaxProgress() {
         return maxProgress;
     }
 
-    public float getMinValue() {
-        return minProgress;
+    public void setMaxProgress(float maxProgress) {
+        this.maxProgress = maxProgress;
     }
 
     public void setValue(float value) {
