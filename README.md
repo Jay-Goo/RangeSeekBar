@@ -29,7 +29,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.JinJieGu:RangeSeekBar:v2.0.0'
+	        implementation 'com.github.JinJieGu:RangeSeekBar:v2.0.1'
 	}
 
 ```
