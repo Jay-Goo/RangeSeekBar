@@ -1,6 +1,7 @@
 package com.jaygoo.demo;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -22,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         initView();
         seekbar1.setValue(90);
+        seekbar2.setTypeface(Typeface.DEFAULT_BOLD);
+        seekbar2.getLeftSeekBar().setTypeface(Typeface.DEFAULT_BOLD);
         seekbar2.setValue(-0.5f,0.8f);
         seekbar2.setIndicatorTextDecimalFormat("0.00");
         seekbar4.setIndicatorTextDecimalFormat("0");

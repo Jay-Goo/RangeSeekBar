@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 
@@ -511,6 +512,10 @@ public class SeekBar {
 
     protected void setActivate(boolean activate) {
         isActivate = activate;
+    }
+
+    public void setTypeface(Typeface typeFace){
+        paint.setTypeface(typeFace);
     }
 
 

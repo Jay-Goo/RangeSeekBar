@@ -5,8 +5,8 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
+import android.graphics.Typeface;
 import android.os.Parcelable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -276,7 +276,6 @@ public class RangeSeekBar extends View {
         paint.setTextSize(tickMarkTextSize);
     }
 
-
     public void setValue(float min, float max) {
         min = min + offsetValue;
         max = max + offsetValue;
@@ -399,12 +398,12 @@ public class RangeSeekBar extends View {
         }
 
         SeekBarState rightSeekBarState = new SeekBarState();
-        rightSeekBarState.value = range;
         if (rightSB != null) {
+            rightSeekBarState.value = -offsetValue + minPositiveValue + range * rightSB.currPercent;
             if (tickMarkNumber > 1){
                 int index = (int)Math.floor(rightSB.currPercent * tickMarkNumber);
                 if (tickMarkTextArray != null && index >= 0 && index < tickMarkTextArray.length) {
-                    leftSeekBarState.indicatorText = tickMarkTextArray[index].toString();
+                    rightSeekBarState.indicatorText = tickMarkTextArray[index].toString();
                 }
                 if (index == 0){
                     rightSeekBarState.isMin = true;
@@ -412,7 +411,6 @@ public class RangeSeekBar extends View {
                     rightSeekBarState.isMax = true;
                 }
             }else {
-                rightSeekBarState.value = - offsetValue + minPositiveValue + range * rightSB.currPercent;
                 rightSeekBarState.indicatorText = (new StringBuffer().append(rightSeekBarState.value)).toString();
                 if (Utils.compareFloat(rightSB.currPercent, 0f) == 0){
                     rightSeekBarState.isMin = true;
@@ -878,5 +876,7 @@ public class RangeSeekBar extends View {
         this.seekBarMode = seekBarMode;
     }
 
-
+    public void setTypeface(Typeface typeFace){
+        paint.setTypeface(typeFace);
+    }
 }
