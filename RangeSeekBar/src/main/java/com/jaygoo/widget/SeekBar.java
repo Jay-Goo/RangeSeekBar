@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -51,11 +52,14 @@ public class SeekBar {
     private int indicatorArrowSize;
     private int indicatorTextSize;
     private int indicatorTextColor;
+    private float indicatorRadius;
     private int indicatorBackgroundColor;
     private int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
     private int thumbDrawableId;
     private int thumbInactivatedDrawableId;
     private int thumbSize;
+    //when you touch or move, the thumb will scale, default not scale
+    private float thumbScaleRatio;
 
     //****************** the above is attr value  ******************//
 
@@ -107,6 +111,8 @@ public class SeekBar {
         thumbDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_drawable, R.drawable.rsb_default_thumb);
         thumbInactivatedDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_inactivated_drawable, 0);
         thumbSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_size, Utils.dp2px(getContext(),26));
+        thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
+        indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
         t.recycle();
     }
 
@@ -146,11 +152,15 @@ public class SeekBar {
      * @param parentLineWidth the RangSeerBar progress line width
      */
     protected void onSizeChanged(int x, int y, int parentLineWidth) {
+        initVariables();
+        initBitmap();
         left = x - thumbSize / 2;
         right = x + thumbSize / 2;
         top = y - thumbSize / 2;
         bottom = y + thumbSize / 2;
         lineWidth = parentLineWidth;
+
+
     }
 
     /**
@@ -211,6 +221,8 @@ public class SeekBar {
         //draw indicator background
         if (indicatorBitmap != null){
             Utils.drawNinePath(canvas, indicatorBitmap, indicatorRect);
+        }else if (indicatorRadius > 0f){
+            canvas.drawRoundRect(new RectF(indicatorRect), indicatorRadius, indicatorRadius, paint);
         }else {
             canvas.drawRect(indicatorRect, paint);
         }
@@ -519,4 +531,11 @@ public class SeekBar {
     }
 
 
+    /**
+     * when you touch or move, the thumb will scale, default not scale
+     * @return default 1.0f
+     */
+    public float getThumbScaleRatio() {
+        return thumbScaleRatio;
+    }
 }

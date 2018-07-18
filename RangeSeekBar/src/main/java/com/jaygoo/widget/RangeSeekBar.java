@@ -94,6 +94,7 @@ public class RangeSeekBar extends View {
 //    private float offsetValue;
 //    private float maxPositiveValue, minPositiveValue;
     private boolean isEnable = true;
+    private boolean isScaleThumb = false;
     private Paint paint = new Paint();
     private RectF backgroundLineRect = new RectF();
     private RectF foregroundLineRect = new RectF();
@@ -122,13 +123,17 @@ public class RangeSeekBar extends View {
 
         setRange(minProgress, maxProgress, rangeInterval, tickMarkNumber);
 
+        initProgressLine();
+    }
+
+    private void initProgressLine() {
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
         //Android7.0以上：onMeasure--->onSizeChanged
         if (rightSB == null){
-            lineTop = leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() / 2 - progressHeight / 2;
+            lineTop = (int) (leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2 - progressHeight / 2);
         }else {
-            lineTop = Math.max(leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() / 2, rightSB.getIndicatorHeight() + rightSB.getIndicatorArrowSize() + rightSB.getThumbSize() / 2) - progressHeight / 2;
+            lineTop = (int) (Math.max(leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2, rightSB.getIndicatorHeight() + rightSB.getIndicatorArrowSize() + rightSB.getThumbSize() / 2) - progressHeight / 2);
         }
         lineBottom = lineTop + progressHeight;
         //default value
@@ -508,6 +513,29 @@ public class RangeSeekBar extends View {
         return event.getY();
     }
 
+    /**
+     * scale the touch seekBar thumb
+     */
+    private void scaleCurrentSeekBarThumb(){
+        if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && !isScaleThumb) {
+            isScaleThumb = true;
+            currTouchSB.setThumbSize((int) (currTouchSB.getThumbSize() * currTouchSB.getThumbScaleRatio()));
+            currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
+        }
+    }
+
+    /**
+     * reset the touch seekBar thumb
+     */
+    private void resetCurrentSeekBarThumb(){
+        if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && isScaleThumb) {
+            isScaleThumb = false;
+            currTouchSB.setThumbSize((int) (currTouchSB.getThumbSize() / currTouchSB.getThumbScaleRatio()));
+            currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
+
+        }
+    }
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnable) return true;
@@ -518,12 +546,15 @@ public class RangeSeekBar extends View {
                 if (rightSB != null && rightSB.currPercent >= 1 && leftSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = leftSB;
                     touchResult = true;
+                    scaleCurrentSeekBarThumb();
                 } else if (rightSB != null && rightSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = rightSB;
                     touchResult = true;
+                    scaleCurrentSeekBarThumb();
                 } else if (leftSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = leftSB;
                     touchResult = true;
+                    scaleCurrentSeekBarThumb();
                 }
                 //Intercept parent TouchEvent
                 if (getParent() != null) {
@@ -544,10 +575,22 @@ public class RangeSeekBar extends View {
                     }
                     if (x - touchDownX > 0) {
                         //method to move right
-                        currTouchSB = rightSB;
+                        if (currTouchSB != rightSB) {
+                            resetCurrentSeekBarThumb();
+                            currTouchSB = rightSB;
+                            scaleCurrentSeekBarThumb();
+                        }else {
+                            currTouchSB = rightSB;
+                        }
                     } else {
                         //method to move left
-                        currTouchSB = leftSB;
+                        if (currTouchSB != leftSB) {
+                            resetCurrentSeekBarThumb();
+                            currTouchSB = leftSB;
+                            scaleCurrentSeekBarThumb();
+                        }else {
+                            currTouchSB = leftSB;
+                        }
                     }
                     if (callback != null) {
                         callback.onStartTrackingTouch(this, currTouchSB == leftSB);
@@ -641,6 +684,11 @@ public class RangeSeekBar extends View {
                 if (rightSB != null) {
                     rightSB.setShowIndicatorEnable(false);
                 }
+                if (currTouchSB == leftSB){
+                    resetCurrentSeekBarThumb();
+                }else if (currTouchSB == rightSB){
+                    resetCurrentSeekBarThumb();
+                }
                 leftSB.setShowIndicatorEnable(false);
                 if (callback != null) {
                     SeekBarState[] states = getRangeSeekBarState();
@@ -658,6 +706,7 @@ public class RangeSeekBar extends View {
                 }
                 leftSB.setShowIndicatorEnable(false);
                 currTouchSB.materialRestore();
+                resetCurrentSeekBarThumb();
                 if (callback != null) {
                     SeekBarState[] states = getRangeSeekBarState();
                     callback.onRangeChanged(this, states[0].value, states[1].value, false);
@@ -891,4 +940,6 @@ public class RangeSeekBar extends View {
     public void setTypeface(Typeface typeFace){
         paint.setTypeface(typeFace);
     }
+
+
 }

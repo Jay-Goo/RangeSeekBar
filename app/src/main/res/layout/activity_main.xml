@@ -33,6 +33,7 @@
         app:rsb_indicator_height="20dp"
         app:rsb_indicator_width="80dp"
         app:rsb_indicator_show_mode="alwaysShow"
+        app:rsb_indicator_radius="8dp"
         />
 
     <com.jaygoo.widget.RangeSeekBar
@@ -58,7 +59,7 @@
         app:rsb_indicator_show_mode="showWhenTouch"
         app:rsb_thumb_drawable="@drawable/thumb_activated"
         app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
-
+        app:rsb_thumb_scale_ratio="1.2"
         />
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"
@@ -83,6 +84,7 @@
         app:rsb_indicator_show_mode="showWhenTouch"
         app:rsb_thumb_size="20dp"
         app:rsb_indicator_margin="3dp"
+        app:rsb_thumb_scale_ratio="1.5"
         app:rsb_thumb_drawable="@drawable/thumb_gradient"
         />
     <com.jaygoo.widget.RangeSeekBar
