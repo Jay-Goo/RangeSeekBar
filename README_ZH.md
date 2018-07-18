@@ -28,7 +28,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.2'
+	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
 	}
 
 ```
@@ -60,8 +60,8 @@
 
 ## WIKI
 你可以从[wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki)获取更多的信息和用法.
+### [快速入门](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
 ### [属性方法](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
-### [常见问题](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
 ### [更新日志](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
 ### [贡献者](https://github.com/Jay-Goo/RangeSeekBar/wiki/Contributors)
 
