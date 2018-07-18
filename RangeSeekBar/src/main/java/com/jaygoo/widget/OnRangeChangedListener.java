@@ -9,7 +9,7 @@ package com.jaygoo.widget;
  * ================================================
  */
 public interface OnRangeChangedListener {
-    void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser);
+    void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser);
 
     void onStartTrackingTouch(RangeSeekBar view, boolean isLeft);
 

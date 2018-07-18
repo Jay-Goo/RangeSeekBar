@@ -15,25 +15,24 @@ import com.jaygoo.widget.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RangeSeekBar seekbar1, seekbar2, seekbar4, seekbar5;
+    private RangeSeekBar seekbar1, seekbar2, seekbar3, seekbar4, seekbar5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-        seekbar1.setValue(90);
+
         seekbar2.setTypeface(Typeface.DEFAULT_BOLD);
         seekbar2.getLeftSeekBar().setTypeface(Typeface.DEFAULT_BOLD);
-        seekbar2.setValue(-0.5f,0.8f);
         seekbar2.setIndicatorTextDecimalFormat("0.00");
         seekbar4.setIndicatorTextDecimalFormat("0");
         seekbar5.setIndicatorTextStringFormat("你是%s吗");
 
         seekbar1.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
-            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
-                seekbar1.setIndicatorText((int)min+"");
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                seekbar1.setIndicatorText((int)leftValue+"");
             }
 
             @Override
@@ -49,7 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         seekbar2.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
-            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+
             }
 
             @Override
@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
         seekbar4.setOnRangeChangedListener(new OnRangeChangedListener() {
             @Override
-            public void onRangeChanged(RangeSeekBar view, float min, float max, boolean isFromUser) {
-                if (min <= 50){
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                if (leftValue <= 50){
                     view.setProgressColor(getResources().getColor(R.color.colorAccent));
                     view.getLeftSeekBar().setThumbDrawableId(R.drawable.thumb_activated);
                     view.getLeftSeekBar().setIndicatorBackgroundColor(getResources().getColor(R.color.colorAccent));
@@ -87,6 +87,28 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        seekbar5.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+        });
+
+        seekbar1.setValue(90);
+        seekbar2.setValue(-0.5f,0.8f);
+        seekbar3.setValue(-26, 90);
+        seekbar5.setValue(25, 75);
     }
 
     private void initView(){
@@ -101,10 +123,11 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-        seekbar1 = (RangeSeekBar)findViewById(R.id.seekbar1);
-        seekbar2 = (RangeSeekBar)findViewById(R.id.seekbar2);
-        seekbar4 = (RangeSeekBar)findViewById(R.id.seekbar4);
-        seekbar5 = (RangeSeekBar)findViewById(R.id.seekbar5);
+        seekbar1 = findViewById(R.id.seekbar1);
+        seekbar2 = findViewById(R.id.seekbar2);
+        seekbar3 = findViewById(R.id.seekbar3);
+        seekbar4 = findViewById(R.id.seekbar4);
+        seekbar5 = findViewById(R.id.seekbar5);
     }
 
 }

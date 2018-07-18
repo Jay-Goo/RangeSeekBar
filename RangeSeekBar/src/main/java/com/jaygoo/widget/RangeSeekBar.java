@@ -57,10 +57,6 @@ public class RangeSeekBar extends View {
     //The texts displayed on the scale
     private CharSequence[] tickMarkTextArray;
 
-    //两个按钮之间的最小距离
-    //The minimum distance between two buttons
-    private int reserveCount;
-
     //进度条圆角
     //radius of progress bar
     private float progressRadius;
@@ -79,6 +75,8 @@ public class RangeSeekBar extends View {
     //the range interval of RangeSeekBar
     private float rangeInterval;
 
+    private int minRangeCells;
+
     //用户设置的真实的最大值和最小值
     //True values set by the user
     private float minProgress, maxProgress;
@@ -93,8 +91,8 @@ public class RangeSeekBar extends View {
     private float cellsPercent;
     private float reservePercent;
     // if min < 0
-    private float offsetValue;
-    private float maxPositiveValue, minPositiveValue;
+//    private float offsetValue;
+//    private float maxPositiveValue, minPositiveValue;
     private boolean isEnable = true;
     private Paint paint = new Paint();
     private RectF backgroundLineRect = new RectF();
@@ -103,6 +101,7 @@ public class RangeSeekBar extends View {
     private SeekBar rightSB;
     private SeekBar currTouchSB;
     private OnRangeChangedListener callback;
+
 
     public RangeSeekBar(Context context) {
         this(context, null);
@@ -121,7 +120,7 @@ public class RangeSeekBar extends View {
             rightSB = null;
         }
 
-        setRangeRules(minProgress, maxProgress, rangeInterval, tickMarkNumber);
+        setRange(minProgress, maxProgress, rangeInterval, tickMarkNumber);
 
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
@@ -276,82 +275,107 @@ public class RangeSeekBar extends View {
         paint.setTextSize(tickMarkTextSize);
     }
 
-    public void setValue(float min, float max) {
-        min = min + offsetValue;
-        max = max + offsetValue;
+    public void setValue(float value) {
+        setValue(value, maxProgress);
+    }
 
-        if (min < minPositiveValue) {
-            throw new IllegalArgumentException("setValue() min < (preset min - offsetValue) . #min:" + min + " #preset min:" + minPositiveValue + " #offsetValue:" + offsetValue);
+    public void setValue(float leftValue, float rightValue) {
+        leftValue = Math.min(leftValue, rightValue);
+        rightValue = Math.max(leftValue, rightValue);
+        if (rightValue - leftValue < rangeInterval){
+            leftValue = rightValue - rangeInterval;
         }
-        if (max > maxPositiveValue) {
-            throw new IllegalArgumentException("setValue() max > (preset max - offsetValue) . #max:" + max + " #preset max:" + maxPositiveValue + " #offsetValue:" + offsetValue);
+        if (leftValue < minProgress) {
+            throw new IllegalArgumentException("setValue() min < (preset min - offsetValue) . #min:" + leftValue + " #preset min:" + rightValue );
+        }
+        if (rightValue > maxProgress) {
+            throw new IllegalArgumentException("setValue() max > (preset max - offsetValue) . #max:" + rightValue + " #preset max:"  + rightValue );
         }
 
-        if (reserveCount > 1) {
-            if ((min - minPositiveValue) % reserveCount != 0) {
-                throw new IllegalArgumentException("setValue() (min - preset min) % reserveCount != 0 . #min:" + min + " #preset min:" + minPositiveValue + "#reserveCount:" + reserveCount + "#rangeInterval:" + rangeInterval);
+        float range = maxProgress - minProgress;
+
+        if (tickMarkNumber > 1) {
+            int percent = (int)(range / tickMarkNumber);
+            if ((int)Math.abs(leftValue - minProgress) % percent != 0 || (int)Math.abs(rightValue - minProgress) % percent != 0 ){
+                throw new IllegalArgumentException("The current value must be at the equal point");
             }
-            if ((max - minPositiveValue) % reserveCount != 0) {
-                throw new IllegalArgumentException("setValue() (max - preset min) % reserveCount != 0 . #max:" + max + " #preset min:" + minPositiveValue + "#reserveCount:" + reserveCount + "#rangeInterval:" + rangeInterval);
-            }
-            leftSB.currPercent = (min - minPositiveValue) / reserveCount * cellsPercent;
+            leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
             if (rightSB != null) {
-                rightSB.currPercent = (max - minPositiveValue) / reserveCount * cellsPercent;
+                rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
             }
         } else {
-            leftSB.currPercent = (min - minPositiveValue) / (maxPositiveValue - minPositiveValue);
+            leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
             if (rightSB != null) {
-                rightSB.currPercent = (max - minPositiveValue) / (maxPositiveValue - minPositiveValue);
+                rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
             }
         }
+
         if (callback != null) {
-            if (rightSB != null) {
-                callback.onRangeChanged(this, leftSB.currPercent, rightSB.currPercent, false);
-            } else {
-                callback.onRangeChanged(this, leftSB.currPercent, leftSB.currPercent, false);
-            }
+            callback.onRangeChanged(this, leftValue, rightValue, false);
         }
         invalidate();
     }
 
 
-    public void setRangeRules(float min, float max, float reserve, int tickMarkNumber) {
+    /**
+     * 设置范围
+     * @param min 最小值
+     * @param max 最大值
+     */
+    public void setRange(float min, float max) {
+        setRange(min, max, rangeInterval, tickMarkNumber);
+    }
+
+    /**
+     * 设置范围
+     * @param min 最小值
+     * @param max 最大值
+     * @param interval 最小间隔 minimum interval
+     */
+    public void setRange(float min, float max, float interval) {
+        setRange(min, max, interval, tickMarkNumber);
+    }
+
+    /**
+     * 设置范围
+     * @param min 最小值
+     * @param max 最大值
+     * @param interval 最小间隔
+     * @param tickMarkNumber  默认为1，当大于1时自动切回刻度模式
+     * The default is 1, and when it is greater than 1
+     * it will automatically switch back to the scale mode
+     */
+    public void setRange(float min, float max, float interval, int tickMarkNumber) {
         if (max <= min) {
-            throw new IllegalArgumentException("setRangeRules() max must be greater than min ! #max:" + max + " #min:" + min);
+            throw new IllegalArgumentException("setRange() max must be greater than min ! #max:" + max + " #min:" + min);
         }
-        if (reserve < 0) {
-            throw new IllegalArgumentException("setRangeRules() reserve must be greater than zero ! #reserve:" + reserve);
+        if (interval < 0) {
+            throw new IllegalArgumentException("setRange() interval must be greater than zero ! #interval:" + interval);
         }
-        if (reserve >= max - min) {
-            throw new IllegalArgumentException("setRangeRules() reserve must be less than (max - min) ! #reserve:" + reserve + " #max - min:" + (max - min));
+        if (interval >= max - min) {
+            throw new IllegalArgumentException("setRange() interval must be less than (max - min) ! #interval:" + interval + " #max - min:" + (max - min));
         }
         if (tickMarkNumber < 1) {
-            throw new IllegalArgumentException("setRangeRules() tickMarkNumber must be greater than 1 ! #tickMarkNumber:" + tickMarkNumber);
+            throw new IllegalArgumentException("setRange() tickMarkNumber must be greater than 1 ! #tickMarkNumber:" + tickMarkNumber);
         }
         maxProgress = max;
         minProgress = min;
-        if (min < 0) {
-            offsetValue = 0 - min;
-            min = min + offsetValue;
-            max = max + offsetValue;
-        }
-        minPositiveValue = min;
-        maxPositiveValue = max;
         this.tickMarkNumber = tickMarkNumber;
         cellsPercent = 1f / tickMarkNumber;
-        rangeInterval = reserve;
-        reservePercent = reserve / (max - min);
-        reserveCount = (int) (reservePercent / cellsPercent + (reservePercent % cellsPercent != 0 ? 1 : 0));
+        rangeInterval = interval;
+        reservePercent = interval / (max - min);
+        minRangeCells = (int) (reservePercent / cellsPercent + (reservePercent % cellsPercent != 0 ? 1 : 0));
+
         if (tickMarkNumber > 1) {
             if (rightSB != null) {
-                if (leftSB.currPercent + cellsPercent * reserveCount <= 1 && leftSB.currPercent + cellsPercent * reserveCount > rightSB.currPercent) {
-                    rightSB.currPercent = leftSB.currPercent + cellsPercent * reserveCount;
-                } else if (rightSB.currPercent - cellsPercent * reserveCount >= 0 && rightSB.currPercent - cellsPercent * reserveCount < leftSB.currPercent) {
-                    leftSB.currPercent = rightSB.currPercent - cellsPercent * reserveCount;
+                if (leftSB.currPercent + cellsPercent * minRangeCells  <= 1 && leftSB.currPercent + cellsPercent * minRangeCells  > rightSB.currPercent) {
+                    rightSB.currPercent = leftSB.currPercent + cellsPercent * minRangeCells ;
+                } else if (rightSB.currPercent - cellsPercent * minRangeCells  >= 0 && rightSB.currPercent - cellsPercent * minRangeCells  < leftSB.currPercent) {
+                    leftSB.currPercent = rightSB.currPercent - cellsPercent * minRangeCells ;
                 }
             } else {
-                if (1 - cellsPercent * reserveCount >= 0 && 1 - cellsPercent * reserveCount < leftSB.currPercent) {
-                    leftSB.currPercent = 1 - cellsPercent * reserveCount;
+                if (1 - cellsPercent * minRangeCells  >= 0 && 1 - cellsPercent * minRangeCells  < leftSB.currPercent) {
+                    leftSB.currPercent = 1 - cellsPercent * minRangeCells;
                 }
             }
         } else {
@@ -374,9 +398,9 @@ public class RangeSeekBar extends View {
      * @return the two seekBar state , see {@link SeekBarState}
      */
     public SeekBarState[] getRangeSeekBarState() {
-        float range = maxPositiveValue - minPositiveValue;
+        float range = maxProgress - minProgress;
         SeekBarState leftSeekBarState = new SeekBarState();
-        leftSeekBarState.value = -offsetValue + minPositiveValue + range * leftSB.currPercent;
+        leftSeekBarState.value = minProgress + range * leftSB.currPercent;
         if (tickMarkNumber > 1){
             int index = (int)Math.floor(leftSB.currPercent * tickMarkNumber);
             if (tickMarkTextArray != null && index >= 0 && index < tickMarkTextArray.length) {
@@ -399,7 +423,7 @@ public class RangeSeekBar extends View {
 
         SeekBarState rightSeekBarState = new SeekBarState();
         if (rightSB != null) {
-            rightSeekBarState.value = -offsetValue + minPositiveValue + range * rightSB.currPercent;
+            rightSeekBarState.value = minProgress + range * rightSB.currPercent;
             if (tickMarkNumber > 1){
                 int index = (int)Math.floor(rightSB.currPercent * tickMarkNumber);
                 if (tickMarkTextArray != null && index >= 0 && index < tickMarkTextArray.length) {
@@ -546,7 +570,7 @@ public class RangeSeekBar extends View {
                             currRightCellsValue = Math.round(1.0f / cellsPercent);
                         }
                         percent = touchLeftCellsValue * cellsPercent;
-                        while (touchLeftCellsValue > currRightCellsValue - reserveCount) {
+                        while (touchLeftCellsValue > currRightCellsValue - minRangeCells) {
                             touchLeftCellsValue--;
                             if (touchLeftCellsValue < 0) break;
                             percent = touchLeftCellsValue * cellsPercent;
@@ -584,9 +608,9 @@ public class RangeSeekBar extends View {
                         int currLeftCellsValue = Math.round(leftSB.currPercent / cellsPercent);
                         percent = touchRightCellsValue * cellsPercent;
 
-                        while (touchRightCellsValue < currLeftCellsValue + reserveCount) {
+                        while (touchRightCellsValue < currLeftCellsValue + minRangeCells) {
                             touchRightCellsValue++;
-                            if (touchRightCellsValue > maxPositiveValue - minPositiveValue) break;
+                            if (touchRightCellsValue > (maxProgress - minProgress)) break;
                             percent = touchRightCellsValue * cellsPercent;
                         }
                     } else {
@@ -655,8 +679,8 @@ public class RangeSeekBar extends View {
     public Parcelable onSaveInstanceState() {
         Parcelable superState = super.onSaveInstanceState();
         SavedState ss = new SavedState(superState);
-        ss.minValue = minPositiveValue - offsetValue;
-        ss.maxValue = maxPositiveValue - offsetValue;
+        ss.minValue = minProgress;
+        ss.maxValue = maxProgress;
         ss.rangeInterval = rangeInterval;
         ss.tickNumber = tickMarkNumber;
         SeekBarState[] results = getRangeSeekBarState();
@@ -673,7 +697,7 @@ public class RangeSeekBar extends View {
         float max = ss.maxValue;
         float rangeInterval = ss.rangeInterval;
         int tickNumber = ss.tickNumber;
-        setRangeRules(min, max, rangeInterval, tickNumber);
+        setRange(min, max, rangeInterval, tickNumber);
         float currSelectedMin = ss.currSelectedMin;
         float currSelectedMax = ss.currSelectedMax;
         setValue(currSelectedMin, currSelectedMax);
@@ -743,20 +767,8 @@ public class RangeSeekBar extends View {
         return minProgress;
     }
 
-    public void setMinProgress(float minProgress) {
-        this.minProgress = minProgress;
-    }
-
     public float getMaxProgress() {
         return maxProgress;
-    }
-
-    public void setMaxProgress(float maxProgress) {
-        this.maxProgress = maxProgress;
-    }
-
-    public void setValue(float value) {
-        setValue(value, maxProgress);
     }
 
     public void setProgressColor(int progressDefaultColor, int progressColor) {
