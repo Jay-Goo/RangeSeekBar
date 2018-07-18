@@ -29,7 +29,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.1'
+	        implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.2'
 	}
 
 ```
@@ -60,7 +60,7 @@
  If you want to know more attributes's usage , please to see [attrs](https://github.com/Jay-Goo/RangeSeekBar/blob/master/RangeSeekBar/src/main/res/values/attrs.xml)
 
 ## WIKI
-You can know more information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
+You can know more usage and information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
 ### [Attribute methods](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
 ### [FAQ](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
 ### [Change Log](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
