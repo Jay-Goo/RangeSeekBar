@@ -63,8 +63,8 @@
 
 ## WIKI
 You can know more usage and information from [wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki).
+### [Quickly Start](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
 ### [Attribute methods](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
-### [FAQ](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
 ### [Change Log](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
 ### [Contributors](https://github.com/Jay-Goo/RangeSeekBar/wiki/Contributors)
 
