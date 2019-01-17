@@ -3,6 +3,7 @@
 </div>
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
+
 [![](https://jitpack.io/v/fa-hessari/RangeSeekBar.svg)](https://jitpack.io/#fa-hessari/RangeSeekBar)
 
 <div>
