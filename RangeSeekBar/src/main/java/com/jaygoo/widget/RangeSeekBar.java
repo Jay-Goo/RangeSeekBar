@@ -113,13 +113,9 @@ public class RangeSeekBar extends View {
         initAttrs(attrs);
         initPaint();
 
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            leftSB = new SeekBar(this, attrs, true);
-            rightSB = new SeekBar(this, attrs, false);
-        } else {
-            leftSB = new SeekBar(this, attrs, true);
-            rightSB = null;
-        }
+        leftSB = new SeekBar(this, attrs, true);
+        rightSB = new SeekBar(this, attrs, false);
+        rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
 
         setRange(minProgress, maxProgress, rangeInterval, tickMarkNumber);
 
@@ -130,7 +126,7 @@ public class RangeSeekBar extends View {
         //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
         //Android7.0以上：onMeasure--->onSizeChanged
-        if (rightSB == null){
+        if (seekBarMode == SEEKBAR_MODE_SINGLE){
             lineTop = (int) (leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2 - progressHeight / 2);
         }else {
             lineTop = (int) (Math.max(leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2, rightSB.getIndicatorHeight() + rightSB.getIndicatorArrowSize() + rightSB.getThumbSize() / 2) - progressHeight / 2);
@@ -198,7 +194,7 @@ public class RangeSeekBar extends View {
         linePaddingRight = w - lineRight;
         backgroundLineRect.set(getLineLeft(), getLineTop(), getLineRight(), getLineBottom());
         leftSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
-        if (rightSB != null) {
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
         }
     }
@@ -266,7 +262,7 @@ public class RangeSeekBar extends View {
         leftSB.draw(canvas);
 
         //draw right SeekBar
-        if (rightSB != null) {
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
             if (rightSB.getIndicatorShowMode() == INDICATOR_MODE_ALWAYS_SHOW) {
                 rightSB.setShowIndicatorEnable(true);
             }
@@ -305,12 +301,12 @@ public class RangeSeekBar extends View {
                 throw new IllegalArgumentException("The current value must be at the equal point");
             }
             leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
-            if (rightSB != null) {
+            if (seekBarMode == SEEKBAR_MODE_RANGE) {
                 rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
             }
         } else {
             leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
-            if (rightSB != null) {
+            if (seekBarMode == SEEKBAR_MODE_RANGE) {
                 rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
             }
         }
@@ -372,7 +368,7 @@ public class RangeSeekBar extends View {
         minRangeCells = (int) (reservePercent / cellsPercent + (reservePercent % cellsPercent != 0 ? 1 : 0));
 
         if (tickMarkNumber > 1) {
-            if (rightSB != null) {
+            if (seekBarMode == SEEKBAR_MODE_RANGE) {
                 if (leftSB.currPercent + cellsPercent * minRangeCells  <= 1 && leftSB.currPercent + cellsPercent * minRangeCells  > rightSB.currPercent) {
                     rightSB.currPercent = leftSB.currPercent + cellsPercent * minRangeCells ;
                 } else if (rightSB.currPercent - cellsPercent * minRangeCells  >= 0 && rightSB.currPercent - cellsPercent * minRangeCells  < leftSB.currPercent) {
@@ -384,7 +380,7 @@ public class RangeSeekBar extends View {
                 }
             }
         } else {
-            if (rightSB != null) {
+            if (seekBarMode == SEEKBAR_MODE_RANGE) {
                 if (leftSB.currPercent + reservePercent <= 1 && leftSB.currPercent + reservePercent > rightSB.currPercent) {
                     rightSB.currPercent = leftSB.currPercent + reservePercent;
                 } else if (rightSB.currPercent - reservePercent >= 0 && rightSB.currPercent - reservePercent < leftSB.currPercent) {
@@ -427,7 +423,7 @@ public class RangeSeekBar extends View {
         }
 
         SeekBarState rightSeekBarState = new SeekBarState();
-        if (rightSB != null) {
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSeekBarState.value = minProgress + range * rightSB.currPercent;
             if (tickMarkNumber > 1){
                 int index = (int)Math.floor(rightSB.currPercent * tickMarkNumber);
@@ -460,10 +456,8 @@ public class RangeSeekBar extends View {
     }
 
     public void setIndicatorText(String progress) {
-        if (leftSB != null) {
-            leftSB.setIndicatorText(progress);
-        }
-        if (rightSB != null) {
+        leftSB.setIndicatorText(progress);
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSB.setIndicatorText(progress);
         }
     }
@@ -473,10 +467,8 @@ public class RangeSeekBar extends View {
      * @param formatPattern format rules
      */
     public void setIndicatorTextDecimalFormat(String formatPattern){
-        if (leftSB != null){
-            leftSB.setIndicatorTextDecimalFormat(formatPattern);
-        }
-        if (rightSB != null){
+        leftSB.setIndicatorTextDecimalFormat(formatPattern);
+        if (seekBarMode == SEEKBAR_MODE_RANGE){
             rightSB.setIndicatorTextDecimalFormat(formatPattern);
         }
     }
@@ -486,10 +478,8 @@ public class RangeSeekBar extends View {
      * @param formatPattern format rules
      */
     public void setIndicatorTextStringFormat(String formatPattern){
-        if (leftSB != null){
-            leftSB.setIndicatorTextStringFormat(formatPattern);
-        }
-        if (rightSB != null){
+        leftSB.setIndicatorTextStringFormat(formatPattern);
+        if (seekBarMode == SEEKBAR_MODE_RANGE){
             rightSB.setIndicatorTextStringFormat(formatPattern);
         }
     }
@@ -497,11 +487,11 @@ public class RangeSeekBar extends View {
     private void changeThumbActivateState(boolean hasActivate){
         if (hasActivate && currTouchSB != null){
             boolean state = currTouchSB == leftSB;
-            if (leftSB != null) leftSB.setActivate(state);
-            if (rightSB != null) rightSB.setActivate(!state);
+            leftSB.setActivate(state);
+            if (seekBarMode == SEEKBAR_MODE_RANGE) rightSB.setActivate(!state);
         }else {
-            if (leftSB != null) leftSB.setActivate(false);
-            if (rightSB != null) rightSB.setActivate(false);
+            leftSB.setActivate(false);
+            if (seekBarMode == SEEKBAR_MODE_RANGE) rightSB.setActivate(false);
         }
     }
 
@@ -543,11 +533,11 @@ public class RangeSeekBar extends View {
             case MotionEvent.ACTION_DOWN:
                 touchDownX = getEventX(event);
                 boolean touchResult = false;
-                if (rightSB != null && rightSB.currPercent >= 1 && leftSB.collide(getEventX(event), getEventY(event))) {
+                if (seekBarMode == SEEKBAR_MODE_RANGE && rightSB.currPercent >= 1 && leftSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = leftSB;
                     touchResult = true;
                     scaleCurrentSeekBarThumb();
-                } else if (rightSB != null && rightSB.collide(getEventX(event), getEventY(event))) {
+                } else if (seekBarMode == SEEKBAR_MODE_RANGE && rightSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = rightSB;
                     touchResult = true;
                     scaleCurrentSeekBarThumb();
@@ -568,7 +558,7 @@ public class RangeSeekBar extends View {
             case MotionEvent.ACTION_MOVE:
                 float percent;
                 float x = getEventX(event);
-                if (rightSB != null && leftSB.currPercent == rightSB.currPercent) {
+                if (seekBarMode == SEEKBAR_MODE_RANGE && leftSB.currPercent == rightSB.currPercent) {
                     currTouchSB.materialRestore();
                     if (callback != null) {
                         callback.onStopTrackingTouch(this, currTouchSB == leftSB);
@@ -607,7 +597,7 @@ public class RangeSeekBar extends View {
                         }
                         int touchLeftCellsValue = Math.round(percent / cellsPercent);
                         int currRightCellsValue;
-                        if (rightSB != null) {
+                        if (seekBarMode == SEEKBAR_MODE_RANGE) {
                             currRightCellsValue = Math.round(rightSB.currPercent / cellsPercent);
                         } else {
                             currRightCellsValue = Math.round(1.0f / cellsPercent);
@@ -624,7 +614,7 @@ public class RangeSeekBar extends View {
                         } else {
                             percent = (x - getLineLeft()) * 1f / (lineWidth);
                         }
-                        if (rightSB != null) {
+                        if (seekBarMode == SEEKBAR_MODE_RANGE) {
                             if (percent > rightSB.currPercent - reservePercent) {
                                 percent = rightSB.currPercent - reservePercent;
                             }
@@ -681,7 +671,7 @@ public class RangeSeekBar extends View {
                 changeThumbActivateState(true);
                 break;
             case MotionEvent.ACTION_CANCEL:
-                if (rightSB != null) {
+                if (seekBarMode == SEEKBAR_MODE_RANGE) {
                     rightSB.setShowIndicatorEnable(false);
                 }
                 if (currTouchSB == leftSB){
@@ -701,7 +691,7 @@ public class RangeSeekBar extends View {
                 changeThumbActivateState(false);
                 break;
             case MotionEvent.ACTION_UP:
-                if (rightSB != null) {
+                if (seekBarMode == SEEKBAR_MODE_RANGE) {
                     rightSB.setShowIndicatorEnable(false);
                 }
                 leftSB.setShowIndicatorEnable(false);
@@ -740,16 +730,21 @@ public class RangeSeekBar extends View {
 
     @Override
     public void onRestoreInstanceState(Parcelable state) {
-        SavedState ss = (SavedState) state;
-        super.onRestoreInstanceState(ss.getSuperState());
-        float min = ss.minValue;
-        float max = ss.maxValue;
-        float rangeInterval = ss.rangeInterval;
-        int tickNumber = ss.tickNumber;
-        setRange(min, max, rangeInterval, tickNumber);
-        float currSelectedMin = ss.currSelectedMin;
-        float currSelectedMax = ss.currSelectedMax;
-        setValue(currSelectedMin, currSelectedMax);
+        try {
+            SavedState ss = (SavedState) state;
+            super.onRestoreInstanceState(ss.getSuperState());
+            float min = ss.minValue;
+            float max = ss.maxValue;
+            float rangeInterval = ss.rangeInterval;
+            int tickNumber = ss.tickNumber;
+            setRange(min, max, rangeInterval, tickNumber);
+            float currSelectedMin = ss.currSelectedMin;
+            float currSelectedMax = ss.currSelectedMax;
+            setValue(currSelectedMin, currSelectedMax);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
     }
 
     public void setOnRangeChangedListener(OnRangeChangedListener listener) {
@@ -935,6 +930,7 @@ public class RangeSeekBar extends View {
 
     public void setSeekBarMode(int seekBarMode) {
         this.seekBarMode = seekBarMode;
+        rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
     }
 
     public void setTypeface(Typeface typeFace){

@@ -25,6 +25,7 @@
         android:layout_height="80dp"
         app:rsb_mode="single"
         app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_number="10"
         app:rsb_indicator_text_size="12sp"
         app:rsb_tick_mark_text_array="@array/markArray"
         app:rsb_progress_color="@color/colorAccent"

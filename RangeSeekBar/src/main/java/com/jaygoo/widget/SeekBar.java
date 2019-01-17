@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
@@ -75,6 +76,7 @@ public class SeekBar {
     private ValueAnimator anim;
     private String userText2Draw;
     private boolean isActivate = false;
+    private boolean isVisible = true;
     private RangeSeekBar rangeSeekBar;
     private String indicatorTextStringFormat;
     private Path indicatorArrowPath = new Path();
@@ -257,6 +259,9 @@ public class SeekBar {
      * @param canvas Canvas
      */
     protected void draw(Canvas canvas) {
+        if (!isVisible){
+            return;
+        }
         int offset = (int) (lineWidth * currPercent);
         canvas.save();
         canvas.translate(offset, 0);
@@ -537,5 +542,17 @@ public class SeekBar {
      */
     public float getThumbScaleRatio() {
         return thumbScaleRatio;
+    }
+
+    public boolean isVisible() {
+        return isVisible;
+    }
+
+    /**
+     * if visble is false, will clear the Canvas
+     * @param visible
+     */
+    public void setVisible(boolean visible) {
+        isVisible = visible;
     }
 }

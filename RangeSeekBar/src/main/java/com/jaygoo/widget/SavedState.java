@@ -12,7 +12,7 @@ import android.view.View;
  * 描    述:
  * ================================================
  */
-class SavedState extends View.BaseSavedState {
+public class SavedState extends View.BaseSavedState {
     public float minValue;
     public float maxValue;
     public float rangeInterval;
@@ -20,7 +20,7 @@ class SavedState extends View.BaseSavedState {
     public float currSelectedMin;
     public float currSelectedMax;
 
-    SavedState(Parcelable superState) {
+    public SavedState(Parcelable superState) {
         super(superState);
     }
 
