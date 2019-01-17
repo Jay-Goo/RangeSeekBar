@@ -7,7 +7,7 @@
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 
 <div>
-<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px"><img src="https://github.com/Jay-Goo/RangeSeekBar/Gif/Screenshot_2019-01-17-17-44-07.jpg" height="500px">
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px"><img src="https://github.com/fa-hessari/RangeSeekBar/blob/master/Gif/Screenshot_2019-01-17-17-44-07.jpg" height="500px">
 </div>
 
 
