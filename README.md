@@ -4,7 +4,7 @@
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 
-`Release Version` [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
+`Release Version` [![](https://jitpack.io/v/fa-hessari/RangeSeekBar.svg)](https://jitpack.io/#fa-hessari/RangeSeekBar)
 
 <div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
@@ -12,6 +12,9 @@
 
 
 # Attention
+
+**1/17/2019
+Add top and below feature for tick mark text.
 
 **RangeSeekBar v2.x is coming！！！**
 
@@ -30,8 +33,7 @@
 	}
 
 	dependencies {
-		// sample: implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
-	        implementation 'com.github.Jay-Goo:RangeSeekBar:Release Version'
+	        implementation 'com.github.fa-hessari:RangeSeekBar:2.0.6'
 	}
 
 ```
