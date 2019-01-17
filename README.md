@@ -49,6 +49,21 @@
         />
 ```
 
+## New Feature
+**Use these attrs for the new feature:**
+
+in xml use:
+```
+app:rsb_tick_mark_is_from_first_item="false"
+app:rsb_tick_mark_is_top_and_below="true"
+```
+
+or in code use:
+```
+rangeSeekBar.setTickMarkTopAndBelow(true, false);
+```
+
+
 ### VerticalRangeSeekBar
 ```
   <com.jaygoo.widget.VerticalRangeSeekBar
