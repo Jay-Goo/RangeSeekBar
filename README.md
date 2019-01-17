@@ -14,7 +14,8 @@
 # Attention
 
 **1/17/2019**
-Add top and below feature for tick mark text.
+
+**Add top and below feature for tick mark text.**
 
 **RangeSeekBar v2.x is coming！！！**
 
