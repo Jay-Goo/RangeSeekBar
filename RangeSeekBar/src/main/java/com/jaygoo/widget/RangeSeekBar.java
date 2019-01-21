@@ -154,6 +154,7 @@ public class RangeSeekBar extends View {
     isTopAndBelow = t.getBoolean(R.styleable.RangeSeekBar_rsb_tick_mark_is_top_and_below, false);
     isFromFirstItem =
         t.getBoolean(R.styleable.RangeSeekBar_rsb_tick_mark_is_from_first_item, false);
+    isOneTouchMode = t.getBoolean(R.styleable.RangeSeekBar_rsb_tick_mark_is_one_touch_mode, false);
     t.recycle();
   }
 

@@ -79,5 +79,6 @@
     <!--up and down-->
     <attr format="boolean" name="rsb_tick_mark_is_top_and_below"/>
     <attr format="boolean" name="rsb_tick_mark_is_from_first_item"/>
+    <attr format="boolean" name="rsb_tick_mark_is_one_touch_mode"/>
   </declare-styleable>
 </resources>
