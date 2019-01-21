@@ -13,6 +13,10 @@
 
 # Attention
 
+**New feature 1/21/2019 ！！！**
+
+**Add oneTouchMode for single seekbarMode.No need to drag thumb,just move it by one touch.**
+
 **New feature 1/17/2019 ！！！**
 
 **Add top and below feature for tick mark text.**
@@ -34,7 +38,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.fa-hessari:RangeSeekBar:2.0.6'
+	        implementation 'com.github.fa-hessari:RangeSeekBar:2.0.7'
 	}
 
 ```
@@ -49,8 +53,8 @@
         />
 ```
 
-## New Feature
-**Use these attrs for the new feature:**
+## New Features
+**Use these attrs for the new features:**
 
 in xml use:
 ```
@@ -61,6 +65,7 @@ app:rsb_tick_mark_is_top_and_below="true"
 or in code use:
 ```
 rangeSeekBar.setTickMarkTopAndBelow(true, false);
+rangeSeekBar.setOneTouchMode(true);
 ```
 
 
