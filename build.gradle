@@ -5,8 +5,8 @@ project.ext {
   applicationId = "com.jaygoo.demo"
   minSdkVersion = 16
   targetSdkVersion = 27
-  versionCode = 6
-  versionName = "2.0.8"
+  versionCode = 7
+  versionName = "2.0.9"
 }
 
 buildscript {
