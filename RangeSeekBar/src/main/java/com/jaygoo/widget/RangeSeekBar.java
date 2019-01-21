@@ -84,6 +84,7 @@ public class RangeSeekBar extends View {
   private OnRangeChangedListener callback;
   private Boolean isTopAndBelow;
   private Boolean isFromFirstItem;
+  private Boolean isOneTouchMode = false;
 
   public RangeSeekBar(Context context) {
     this(context, null);
@@ -205,6 +206,7 @@ public class RangeSeekBar extends View {
         float x;
         paint.setColor(tickMarkTextColor);
         //平分显示
+        // TODO: 1/21/2019 need some change here
         if (tickMarkMode == TRICK_MARK_MODE_OTHER) {
           if (tickMarkGravity == TRICK_MARK_GRAVITY_RIGHT) {
             x = getLineLeft() + i * trickPartWidth - paint.measureText(text2Draw);
@@ -225,7 +227,6 @@ public class RangeSeekBar extends View {
           x = getLineLeft() + lineWidth * (num - minProgress) / (maxProgress - minProgress)
               - paint.measureText(text2Draw) / 2;
         }
-
         float y;
         if (isTopAndBelow != null && isTopAndBelow) {
           if (isFromFirstItem != null && isFromFirstItem && i % 2 == 0) {
@@ -312,7 +313,6 @@ public class RangeSeekBar extends View {
           + " #preset max:"
           + rightValue);
     }
-
     float range = maxProgress - minProgress;
 
     if (tickMarkNumber > 1) {
@@ -570,7 +570,11 @@ public class RangeSeekBar extends View {
       case MotionEvent.ACTION_DOWN:
         touchDownX = getEventX(event);
         boolean touchResult = false;
-        if (seekBarMode == SEEKBAR_MODE_RANGE && rightSB.currPercent >= 1 && leftSB.collide(
+        if (isOneTouchMode && seekBarMode == SEEKBAR_MODE_SINGLE) {
+          currTouchSB = leftSB;
+          touchResult = true;
+          scaleCurrentSeekBarThumb();
+        } else if (seekBarMode == SEEKBAR_MODE_RANGE && rightSB.currPercent >= 1 && leftSB.collide(
             getEventX(event), getEventY(event))) {
           currTouchSB = leftSB;
           touchResult = true;
@@ -972,5 +976,13 @@ public class RangeSeekBar extends View {
 
   public void setTypeface(Typeface typeFace) {
     paint.setTypeface(typeFace);
+  }
+
+  public Boolean getOneTouchMode() {
+    return isOneTouchMode;
+  }
+
+  public void setOneTouchMode(Boolean touchMode) {
+    isOneTouchMode = touchMode;
   }
 }

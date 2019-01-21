@@ -9,7 +9,7 @@ import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
 
 public class MainActivity extends AppCompatActivity {
-  private RangeSeekBar seekbar1, seekbar2, seekbar3, seekbar4, seekbar5, seekbar6;
+  private RangeSeekBar seekbar1, seekbar2, seekbar3, seekbar4, seekbar5, seekbar6, seekbar7;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -95,6 +95,8 @@ public class MainActivity extends AppCompatActivity {
     seekbar3.setValue(-26, 90);
     seekbar5.setValue(25, 75);
     seekbar6.setValue(25, 75);
+    seekbar7.setValue(25);
+    seekbar7.setOneTouchMode(true);
   }
 
   private void initView() {
@@ -107,12 +109,12 @@ public class MainActivity extends AppCompatActivity {
         }
       });
     }
-
     seekbar1 = findViewById(R.id.seekbar1);
     seekbar2 = findViewById(R.id.seekbar2);
     seekbar3 = findViewById(R.id.seekbar3);
     seekbar4 = findViewById(R.id.seekbar4);
     seekbar5 = findViewById(R.id.seekbar5);
     seekbar6 = findViewById(R.id.seekbar6);
+    seekbar7 = findViewById(R.id.seekbar7);
   }
 }
