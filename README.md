@@ -1,5 +1,3 @@
-[![](https://jitpack.io/v/fa-hessari/RangeSeekBar.svg)](https://jitpack.io/#fa-hessari/RangeSeekBar)
-
 <div style="text-align: center;">
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
 </div>
@@ -29,6 +27,8 @@
 
 ### Dependencies
 
+[![](https://jitpack.io/v/fa-hessari/RangeSeekBar.svg)](https://jitpack.io/#fa-hessari/RangeSeekBar)
+
 ```xml
     allprojects {
 		repositories {
@@ -38,7 +38,7 @@
 	}
 
 	dependencies {
-	        implementation 'com.github.fa-hessari:RangeSeekBar:2.0.7'
+	        implementation 'com.github.fa-hessari:RangeSeekBar:TAG'
 	}
 
 ```
