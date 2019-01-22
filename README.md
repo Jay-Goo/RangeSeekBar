@@ -78,7 +78,7 @@ rangeSeekBar.setOneTouchMode(true);
 `VerticalRangeSeekBar` rotates `RangeSeekBar` 90 degrees, and its attribute usage is same as `RangeSeekBar` .The only difference is  the 
 `rsb_orientation`, it controls the direction of rotation.
 
-### Example for new feature
+### Example For New Features
 ```
 <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar"
