@@ -13,15 +13,11 @@
 
 **New feature 1/21/2019 ！！！**
 
-**Add oneTouchMode for single seekbarMode.No need to drag thumb,just move it by one touch.**
+Add oneTouchMode for single seekbarMode.No need to drag thumb,just move it by one touch.
 
 **New feature 1/17/2019 ！！！**
 
-**Add top and below feature for tick mark text.**
-
-**RangeSeekBar v2.x is coming！！！**
-
-**The v2.x's API has a very different from v1.x because I rebuilt the project. I strongly suggest you to use v2.x because it has more powerful functions. If you still want to use v1.x, please to see** [RangeSeekBar v1.x Guide](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_RETIRED.md)
+Add tick mark text on the top and below of the progress bar.
 
 ## Usage
 
@@ -60,6 +56,7 @@ in xml use:
 ```
 app:rsb_tick_mark_is_from_first_item="false"
 app:rsb_tick_mark_is_top_and_below="true"
+app:rsb_tick_mark_is_one_touch_mode="true"
 ```
 
 or in code use:
@@ -80,6 +77,39 @@ rangeSeekBar.setOneTouchMode(true);
 ```
 `VerticalRangeSeekBar` rotates `RangeSeekBar` 90 degrees, and its attribute usage is same as `RangeSeekBar` .The only difference is  the 
 `rsb_orientation`, it controls the direction of rotation.
+
+### Example for new feature
+```
+<com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/seekbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        app:rsb_indicator_height="20dp"
+        app:rsb_indicator_padding_left="20dp"
+        app:rsb_indicator_padding_right="20dp"
+        app:rsb_indicator_text_size="12sp"
+        app:rsb_mode="single"
+        app:rsb_progress_color="#28369f"
+        app:rsb_progress_default_color=#28369f"
+        app:rsb_progress_height="4dp"
+        app:rsb_thumb_drawable="@drawable/shape_circle"
+        app:rsb_thumb_size="30dp"
+        app:rsb_tick_mark_gravity="center"
+        app:rsb_tick_mark_is_from_first_item="false"
+        app:rsb_tick_mark_is_one_touch_mode="true"
+        app:rsb_tick_mark_is_top_and_below="true"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_text_array="@array/my_array"
+        app:rsb_tick_mark_text_margin="20dp"
+        app:rsb_tick_mark_text_size="14sp"
+        />
+```
 
 ##  Attributes
  If you want to know more attributes's usage , please to see [attrs](https://github.com/Jay-Goo/RangeSeekBar/blob/master/RangeSeekBar/src/main/res/values/attrs.xml)
