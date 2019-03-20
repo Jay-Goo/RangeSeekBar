@@ -13,7 +13,10 @@
         <attr name="rsb_mode" format="enum">
             <enum name="single" value="1"/>
             <enum name="range" value="2"/>
+            <enum name="rangeSteps" value="3"/>
         </attr>
+
+        <attr name="rsb_steps" format="integer"/>
 
         <!--The min interval of the thumbs -->
         <attr name="rsb_range_interval" format="float"/>
@@ -56,6 +59,10 @@
 
         <!--the color of progress bar when in progress-->
         <attr name="rsb_progress_color" format="color"/>
+
+        <attr name="rsb_step_color" format="color"/>
+
+        <attr name="rsb_step_width" format="integer"/>
 
         <!--the default color of the progress bar-->
         <attr name="rsb_progress_default_color" format="color"/>
