@@ -987,6 +987,10 @@ public class RangeSeekBar extends View {
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
     }
 
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
+
     public void setTypeface(Typeface typeFace){
         paint.setTypeface(typeFace);
     }
