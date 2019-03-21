@@ -64,6 +64,8 @@
 
         <attr name="rsb_step_width" format="integer"/>
 
+        <attr name="rsb_step_height" format="integer"/>
+
         <!--the default color of the progress bar-->
         <attr name="rsb_progress_default_color" format="color"/>
 
