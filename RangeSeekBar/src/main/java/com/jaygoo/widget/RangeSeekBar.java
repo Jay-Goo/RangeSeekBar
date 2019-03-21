@@ -75,10 +75,10 @@ public class RangeSeekBar extends View {
     private int stepsColor;
 
     //the width of each step
-    private int stepsWidth;
+    private float stepsWidth;
 
     //the height of each step
-    private int stepsHeight;
+    private float stepsHeight;
 
     //默认进度条颜色
     //the default color of the progress bar
@@ -162,8 +162,8 @@ public class RangeSeekBar extends View {
         maxProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_max, 100);
         steps = t.getInt(R.styleable.RangeSeekBar_rsb_steps, 5);
         stepsColor = t.getColor(R.styleable.RangeSeekBar_rsb_step_color, 0xFF9d9d9d);
-        stepsWidth = t.getColor(R.styleable.RangeSeekBar_rsb_step_width, 2);
-        stepsHeight = t.getColor(R.styleable.RangeSeekBar_rsb_step_height, 4);
+        stepsWidth = t.getDimension(R.styleable.RangeSeekBar_rsb_step_width, 2);
+        stepsHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_step_height, 4);
         rangeInterval = t.getFloat(R.styleable.RangeSeekBar_rsb_range_interval, 0);
         progressColor = t.getColor(R.styleable.RangeSeekBar_rsb_progress_color, 0xFF4BD962);
         progressRadius = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_radius, -1);

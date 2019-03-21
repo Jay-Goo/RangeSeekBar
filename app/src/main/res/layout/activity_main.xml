@@ -139,7 +139,7 @@
         app:rsb_progress_color="@color/colorPrimary"
         app:rsb_steps="5"
         app:rsb_step_color="@color/colorProgress"
-        app:rsb_step_width="5"
-        app:rsb_step_height="8"/>
+        app:rsb_step_width="2dp"
+        app:rsb_step_height="4dp"/>
 
 </LinearLayout>
