@@ -86,6 +86,8 @@ public class RangeSeekBar extends View {
     // the progress width
     private int lineWidth;
     protected int lineTop, lineBottom, lineLeft, lineRight;
+    private int textTop;
+    private boolean textBelow;
     private int linePaddingRight;
     private float touchDownX;
     private float cellsPercent;
@@ -136,6 +138,11 @@ public class RangeSeekBar extends View {
         if (progressRadius < 0){
             progressRadius = (int) ((getLineBottom() - getLineTop()) * 0.45f);
         }
+        if(textBelow){
+            textTop=(int)(lineTop+leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2 + progressHeight / 2 + tickMarkTextMargin);
+        }else{
+            textTop=lineTop-tickMarkTextMargin;
+        }
     }
 
     private void initAttrs(AttributeSet attrs) {
@@ -156,6 +163,7 @@ public class RangeSeekBar extends View {
         tickMarkTextSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_size, Utils.dp2px(getContext(),12));
         tickMarkTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressDefaultColor);
         tickMarkInRangeTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressColor);
+        textBelow=t.getBoolean(R.styleable.RangeSeekBar_rsb_text_below,false);
         t.recycle();
     }
 
@@ -231,7 +239,7 @@ public class RangeSeekBar extends View {
                     x = getLineLeft() + lineWidth * (num - minProgress) / (maxProgress - minProgress)
                             - paint.measureText(text2Draw) / 2;
                 }
-                float y = getLineTop() - tickMarkTextMargin;
+                float y = textTop;
                 canvas.drawText(text2Draw, x, y, paint);
             }
         }

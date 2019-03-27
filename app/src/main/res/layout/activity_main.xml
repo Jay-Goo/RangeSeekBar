@@ -87,7 +87,7 @@
         app:rsb_indicator_margin="3dp"
         app:rsb_thumb_scale_ratio="1.5"
         app:rsb_thumb_drawable="@drawable/thumb_gradient"
-        />
+        app:rsb_text_below="true"/>
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar4"
         android:layout_width="match_parent"

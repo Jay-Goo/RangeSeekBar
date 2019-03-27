@@ -94,6 +94,7 @@
         <attr name="rsb_thumb_inactivated_drawable" format="reference"/>
         <attr name="rsb_thumb_size" format="dimension"/>
         <attr name="rsb_thumb_scale_ratio" format="float"/>
+        <attr name="rsb_text_below" format="boolean"/>
     </declare-styleable>
 
 </resources>
