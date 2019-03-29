@@ -443,7 +443,16 @@ public class RangeSeekBar extends View {
                 leftSeekBarState.isMax = true;
             }
 
-        }else {
+        } else if (seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
+            float stepPercent = 1.0f / steps;
+            leftSeekBarState.value = new BigDecimal(leftSB.currPercent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
+
+            if (leftSeekBarState.value == 0){
+                leftSeekBarState.isMin = true;
+            }else if (leftSeekBarState.value == steps + 1){
+                leftSeekBarState.isMax = true;
+            }
+        } else {
             leftSeekBarState.indicatorText = (new StringBuffer().append(leftSeekBarState.value)).toString();
             if (Utils.compareFloat(leftSB.currPercent, 0f) == 0){
                 leftSeekBarState.isMin = true;
@@ -465,7 +474,16 @@ public class RangeSeekBar extends View {
                 }else if (index == tickMarkNumber){
                     rightSeekBarState.isMax = true;
                 }
-            }else {
+            } else if (seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
+                float stepPercent = 1.0f / steps;
+                rightSeekBarState.value = new BigDecimal(leftSB.currPercent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
+
+                if (rightSeekBarState.value == 0){
+                    rightSeekBarState.isMin = true;
+                }else if (rightSeekBarState.value == steps + 1){
+                    rightSeekBarState.isMax = true;
+                }
+            } else {
                 rightSeekBarState.indicatorText = (new StringBuffer().append(rightSeekBarState.value)).toString();
                 if (Utils.compareFloat(rightSB.currPercent, 0f) == 0){
                     rightSeekBarState.isMin = true;
@@ -666,13 +684,7 @@ public class RangeSeekBar extends View {
                             }
                         }
                     }
-                    if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
-                        float stepPercent = 1.0f / steps;
-                        int stepSelected = new BigDecimal(percent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
-                        leftSB.slide(stepSelected * stepPercent);
-                    } else {
-                        leftSB.slide(percent);
-                    }
+                    leftSB.slide(percent);
                     leftSB.setShowIndicatorEnable(true);
                     //Intercept parent TouchEvent
                     if (getParent() != null) {
@@ -704,13 +716,7 @@ public class RangeSeekBar extends View {
                             percent = leftSB.currPercent + reservePercent;
                         }
                     }
-                    if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
-                        float stepPercent = 1.0f / steps;
-                        int stepSelected = new BigDecimal(percent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
-                        rightSB.slide(stepSelected * stepPercent);
-                    } else {
-                        rightSB.slide(percent);
-                    }
+                    rightSB.slide(percent);
                     rightSB.setShowIndicatorEnable(true);
                 }
                 if (callback != null) {
@@ -745,6 +751,21 @@ public class RangeSeekBar extends View {
                 changeThumbActivateState(false);
                 break;
             case MotionEvent.ACTION_UP:
+                x = getEventX(event);
+                if (x < getLineLeft()) {
+                    percent = 0;
+                } else {
+                    percent = (x - getLineLeft()) * 1f / (lineWidth);
+                }
+                if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
+                    float stepPercent = 1.0f / steps;
+                    int stepSelected = new BigDecimal(percent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
+                    if(currTouchSB == rightSB) {
+                        rightSB.slide(stepSelected * stepPercent);
+                    } else {
+                        leftSB.slide(stepSelected * stepPercent);
+                    }
+                }
                 if (seekBarMode == SEEKBAR_MODE_RANGE || seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
                     rightSB.setShowIndicatorEnable(false);
                 }

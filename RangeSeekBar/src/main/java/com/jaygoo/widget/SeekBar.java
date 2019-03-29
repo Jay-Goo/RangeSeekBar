@@ -288,7 +288,9 @@ public class SeekBar {
             text2Draw = String.format(indicatorTextStringFormat, text2Draw);
         }
         paint.setTextSize(indicatorTextSize);
-        paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
+        if(text2Draw != null) {
+            paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
+        }
         // translate canvas, then don't care left
         canvas.translate(left, 0);
         if (indicatorShowMode == INDICATOR_MODE_ALWAYS_SHOW) {
