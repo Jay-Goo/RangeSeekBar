@@ -137,7 +137,9 @@
         app:rsb_mode="rangeSteps"
         app:rsb_progress_default_color="#f2f2f2"
         app:rsb_progress_color="@color/colorPrimary"
-        app:rsb_steps="5"
+        app:rsb_steps="2"
+        app:rsb_thumb_size="32dp"
+        app:rsb_thumb_scale_ratio="1.2"
         app:rsb_step_color="@color/colorProgress"
         app:rsb_step_width="2dp"
         app:rsb_step_height="4dp"/>

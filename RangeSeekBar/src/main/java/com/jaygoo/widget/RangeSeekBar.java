@@ -563,7 +563,7 @@ public class RangeSeekBar extends View {
             case MotionEvent.ACTION_DOWN:
                 touchDownX = getEventX(event);
                 boolean touchResult = false;
-                float percentClick = (touchDownX - getLineLeft()) * 1f / (lineWidth);;
+                float percentClick = (touchDownX - getLineLeft()) * 1f / (lineWidth);
                 if ((seekBarMode == SEEKBAR_MODE_RANGE || seekBarMode == SEEKBAR_MODE_RANGE_STEPS) && rightSB.currPercent >= 1 && leftSB.collide(getEventX(event), getEventY(event))) {
                     currTouchSB = leftSB;
                     touchResult = true;
@@ -576,13 +576,9 @@ public class RangeSeekBar extends View {
                     currTouchSB = leftSB;
                     touchResult = true;
                     scaleCurrentSeekBarThumb();
-                }
-                if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
-                    float stepPercent = 1.0f / steps;
-                    int stepSelected = new BigDecimal(percentClick/stepPercent).setScale(2, RoundingMode.HALF_UP).intValue();
-
-                    float distanceLeft = Math.abs(leftSB.currPercent - stepSelected * stepPercent);
-                    float distanceRight = Math.abs(rightSB.currPercent - stepSelected * stepPercent);
+                } else if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
+                    float distanceLeft = Math.abs(leftSB.currPercent - percentClick);
+                    float distanceRight = Math.abs(rightSB.currPercent - percentClick);
 
                     if(distanceLeft < distanceRight) {
                         currTouchSB = leftSB;
@@ -606,7 +602,7 @@ public class RangeSeekBar extends View {
                 float x = getEventX(event);
                 if ((seekBarMode == SEEKBAR_MODE_RANGE || seekBarMode == SEEKBAR_MODE_RANGE_STEPS) && leftSB.currPercent == rightSB.currPercent) {
                     currTouchSB.materialRestore();
-                    if (callback != null) {
+                    if (callback != null && seekBarMode != SEEKBAR_MODE_RANGE_STEPS) {
                         callback.onStopTrackingTouch(this, currTouchSB == leftSB);
                     }
                     if (x - touchDownX > 0) {
@@ -672,7 +668,7 @@ public class RangeSeekBar extends View {
                     }
                     if(seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
                         float stepPercent = 1.0f / steps;
-                        int stepSelected = new BigDecimal(percent/stepPercent).setScale(2, RoundingMode.HALF_UP).intValue();
+                        int stepSelected = new BigDecimal(percent/stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
                         leftSB.slide(stepSelected * stepPercent);
                     } else {
                         leftSB.slide(percent);
