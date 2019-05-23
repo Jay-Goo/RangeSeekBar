@@ -15,7 +15,7 @@ import com.jaygoo.widget.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
-    private RangeSeekBar seekbar1, seekbar2, seekbar3, seekbar4, seekbar5;
+    private RangeSeekBar seekbar1, seekbar2, seekbar3, seekbar4, seekbar5, seekbar6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,23 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        seekbar6.setOnRangeChangedListener(new OnRangeChangedListener() {
+            @Override
+            public void onRangeChanged(RangeSeekBar view, float leftValue, float rightValue, boolean isFromUser) {
+                Log.e("VALUES OF RANGE STEP", leftValue +  " , " + rightValue);
+            }
+
+            @Override
+            public void onStartTrackingTouch(RangeSeekBar view, boolean isLeft) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(RangeSeekBar view, boolean isLeft) {
+                Log.e("STOP TRACKING", "stop tracking range steps" );
+            }
+        });
+
         seekbar1.setValue(90);
         seekbar2.setValue(-0.5f,0.8f);
         seekbar3.setValue(-26, 90);
@@ -126,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         seekbar3 = findViewById(R.id.seekbar3);
         seekbar4 = findViewById(R.id.seekbar4);
         seekbar5 = findViewById(R.id.seekbar5);
+        seekbar6 = findViewById(R.id.seekbar6);
     }
 
 }
