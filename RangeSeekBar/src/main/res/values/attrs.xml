@@ -14,7 +14,11 @@
             <enum name="single" value="1"/>
             <enum name="range" value="2"/>
             <enum name="rangeSteps" value="3"/>
+            <enum name="singleSteps" value="4"/>
+
         </attr>
+
+        <attr name="rsb_enable_steps" format="boolean"/>
 
         <attr name="rsb_steps" format="integer"/>
 

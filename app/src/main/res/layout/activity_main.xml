@@ -25,7 +25,6 @@
         android:layout_height="80dp"
         app:rsb_mode="single"
         app:rsb_tick_mark_mode="number"
-        app:rsb_tick_mark_number="10"
         app:rsb_indicator_text_size="12sp"
         app:rsb_tick_mark_text_array="@array/markArray"
         app:rsb_progress_color="@color/colorAccent"
@@ -135,7 +134,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        app:rsb_mode="rangeSteps"
+        app:rsb_enable_steps="true"
         app:rsb_thumb_drawable="@drawable/seekbar_thumb"
         app:rsb_progress_default_color="#f2f2f2"
         app:rsb_progress_color="@color/colorAccent"
@@ -145,7 +144,24 @@
         app:rsb_thumb_scale_ratio="1.2"
         app:rsb_step_radius="5dp"
         app:rsb_step_color="@color/colorProgress"
-        app:rsb_step_width="20dp"
-        app:rsb_step_height="20dp"/>
+        app:rsb_step_width="10dp"
+        app:rsb_step_height="10dp"/>
 
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/seekbar7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        app:rsb_mode="single"
+        app:rsb_enable_steps="true"
+        app:rsb_progress_default_color="#f2f2f2"
+        app:rsb_progress_color="@color/colorAccent"
+        app:rsb_progress_height="5dp"
+        app:rsb_steps="4"
+        app:rsb_thumb_size="22dp"
+        app:rsb_step_color="@color/colorProgress"
+        app:rsb_step_width="8dp"
+        app:rsb_step_height="12dp"/>
 </LinearLayout>
