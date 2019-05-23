@@ -65,6 +65,8 @@ public class RangeSeekBar extends View {
     private float stepsWidth;
     //the height of each step
     private float stepsHeight;
+    //the radius of step divs
+    private float stepsRadius;
     //默认进度条颜色
     //the default color of the progress bar
     private int progressDefaultColor;
@@ -93,6 +95,8 @@ public class RangeSeekBar extends View {
     private Paint paint = new Paint();
     private RectF backgroundLineRect = new RectF();
     private RectF foregroundLineRect = new RectF();
+    private RectF stepDivRect = new RectF();
+
     private SeekBar leftSB;
     private SeekBar rightSB;
     private SeekBar currTouchSB;
@@ -140,6 +144,7 @@ public class RangeSeekBar extends View {
         maxProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_max, 100);
         steps = t.getInt(R.styleable.RangeSeekBar_rsb_steps, 5);
         stepsColor = t.getColor(R.styleable.RangeSeekBar_rsb_step_color, 0xFF9d9d9d);
+        stepsRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_step_radius, 0);
         stepsWidth = t.getDimension(R.styleable.RangeSeekBar_rsb_step_width, 2);
         stepsHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_step_height, 4);
         rangeInterval = t.getFloat(R.styleable.RangeSeekBar_rsb_range_interval, 0);
@@ -256,10 +261,12 @@ public class RangeSeekBar extends View {
 
         if (seekBarMode == SEEKBAR_MODE_RANGE_STEPS) {
             int stepMarks = lineWidth / (steps);
+            float extHeight = (stepsHeight - progressHeight) / 2f;
             for (int k = 0; k <= steps; k++) {
-                int x = getLineLeft() + k * stepMarks;
+                float x = getLineLeft() + k * stepMarks - stepsWidth / 2f;
                 paint.setColor(stepsColor);
-                canvas.drawRect(x, getLineTop() - stepsHeight, x + stepsWidth, getLineBottom() + stepsHeight, paint);
+                stepDivRect.set(x, getLineTop() - extHeight, x + stepsWidth, getLineBottom() + extHeight);
+                canvas.drawRoundRect(stepDivRect, stepsRadius, stepsRadius, paint);
             }
         }
 
