@@ -4,7 +4,6 @@ group='com.github.Jay-Goo'
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
 
 
     defaultConfig {

@@ -5,13 +5,11 @@ import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
-import com.jaygoo.widget.Utils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,7 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
         seekbar2.setTypeface(Typeface.DEFAULT_BOLD);
         seekbar2.getLeftSeekBar().setTypeface(Typeface.DEFAULT_BOLD);
         seekbar2.setIndicatorTextDecimalFormat("0.00");
@@ -120,10 +117,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        seekbar1.setValue(90);
-        seekbar2.setValue(-0.5f,0.8f);
-        seekbar3.setValue(-26, 90);
-        seekbar5.setValue(25, 75);
+        seekbar1.setProgress(90);
+        seekbar2.setProgress(-0.5f,0.8f);
+        seekbar3.setProgress(-26, 90);
+        seekbar5.setProgress(25, 75);
     }
 
     private void initView(){

@@ -9,7 +9,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="@dimen/activity_vertical_margin"
     >
-
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar0"
         android:layout_width="match_parent"
@@ -18,7 +17,6 @@
         app:rsb_thumb_drawable="@drawable/thumb_activated"
         app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
         />
-
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
         android:layout_width="match_parent"
@@ -70,7 +68,7 @@
         app:rsb_min="-100"
         app:rsb_max="100"
         app:rsb_mode="range"
-        app:rsb_range_interval="60"
+        app:rsb_min_interval="60"
         app:rsb_progress_height="2dp"
         app:rsb_progress_color="#a6c1ee"
         app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
@@ -101,7 +99,7 @@
         app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
         />
 
-    <com.jaygoo.widget.RangeSeekBar
+    <com.jaygoo.widget.StepRangeSeekBar
         android:id="@+id/seekbar5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -115,7 +113,7 @@
         app:rsb_progress_color="@color/colorProgress"
         app:rsb_tick_mark_text_array="@array/wordsArray"
         app:rsb_tick_mark_text_margin="17dp"
-        app:rsb_tick_mark_number="4"
+        app:rsb_steps="4"
         app:rsb_tick_mark_mode="other"
         app:rsb_tick_mark_gravity="center"
         app:rsb_tick_mark_text_color="@color/colorProgress"
@@ -123,18 +121,17 @@
         app:rsb_thumb_size="22dp"
         app:rsb_thumb_drawable="@drawable/thumb_yellow"
         app:rsb_indicator_show_mode="showWhenTouch"
-        app:rsb_range_interval="25"
+        app:rsb_min_interval="25"
         app:rsb_indicator_padding_left="10dp"
         app:rsb_indicator_padding_right="10dp"
         />
 
-    <com.jaygoo.widget.RangeSeekBar
+    <com.jaygoo.widget.StepRangeSeekBar
         android:id="@+id/seekbar6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        app:rsb_enable_steps="true"
         app:rsb_thumb_drawable="@drawable/seekbar_thumb"
         app:rsb_progress_default_color="#f2f2f2"
         app:rsb_progress_color="@color/colorAccent"
@@ -145,17 +142,24 @@
         app:rsb_step_radius="5dp"
         app:rsb_step_color="@color/colorProgress"
         app:rsb_step_width="10dp"
-        app:rsb_step_height="10dp"/>
+        app:rsb_step_height="10dp"
+        app:rsb_min_interval="50"
+        app:rsb_indicator_show_mode="showWhenTouch"
+        app:rsb_indicator_height="20dp"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_text_array="@array/wordsArray"
+        app:rsb_tick_mark_text_color="@color/colorProgress"
+        />
 
 
-    <com.jaygoo.widget.RangeSeekBar
+    <com.jaygoo.widget.StepRangeSeekBar
         android:id="@+id/seekbar7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         app:rsb_mode="single"
-        app:rsb_enable_steps="true"
         app:rsb_progress_default_color="#f2f2f2"
         app:rsb_progress_color="@color/colorAccent"
         app:rsb_progress_height="5dp"

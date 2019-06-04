@@ -4,28 +4,46 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 /**
- * ================================================
+ * //                       _ooOoo_
+ * //                      o8888888o
+ * //                      88" . "88
+ * //                      (| -_- |)
+ * //                       O\ = /O
+ * //                   ____/`---'\____
+ * //                 .   ' \\| |// `.
+ * //                  / \\||| : |||// \
+ * //                / _||||| -:- |||||- \
+ * //                  | | \\\ - /// | |
+ * //                | \_| ''\---/'' | |
+ * //                 \ .-\__ `-` ___/-. /
+ * //              ______`. .' /--.--\ `. . __
+ * //           ."" '< `.___\_<|>_/___.' >'"".
+ * //          | | : `- \`.;`\ _ /`;.`/ - ` : | |
+ * //            \ \ `-. \_ __\ /__ _/ .-` / /
+ * //    ======`-.____`-.___\_____/___.-`____.-'======
+ * //                       `=---='
+ * //
+ * //    .............................................
+ * //             佛祖保佑             永无BUG
+ * =====================================================
  * 作    者：JayGoo
- * 版    本：
- * 创建日期：2018/5/10
+ * 创建日期：2019-06-03
  * 描    述:
- * ================================================
+ * =====================================================
  */
-public class VerticalRangeSeekBar extends RangeSeekBar {
-
+public class VerticalStepRangeSeekBar extends StepRangeSeekBar {
     public final static int DICTION_LEFT = -1;
     public final static int DICTION_RIGHT = 1;
     private int orientation = DICTION_LEFT;
 
-    public VerticalRangeSeekBar(Context context) {
+    public VerticalStepRangeSeekBar(Context context) {
         this(context, null);
     }
 
-    public VerticalRangeSeekBar(Context context, AttributeSet attrs) {
+    public VerticalStepRangeSeekBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         try {
             TypedArray t = context.obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
@@ -34,7 +52,6 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
         }catch (Exception e){
             e.printStackTrace();
         }
-
     }
 
     @Override

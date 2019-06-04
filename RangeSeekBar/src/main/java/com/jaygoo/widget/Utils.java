@@ -9,6 +9,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 
 /**
  * ================================================
@@ -27,21 +28,26 @@ public class Utils {
      */
     public static Bitmap drawableToBitmap(int size, Drawable drawable) {
         Bitmap bitmap = null;
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            bitmap = bitmapDrawable.getBitmap();
-            if (bitmap != null && bitmap.getHeight() > 0) {
-                Matrix matrix = new Matrix();
-                float scaleHeight = size * 1.0f / bitmapDrawable.getIntrinsicHeight();
-                matrix.postScale(scaleHeight, scaleHeight);
-                bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
-                return bitmap;
+        try {
+            if (drawable instanceof BitmapDrawable) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                bitmap = bitmapDrawable.getBitmap();
+                if (bitmap != null && bitmap.getHeight() > 0) {
+                    Matrix matrix = new Matrix();
+                    float scaleHeight = size * 1.0f / bitmap.getHeight();
+                    matrix.postScale(scaleHeight, scaleHeight);
+                    bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+                    return bitmap;
+                }
             }
+            bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }catch (Exception e){
+            e.printStackTrace();
         }
-        bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
+
         return bitmap;
     }
 
@@ -72,8 +78,8 @@ public class Utils {
      * 0 is a == b
      */
     public static int compareFloat(float a, float b) {
-        int ta = Math.round(a * 100000);
-        int tb = Math.round(b * 100000);
+        int ta = Math.round(a * 1000000);
+        int tb = Math.round(b * 1000000);
         if (ta > tb) {
             return 1;
         } else if (ta < tb) {
@@ -82,4 +88,13 @@ public class Utils {
             return 0;
         }
     }
-}
+
+    public static float parseFloat(String s) {
+        try {
+           return Float.parseFloat(s);
+        }catch (NumberFormatException e){
+            return 0f;
+        }
+    }
+
+    }

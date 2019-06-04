@@ -1,6 +1,5 @@
 package com.jaygoo.demo;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -27,7 +26,7 @@ public class VerticalDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vertical_demo);
 
         initView();
-        seekbar1.setValue(-0.5f,0.8f);
+        seekbar1.setProgress(-0.5f,0.8f);
         seekbar1.setIndicatorTextDecimalFormat("0.00");
 
         seekbar2.setIndicatorTextDecimalFormat("0");
