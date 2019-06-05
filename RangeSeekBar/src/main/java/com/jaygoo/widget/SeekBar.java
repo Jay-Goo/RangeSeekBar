@@ -61,7 +61,9 @@ public class SeekBar {
     private int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
     private int thumbDrawableId;
     private int thumbInactivatedDrawableId;
-    private int thumbSize;
+    private int thumbWidth;
+    private int thumbHeight;
+
     //when you touch or move, the thumb will scale, default not scale
     private float thumbScaleRatio;
 
@@ -115,7 +117,8 @@ public class SeekBar {
         indicatorArrowSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_arrow_size, 0);
         thumbDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_drawable, R.drawable.rsb_default_thumb);
         thumbInactivatedDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_inactivated_drawable, 0);
-        thumbSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_size, Utils.dp2px(getContext(),26));
+        thumbWidth = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_width, Utils.dp2px(getContext(),26));
+        thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(),26));
         thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
         indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
         t.recycle();
@@ -126,7 +129,7 @@ public class SeekBar {
             throw new IllegalArgumentException("if you want to show indicator, the indicatorHeight must > 0");
         }
         if (indicatorArrowSize <= 0){
-            indicatorArrowSize = thumbSize / 4;
+            indicatorArrowSize = thumbWidth / 4;
         }
     }
 
@@ -159,10 +162,10 @@ public class SeekBar {
     protected void onSizeChanged(int x, int y, int parentLineWidth) {
         initVariables();
         initBitmap();
-        left = x - thumbSize / 2;
-        right = x + thumbSize / 2;
-        top = y - thumbSize / 2;
-        bottom = y + thumbSize / 2;
+        left = x - thumbWidth / 2;
+        right = x + thumbWidth / 2;
+        top = y - thumbHeight / 2;
+        bottom = y + thumbHeight / 2;
         lineWidth = parentLineWidth;
     }
 
@@ -186,8 +189,8 @@ public class SeekBar {
             realIndicatorWidth = indicatorWidth;
         }
 
-        indicatorRect.left = thumbSize / 2 - realIndicatorWidth / 2;
-        indicatorRect.top = bottom - indicatorHeight - thumbSize - indicatorMargin;
+        indicatorRect.left = thumbWidth / 2 - realIndicatorWidth / 2;
+        indicatorRect.top = bottom - indicatorHeight - thumbHeight - indicatorMargin;
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
         indicatorRect.bottom = indicatorRect.top + indicatorHeight;
         //draw default indicator arrow
@@ -195,8 +198,8 @@ public class SeekBar {
             //arrow three point
             //  b   c
             //    a
-            int ax = thumbSize / 2;
-            int ay = bottom - thumbSize - indicatorMargin;
+            int ax = thumbWidth / 2;
+            int ay = bottom - thumbHeight - indicatorMargin;
             int bx = ax - indicatorArrowSize;
             int by = ay - indicatorArrowSize;
             int cx = ax + indicatorArrowSize;
@@ -316,9 +319,9 @@ public class SeekBar {
      */
     private void drawThumb(Canvas canvas) {
         if (thumbInactivatedBitmap != null && !isActivate){
-                canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbSize) / 2f, null);
+                canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
         }else if (thumbBitmap != null){
-            canvas.drawBitmap(thumbBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbSize) / 2f, null);
+            canvas.drawBitmap(thumbBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
         }
     }
 
@@ -505,9 +508,9 @@ public class SeekBar {
         if (thumbInactivatedDrawableId != 0 && getResources() != null){
             this.thumbInactivatedDrawableId = thumbInactivatedDrawableId;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbSize, getResources().getDrawable(thumbInactivatedDrawableId, null));
+                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId, null));
             }else {
-                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbSize, getResources().getDrawable(thumbInactivatedDrawableId));
+                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId));
             }
         }
     }
@@ -520,19 +523,27 @@ public class SeekBar {
         if (thumbDrawableId != 0 && getResources() != null) {
             this.thumbDrawableId = thumbDrawableId;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                thumbBitmap = Utils.drawableToBitmap(thumbSize, getResources().getDrawable(thumbDrawableId, null));
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbDrawableId, null));
             }else {
-                thumbBitmap = Utils.drawableToBitmap(thumbSize, getResources().getDrawable(thumbDrawableId));
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbDrawableId));
             }
         }
     }
 
-    public int getThumbSize() {
-        return thumbSize;
+    public int getThumbWidth() {
+        return thumbWidth;
     }
 
-    public void setThumbSize(int thumbSize) {
-        this.thumbSize = thumbSize;
+    public void setThumbWidth(int thumbWidth) {
+        this.thumbWidth = thumbWidth;
+    }
+
+    public int getThumbHeight() {
+        return thumbHeight;
+    }
+
+    public void setThumbHeight(int thumbHeight) {
+        this.thumbHeight = thumbHeight;
     }
 
     protected boolean getActivate() {

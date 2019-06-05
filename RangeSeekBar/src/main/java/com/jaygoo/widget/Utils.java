@@ -26,7 +26,7 @@ public class Utils {
      * @param drawable drawable you want convert
      * @return converted bitmap
      */
-    public static Bitmap drawableToBitmap(int size, Drawable drawable) {
+    public static Bitmap drawableToBitmap(int width,int height, Drawable drawable) {
         Bitmap bitmap = null;
         try {
             if (drawable instanceof BitmapDrawable) {
@@ -34,13 +34,14 @@ public class Utils {
                 bitmap = bitmapDrawable.getBitmap();
                 if (bitmap != null && bitmap.getHeight() > 0) {
                     Matrix matrix = new Matrix();
-                    float scaleHeight = size * 1.0f / bitmap.getHeight();
-                    matrix.postScale(scaleHeight, scaleHeight);
+                    float scaleWidth = width * 1.0f / bitmap.getWidth();
+                    float scaleHeight = height * 1.0f / bitmap.getHeight();
+                    matrix.postScale(scaleWidth, scaleHeight);
                     bitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
                     return bitmap;
                 }
             }
-            bitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
+            bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);

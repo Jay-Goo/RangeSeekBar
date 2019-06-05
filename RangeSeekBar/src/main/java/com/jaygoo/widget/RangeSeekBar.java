@@ -113,12 +113,12 @@ public class RangeSeekBar extends View {
         //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
         //Android7.0以上：onMeasure--->onSizeChanged
         int leftLineTop = (int) (leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getIndicatorMargin()
-                + leftSB.getThumbSize() * leftSB.getThumbScaleRatio() / 2 - progressHeight / 2);
+                + leftSB.getThumbHeight() * leftSB.getThumbScaleRatio() / 2 - progressHeight / 2);
         if (seekBarMode == SEEKBAR_MODE_SINGLE) {
             lineTop = leftLineTop;
         } else {
             int rightLineTop = (int) (rightSB.getIndicatorHeight() + rightSB.getIndicatorArrowSize() + rightSB.getIndicatorMargin()
-                    + rightSB.getThumbSize() * rightSB.getThumbScaleRatio() / 2 - progressHeight / 2);
+                    + rightSB.getThumbHeight() * rightSB.getThumbScaleRatio() / 2 - progressHeight / 2);
             lineTop = Math.max(leftLineTop, rightLineTop);
         }
         lineBottom = lineTop + progressHeight;
@@ -174,7 +174,6 @@ public class RangeSeekBar extends View {
                     heightNeeded, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightSize);
-        Log.d("fuck","onMeasure");
     }
 
     @Override
@@ -183,7 +182,7 @@ public class RangeSeekBar extends View {
         //计算进度条的位置，并根据它初始化两个按钮的位置
         // Calculates the position of the progress bar and initializes the positions of
         // the two buttons based on it
-        lineLeft = leftSB.getThumbSize() / 2 + getPaddingLeft();
+        lineLeft = leftSB.getThumbWidth() / 2 + getPaddingLeft();
         lineRight = w - lineLeft - getPaddingRight();
         lineWidth = lineRight - lineLeft;
         linePaddingRight = w - lineRight;
@@ -193,8 +192,6 @@ public class RangeSeekBar extends View {
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             rightSB.onSizeChanged(getLineLeft(), lineCenterY, lineWidth);
         }
-        Log.d("fuck","onSizeChanged");
-
     }
 
 
@@ -256,14 +253,14 @@ public class RangeSeekBar extends View {
         paint.setColor(progressColor);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             foregroundLineRect.top = getLineTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbSize() / 2f + lineWidth * leftSB.currPercent;
-            foregroundLineRect.right = rightSB.left + rightSB.getThumbSize() / 2f + lineWidth * rightSB.currPercent;
+            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f + lineWidth * leftSB.currPercent;
+            foregroundLineRect.right = rightSB.left + rightSB.getThumbWidth() / 2f + lineWidth * rightSB.currPercent;
             foregroundLineRect.bottom = getLineBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
         } else {
             foregroundLineRect.top = getLineTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbSize() / 2f;
-            foregroundLineRect.right = leftSB.left + leftSB.getThumbSize() / 2f + lineWidth * leftSB.currPercent;
+            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f;
+            foregroundLineRect.right = leftSB.left + leftSB.getThumbWidth() / 2f + lineWidth * leftSB.currPercent;
             foregroundLineRect.bottom = getLineBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
         }
@@ -465,7 +462,8 @@ public class RangeSeekBar extends View {
     private void scaleCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && !isScaleThumb) {
             isScaleThumb = true;
-            currTouchSB.setThumbSize((int) (currTouchSB.getThumbSize() * currTouchSB.getThumbScaleRatio()));
+            currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() * currTouchSB.getThumbScaleRatio()));
+            currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() * currTouchSB.getThumbScaleRatio()));
             currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
         }
     }
@@ -476,7 +474,8 @@ public class RangeSeekBar extends View {
     private void resetCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && isScaleThumb) {
             isScaleThumb = false;
-            currTouchSB.setThumbSize((int) (currTouchSB.getThumbSize() / currTouchSB.getThumbScaleRatio()));
+            currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() / currTouchSB.getThumbScaleRatio()));
+            currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() / currTouchSB.getThumbScaleRatio()));
             currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
         }
     }
