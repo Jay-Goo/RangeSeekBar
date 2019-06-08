@@ -1,10 +1,5 @@
 <div style="text-align: center;">
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
-</div>
-
-`Release Version`[![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
-
-<div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
 </div>
 
@@ -12,12 +7,14 @@
 # 注意
 
 
-**RangeSeekBar  v3.x 即将来临!! 更强大，更好用！ 文档即将更新，版本更新详情请看 [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
+**RangeSeekBar  v3.x 即将来临!! 更强大，更好用！ 文档和新版本即将更新，具体更新内容请看 [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)**
 **
 ## 用法
 
 ### Dependencies
+`Release Version`[![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
+	
 ```xml
     allprojects {
 		repositories {
