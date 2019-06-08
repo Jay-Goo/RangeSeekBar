@@ -10,7 +10,7 @@
 
 # Attention
 
-**RangeSeekBar Version v3.x is coming!! More powerful and easy to use, and the document will be updated soon.**
+**RangeSeekBar Version v3.x is coming!! More powerful and easy to use, and the document will be updated soon. For details, please see [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)**
 
 
 ## Usage
