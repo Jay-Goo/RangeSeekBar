@@ -15,6 +15,13 @@
             <enum name="range" value="2"/>
         </attr>
 
+        <!--RangeSeekBar gravity-->
+        <attr name="rsb_gravity" format="enum">
+            <enum name="top" value="0"/>
+            <enum name="bottom" value="1"/>
+            <enum name="center" value="2"/>
+        </attr>
+
         <!--The min interval of the thumbs -->
         <attr name="rsb_min_interval" format="float"/>
 
@@ -67,12 +74,6 @@
         <!--the default color of the progress bar-->
         <attr name="rsb_progress_default_color" format="color"/>
 
-        <!--the vertical RangeSeekBar draw orientation-->
-        <attr name="rsb_orientation" format="enum">
-            <enum name="left" value="-1"/>
-            <enum name="right" value="1"/>
-        </attr>
-
         <!--SeekBar attrs-->
         <attr name="rsb_indicator_show_mode" format="enum">
             <enum name="showWhenTouch" value="0"/>
@@ -80,8 +81,12 @@
             <enum name="alwaysShowAfterTouch" value="2"/>
             <enum name="alwaysShow" value="3"/>
         </attr>
-        <attr name="rsb_indicator_height" format="dimension" />
-        <attr name="rsb_indicator_width" format="dimension" />
+        <attr name="rsb_indicator_height" format="dimension" >
+            <enum name="wrap_content" value="-1" />
+        </attr>
+        <attr name="rsb_indicator_width" format="dimension" >
+            <enum name="wrap_content" value="-1" />
+        </attr>
         <!--indicator margin bottom to progress bar-->
         <attr name="rsb_indicator_margin" format="dimension" />
         <attr name="rsb_indicator_text_size" format="dimension" />
@@ -103,18 +108,31 @@
         <attr name="rsb_thumb_height" format="dimension"/>
         <attr name="rsb_thumb_scale_ratio" format="float"/>
 
-    </declare-styleable>
-
-    <declare-styleable name="StepRangeSeekBar" >
-
+        <!--steps SeekBar-->
         <attr name="rsb_steps" format="integer"/>
-
         <attr name="rsb_step_color" format="color"/>
-
         <attr name="rsb_step_width" format="dimension"/>
-
         <attr name="rsb_step_height" format="dimension"/>
-
         <attr name="rsb_step_radius" format="dimension"/>
+        <attr name="rsb_step_auto_bonding" format="boolean"/>
+
     </declare-styleable>
+
+    <declare-styleable name="VerticalRangeSeekBar" >
+        <!--the vertical RangeSeekBar draw orientation-->
+        <attr name="rsb_orientation" format="enum">
+            <enum name="left" value="1"/>
+            <enum name="right" value="2"/>
+        </attr>
+        <attr name="rsb_tick_mark_orientation" format="enum">
+            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="2"/>
+        </attr>
+        <attr name="rsb_indicator_text_orientation" format="enum">
+            <enum name="vertical" value="1"/>
+            <enum name="horizontal" value="2"/>
+        </attr>
+    </declare-styleable>
+
+
 </resources>

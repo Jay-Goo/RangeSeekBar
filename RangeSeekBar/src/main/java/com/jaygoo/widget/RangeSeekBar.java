@@ -8,14 +8,21 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Parcelable;
+import android.support.annotation.ColorInt;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
-import static com.jaygoo.widget.SeekBar.INDICATOR_MODE_ALWAYS_SHOW;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
+import static com.jaygoo.widget.SeekBar.INDICATOR_ALWAYS_HIDE;
+import static com.jaygoo.widget.SeekBar.INDICATOR_ALWAYS_SHOW;
 
 
 public class RangeSeekBar extends View {
@@ -24,72 +31,106 @@ public class RangeSeekBar extends View {
     public final static int SEEKBAR_MODE_SINGLE = 1;
     //RangeSeekBar
     public final static int SEEKBAR_MODE_RANGE = 2;
+    /** @hide */
+    @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SeekBarModeDef {}
 
     //number according to the actual proportion of the number of arranged;
     public final static int TRICK_MARK_MODE_NUMBER = 0;
     //other equally arranged
     public final static int TRICK_MARK_MODE_OTHER = 1;
+    /** @hide */
+    @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkModeDef {}
+
     //tick mark text gravity
     public final static int TRICK_MARK_GRAVITY_LEFT = 0;
     public final static int TRICK_MARK_GRAVITY_CENTER = 1;
     public final static int TRICK_MARK_GRAVITY_RIGHT = 2;
+    /** @hide */
+    @IntDef({TRICK_MARK_GRAVITY_LEFT, TRICK_MARK_GRAVITY_CENTER, TRICK_MARK_GRAVITY_RIGHT})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkGravityDef {}
 
-    //tick mark text layout gravity
-    public final static int TRICK_MARK_LAYOUT_GRAVITY_TOP = 0;
-    public final static int TRICK_MARK_LAYOUT_GRAVITY_BOTTOM = 1;
+    public static class Gravity {
+        public final static int TOP = 0;
+        public final static int BOTTOM = 1;
+        public final static int CENTER = 2;
+    }
 
-    protected int lineTop, lineBottom, lineLeft, lineRight;
-    private int seekBarMode;
+
+    int progressTop, progressBottom, progressLeft, progressRight;
+    int seekBarMode;
     //刻度模式：number根据数字实际比例排列；other 均分排列
-    private int tickMarkMode;
+    int tickMarkMode;
     //刻度与进度条间的间距
     //The spacing between the tick mark and the progress bar
-    private int tickMarkTextMargin;
+    int tickMarkTextMargin;
     //刻度文字与提示文字的大小
     //tick mark text and prompt text size
-    private int tickMarkTextSize;
-    private int tickMarkGravity;
-    private int tickMarkLayoutGravity;
-    private int tickMarkTextColor;
-    private int tickMarkInRangeTextColor;
+    int tickMarkTextSize;
+    int tickMarkGravity;
+    int tickMarkLayoutGravity;
+    int tickMarkTextColor;
+    int tickMarkInRangeTextColor;
     //刻度上显示的文字
     //The texts displayed on the scale
-    private CharSequence[] tickMarkTextArray;
+    CharSequence[] tickMarkTextArray;
     //进度条圆角
     //radius of progress bar
-    private float progressRadius;
+    float progressRadius;
     //进度中进度条的颜色
     //the color of seekBar in progress
-    private int progressColor;
+    int progressColor;
     //默认进度条颜色
     //the default color of the progress bar
-    private int progressDefaultColor;
+    int progressDefaultColor;
     //the progress height
-    private int progressHeight;
+    int progressHeight;
+    // the progress width
+    int progressWidth;
     //the range interval of RangeSeekBar
-    private float minInterval;
+    float minInterval;
 
+    int gravity;
     //enable RangeSeekBar two thumb Overlap
-    private boolean enableThumbOverlap;
+    boolean enableThumbOverlap;
+
+
+    //the color of step divs
+    int stepsColor;
+    //the width of each step
+    float stepsWidth;
+    //the height of each step
+    float stepsHeight;
+    //the radius of step divs
+    float stepsRadius;
+    //steps is 0 will disable StepSeekBar
+    int steps;
+    //the thumb will automatic bonding close to its value
+    boolean stepsAutoBonding;
+
     //****************** the above is attr value  ******************//
     //用户设置的真实的最大值和最小值
     //True values set by the user
-    private float minProgress, maxProgress;
-    // the progress width
-    private int lineWidth;
-    private int linePaddingRight;
-    private float touchDownX;
+    float minProgress, maxProgress;
+
+    float touchDownX;
     //剩余最小间隔的进度
-    protected float reservePercent;
-    private boolean isEnable = true;
-    private boolean isScaleThumb = false;
-    private Paint paint = new Paint();
-    private RectF backgroundLineRect = new RectF();
-    private RectF foregroundLineRect = new RectF();
-    private Rect tickMarkTextRect = new Rect();
-    private SeekBar leftSB;
-    private SeekBar rightSB;
-    protected SeekBar currTouchSB;
+    float reservePercent;
+    boolean isEnable = true;
+    boolean isScaleThumb = false;
+    Paint paint = new Paint();
+    RectF progressRect = new RectF();
+    RectF foregroundLineRect = new RectF();
+    RectF stepDivRect = new RectF();
+    Rect tickMarkTextRect = new Rect();
+    SeekBar leftSB;
+    SeekBar rightSB;
+    SeekBar currTouchSB;
+    private int progressPaddingRight;
     private OnRangeChangedListener callback;
 
 
@@ -101,32 +142,15 @@ public class RangeSeekBar extends View {
         super(context, attrs);
         initAttrs(attrs);
         initPaint();
+        initSeekBar(attrs);
+    }
+
+    private void initSeekBar(AttributeSet attrs) {
         leftSB = new SeekBar(this, attrs, true);
         rightSB = new SeekBar(this, attrs, false);
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
-        setRange(minProgress, maxProgress, minInterval);
-        initProgressLine();
     }
 
-    private void initProgressLine() {
-        //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
-        //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
-        //Android7.0以上：onMeasure--->onSizeChanged
-        int leftLineTop = (int) (leftSB.getIndicatorHeight() + leftSB.getIndicatorArrowSize() + leftSB.getIndicatorMargin()
-                + leftSB.getThumbHeight() * leftSB.getThumbScaleRatio() / 2 - progressHeight / 2);
-        if (seekBarMode == SEEKBAR_MODE_SINGLE) {
-            lineTop = leftLineTop;
-        } else {
-            int rightLineTop = (int) (rightSB.getIndicatorHeight() + rightSB.getIndicatorArrowSize() + rightSB.getIndicatorMargin()
-                    + rightSB.getThumbHeight() * rightSB.getThumbScaleRatio() / 2 - progressHeight / 2);
-            lineTop = Math.max(leftLineTop, rightLineTop);
-        }
-        lineBottom = lineTop + progressHeight;
-        //default value
-        if (progressRadius < 0) {
-            progressRadius = (int) ((getLineBottom() - getLineTop()) * 0.45f);
-        }
-    }
 
     private void initAttrs(AttributeSet attrs) {
         try {
@@ -135,18 +159,25 @@ public class RangeSeekBar extends View {
             minProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_min, 0);
             maxProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_max, 100);
             minInterval = t.getFloat(R.styleable.RangeSeekBar_rsb_min_interval, 0);
+            gravity = t.getInt(R.styleable.RangeSeekBar_rsb_gravity, Gravity.TOP);
             progressColor = t.getColor(R.styleable.RangeSeekBar_rsb_progress_color, 0xFF4BD962);
             progressRadius = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_radius, -1);
             progressDefaultColor = t.getColor(R.styleable.RangeSeekBar_rsb_progress_default_color, 0xFFD7D7D7);
             progressHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_height, Utils.dp2px(getContext(), 2));
             tickMarkMode = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_mode, TRICK_MARK_MODE_NUMBER);
             tickMarkGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_gravity, TRICK_MARK_GRAVITY_CENTER);
-            tickMarkLayoutGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_layout_gravity, TRICK_MARK_LAYOUT_GRAVITY_TOP);
+            tickMarkLayoutGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_layout_gravity, Gravity.TOP);
             tickMarkTextArray = t.getTextArray(R.styleable.RangeSeekBar_rsb_tick_mark_text_array);
             tickMarkTextMargin = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_margin, Utils.dp2px(getContext(), 7));
             tickMarkTextSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_size, Utils.dp2px(getContext(), 12));
             tickMarkTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressDefaultColor);
             tickMarkInRangeTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressColor);
+            steps = t.getInt(R.styleable.RangeSeekBar_rsb_steps, 0);
+            stepsColor = t.getColor(R.styleable.RangeSeekBar_rsb_step_color, 0xFF9d9d9d);
+            stepsRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_step_radius, 0);
+            stepsWidth = t.getDimension(R.styleable.RangeSeekBar_rsb_step_width, 0);
+            stepsHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_step_height, 0);
+            stepsAutoBonding = t.getBoolean(R.styleable.RangeSeekBar_rsb_step_auto_bonding, true);
             t.recycle();
         } catch (Exception e) {
             e.printStackTrace();
@@ -154,43 +185,126 @@ public class RangeSeekBar extends View {
 
     }
 
+
+    /**
+     * measure progress bar position
+     */
+    protected void onMeasureProgress(int w, int h) {
+        int viewHeight = h - getPaddingBottom() - getPaddingTop();
+        if (h <= 0) return;
+
+        if (gravity == Gravity.TOP) {
+            //calculate the height of indicator and thumb exceeds the part of the progress
+            float maxIndicatorHeight = 0;
+            if (leftSB.getIndicatorShowMode() != INDICATOR_ALWAYS_HIDE
+                    || rightSB.getIndicatorShowMode() != INDICATOR_ALWAYS_HIDE) {
+                maxIndicatorHeight = Math.max(leftSB.getIndicatorRawHeight(), rightSB.getIndicatorRawHeight());
+            }
+            float thumbHeight = Math.max(leftSB.getThumbScaleHeight(), rightSB.getThumbScaleHeight());
+            thumbHeight -= progressHeight / 2f;
+
+            //default height is indicator + thumb exceeds the part of the progress bar
+            //if tickMark height is greater than (indicator + thumb exceeds the part of the progress)
+            progressTop = (int) (maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
+            if (tickMarkTextArray != null && tickMarkLayoutGravity == Gravity.TOP) {
+                progressTop = (int) Math.max(getTickMarkRawHeight(), maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
+                Utils.print("谁大：", maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
+            }
+
+            progressBottom = progressTop + progressHeight;
+        } else if (gravity == Gravity.BOTTOM) {
+            if (tickMarkTextArray != null && tickMarkLayoutGravity == Gravity.BOTTOM) {
+                progressBottom = viewHeight - getTickMarkRawHeight();
+            } else {
+                progressBottom = (int) (viewHeight - Math.max(leftSB.getThumbScaleHeight(), rightSB.getThumbScaleHeight()) / 2f
+                        + progressHeight / 2f);
+            }
+            progressTop = progressBottom - progressHeight;
+        } else {
+            progressTop = (viewHeight - progressHeight) / 2;
+            progressBottom = progressTop + progressHeight;
+        }
+
+        int maxThumbWidth = (int) Math.max(leftSB.getThumbScaleWidth(), rightSB.getThumbScaleWidth());
+        progressLeft = maxThumbWidth / 2 + getPaddingLeft();
+        progressRight = w - maxThumbWidth / 2 - getPaddingRight();
+        progressWidth = progressRight - progressLeft;
+        progressRect.set(getProgressLeft(), getProgressTop(), getProgressRight(), getProgressBottom());
+        progressPaddingRight = w - progressRight;
+        //default value
+        if (progressRadius <= 0) {
+            progressRadius = (int) ((getProgressBottom() - getProgressTop()) * 0.45f);
+        }
+    }
+
+    //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
+    //Android7.0以下：onMeasure--->onSizeChanged--->onMeasure
+    //Android7.0以上：onMeasure--->onSizeChanged
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightSize = MeasureSpec.getSize(heightMeasureSpec);
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
-        int heightNeeded = 2 * getLineTop() + progressHeight;
         /*
          * onMeasure传入的widthMeasureSpec和heightMeasureSpec不是一般的尺寸数值，而是将模式和尺寸组合在一起的数值
          * MeasureSpec.EXACTLY 是精确尺寸
          * MeasureSpec.AT_MOST 是最大尺寸
          * MeasureSpec.UNSPECIFIED 是未指定尺寸
          */
+
         if (heightMode == MeasureSpec.EXACTLY) {
             heightSize = MeasureSpec.makeMeasureSpec(heightSize, MeasureSpec.EXACTLY);
-        } else if (heightMode == MeasureSpec.AT_MOST) {
-            heightSize = MeasureSpec.makeMeasureSpec(heightNeeded, MeasureSpec.AT_MOST);
+        } else if (heightMode == MeasureSpec.AT_MOST && getParent() instanceof ViewGroup
+                && heightSize == ViewGroup.LayoutParams.MATCH_PARENT) {
+            heightSize = MeasureSpec.makeMeasureSpec(((ViewGroup) getParent()).getMeasuredHeight(), MeasureSpec.AT_MOST);
         } else {
-            heightSize = MeasureSpec.makeMeasureSpec(
-                    heightNeeded, MeasureSpec.EXACTLY);
+            int heightNeeded;
+            if (gravity == Gravity.CENTER) {
+                heightNeeded = 2 * getProgressTop() + progressHeight;
+            } else {
+                heightNeeded = (int) getRawHeight();
+            }
+            heightSize = MeasureSpec.makeMeasureSpec(heightNeeded, MeasureSpec.EXACTLY);
         }
         super.onMeasure(widthMeasureSpec, heightSize);
+    }
+
+    protected int getTickMarkRawHeight() {
+        if (tickMarkTextArray != null && tickMarkTextArray.length > 0) {
+            return tickMarkTextMargin + Utils.measureText(String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).height();
+        }
+        return 0;
+    }
+
+    protected float getRawHeight() {
+        float rawHeight;
+        if (seekBarMode == SEEKBAR_MODE_SINGLE) {
+            rawHeight = leftSB.getRawHeight();
+            if (tickMarkLayoutGravity == Gravity.BOTTOM && tickMarkTextArray != null) {
+                float h = Math.max((leftSB.getThumbScaleHeight() - progressHeight) / 2, getTickMarkRawHeight());
+                rawHeight = rawHeight - leftSB.getThumbScaleHeight() / 2 + progressHeight / 2f + h;
+            }
+        } else {
+            rawHeight = Math.max(leftSB.getRawHeight(), rightSB.getRawHeight());
+            if (tickMarkLayoutGravity == Gravity.BOTTOM && tickMarkTextArray != null) {
+                float thumbHeight = Math.max(leftSB.getThumbScaleHeight(), rightSB.getThumbScaleHeight());
+                float h = Math.max((thumbHeight - progressHeight) / 2, getTickMarkRawHeight());
+                rawHeight = rawHeight - thumbHeight / 2 + progressHeight / 2f + h;
+            }
+        }
+        return rawHeight;
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        //计算进度条的位置，并根据它初始化两个按钮的位置
-        // Calculates the position of the progress bar and initializes the positions of
-        // the two buttons based on it
-        lineLeft = leftSB.getThumbWidth() / 2 + getPaddingLeft();
-        lineRight = w - lineLeft - getPaddingRight();
-        lineWidth = lineRight - lineLeft;
-        linePaddingRight = w - lineRight;
-        backgroundLineRect.set(getLineLeft(), getLineTop(), getLineRight(), getLineBottom());
-        int lineCenterY = (getLineBottom() + getLineTop()) / 2;
-        leftSB.onSizeChanged(getLineLeft(), lineCenterY, lineWidth);
+        onMeasureProgress(w, h);
+        //set default value
+        setRange(minProgress, maxProgress, minInterval);
+        // initializes the positions of the two thumbs
+        int lineCenterY = (getProgressBottom() + getProgressTop()) / 2;
+        leftSB.onSizeChanged(getProgressLeft(), lineCenterY);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSB.onSizeChanged(getLineLeft(), lineCenterY, lineWidth);
+            rightSB.onSizeChanged(getProgressLeft(), lineCenterY);
         }
     }
 
@@ -200,6 +314,7 @@ public class RangeSeekBar extends View {
         super.onDraw(canvas);
         onDrawTickMark(canvas);
         onDrawProgressBar(canvas);
+        onDrawSteps(canvas);
         onDrawSeekBar(canvas);
     }
 
@@ -208,7 +323,7 @@ public class RangeSeekBar extends View {
     // the scale range of different color display
     protected void onDrawTickMark(Canvas canvas) {
         if (tickMarkTextArray != null) {
-            int trickPartWidth = lineWidth / (tickMarkTextArray.length - 1);
+            int trickPartWidth = progressWidth / (tickMarkTextArray.length - 1);
             for (int i = 0; i < tickMarkTextArray.length; i++) {
                 final String text2Draw = tickMarkTextArray[i].toString();
                 if (TextUtils.isEmpty(text2Draw)) continue;
@@ -218,11 +333,11 @@ public class RangeSeekBar extends View {
                 float x;
                 if (tickMarkMode == TRICK_MARK_MODE_OTHER) {
                     if (tickMarkGravity == TRICK_MARK_GRAVITY_RIGHT) {
-                        x = getLineLeft() + i * trickPartWidth - tickMarkTextRect.width();
+                        x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width();
                     } else if (tickMarkGravity == TRICK_MARK_GRAVITY_CENTER) {
-                        x = getLineLeft() + i * trickPartWidth - tickMarkTextRect.width() / 2f;
+                        x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width() / 2f;
                     } else {
-                        x = getLineLeft() + i * trickPartWidth;
+                        x = getProgressLeft() + i * trickPartWidth;
                     }
                 } else {
                     float num = Utils.parseFloat(text2Draw);
@@ -231,14 +346,14 @@ public class RangeSeekBar extends View {
                         paint.setColor(tickMarkInRangeTextColor);
                     }
                     //按实际比例显示
-                    x = getLineLeft() + lineWidth * (num - minProgress) / (maxProgress - minProgress)
+                    x = getProgressLeft() + progressWidth * (num - minProgress) / (maxProgress - minProgress)
                             - tickMarkTextRect.width() / 2f;
                 }
                 float y;
-                if (tickMarkLayoutGravity == TRICK_MARK_LAYOUT_GRAVITY_TOP) {
-                    y = getLineTop() - tickMarkTextMargin;
+                if (tickMarkLayoutGravity == Gravity.TOP) {
+                    y = getProgressTop() - tickMarkTextMargin;
                 } else {
-                    y = getLineBottom() + tickMarkTextMargin + tickMarkTextRect.height();
+                    y = getProgressBottom() + tickMarkTextMargin + tickMarkTextRect.height();
                 }
                 canvas.drawText(text2Draw, x, y, paint);
             }
@@ -249,34 +364,47 @@ public class RangeSeekBar extends View {
     // draw the progress bar
     protected void onDrawProgressBar(Canvas canvas) {
         paint.setColor(progressDefaultColor);
-        canvas.drawRoundRect(backgroundLineRect, progressRadius, progressRadius, paint);
+        canvas.drawRoundRect(progressRect, progressRadius, progressRadius, paint);
         paint.setColor(progressColor);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            foregroundLineRect.top = getLineTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f + lineWidth * leftSB.currPercent;
-            foregroundLineRect.right = rightSB.left + rightSB.getThumbWidth() / 2f + lineWidth * rightSB.currPercent;
-            foregroundLineRect.bottom = getLineBottom();
+            foregroundLineRect.top = getProgressTop();
+            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f + progressWidth * leftSB.currPercent;
+            foregroundLineRect.right = rightSB.left + rightSB.getThumbWidth() / 2f + progressWidth * rightSB.currPercent;
+            foregroundLineRect.bottom = getProgressBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
         } else {
-            foregroundLineRect.top = getLineTop();
+            foregroundLineRect.top = getProgressTop();
             foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f;
-            foregroundLineRect.right = leftSB.left + leftSB.getThumbWidth() / 2f + lineWidth * leftSB.currPercent;
-            foregroundLineRect.bottom = getLineBottom();
+            foregroundLineRect.right = leftSB.left + leftSB.getThumbWidth() / 2f + progressWidth * leftSB.currPercent;
+            foregroundLineRect.bottom = getProgressBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
+        }
+    }
+
+    //draw steps
+    protected void onDrawSteps(Canvas canvas) {
+        if (steps < 1 || stepsHeight <= 0 || stepsWidth <= 0) return;
+        int stepMarks = getProgressWidth() / (steps);
+        float extHeight = (stepsHeight - getProgressHeight()) / 2f;
+        for (int k = 0; k <= steps; k++) {
+            float x = getProgressLeft() + k * stepMarks - stepsWidth / 2f;
+            paint.setColor(stepsColor);
+            stepDivRect.set(x, getProgressTop() - extHeight, x + stepsWidth, getProgressBottom() + extHeight);
+            canvas.drawRoundRect(stepDivRect, stepsRadius, stepsRadius, paint);
         }
     }
 
     //绘制SeekBar相关
     protected void onDrawSeekBar(Canvas canvas) {
         //draw left SeekBar
-        if (leftSB.getIndicatorShowMode() == INDICATOR_MODE_ALWAYS_SHOW) {
+        if (leftSB.getIndicatorShowMode() == INDICATOR_ALWAYS_SHOW) {
             leftSB.setShowIndicatorEnable(true);
         }
         leftSB.draw(canvas);
 
         //draw right SeekBar
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            if (rightSB.getIndicatorShowMode() == INDICATOR_MODE_ALWAYS_SHOW) {
+            if (rightSB.getIndicatorShowMode() == INDICATOR_ALWAYS_SHOW) {
                 rightSB.setShowIndicatorEnable(true);
             }
             rightSB.draw(canvas);
@@ -290,150 +418,6 @@ public class RangeSeekBar extends View {
         paint.setTextSize(tickMarkTextSize);
     }
 
-    public void setProgress(float value) {
-        setProgress(value, maxProgress);
-    }
-
-    public void setProgress(float leftValue, float rightValue) {
-        leftValue = Math.min(leftValue, rightValue);
-        rightValue = Math.max(leftValue, rightValue);
-        if (rightValue - leftValue < minInterval) {
-            leftValue = rightValue - minInterval;
-        }
-
-        if (leftValue < minProgress) {
-            throw new IllegalArgumentException("setProgress() min < (preset min - offsetValue) . #min:" + leftValue + " #preset min:" + rightValue);
-        }
-        if (rightValue > maxProgress) {
-            throw new IllegalArgumentException("setProgress() max > (preset max - offsetValue) . #max:" + rightValue + " #preset max:" + rightValue);
-        }
-
-        float range = maxProgress - minProgress;
-        leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
-        }
-
-        if (callback != null) {
-            callback.onRangeChanged(this, leftValue, rightValue, false);
-        }
-        invalidate();
-    }
-
-
-    /**
-     * 设置范围
-     *
-     * @param min 最小值
-     * @param max 最大值
-     */
-    public void setRange(float min, float max) {
-        setRange(min, max, minInterval);
-    }
-
-    /**
-     * 设置范围
-     *
-     * @param min         最小值
-     * @param max         最大值
-     * @param minInterval 最小间隔
-     */
-    public void setRange(float min, float max, float minInterval) {
-        if (max <= min) {
-            throw new IllegalArgumentException("setRange() max must be greater than min ! #max:" + max + " #min:" + min);
-        }
-        if (minInterval < 0) {
-            throw new IllegalArgumentException("setRange() interval must be greater than zero ! #minInterval:" + minInterval);
-        }
-        if (minInterval >= max - min) {
-            throw new IllegalArgumentException("setRange() interval must be less than (max - min) ! #minInterval:" + minInterval + " #max - min:" + (max - min));
-        }
-
-        maxProgress = max;
-        minProgress = min;
-        this.minInterval = minInterval;
-        reservePercent = minInterval / (max - min);
-
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            if (leftSB.currPercent + reservePercent <= 1 && leftSB.currPercent + reservePercent > rightSB.currPercent) {
-                rightSB.currPercent = leftSB.currPercent + reservePercent;
-            } else if (rightSB.currPercent - reservePercent >= 0 && rightSB.currPercent - reservePercent < leftSB.currPercent) {
-                leftSB.currPercent = rightSB.currPercent - reservePercent;
-            }
-        } else {
-            if (1 - reservePercent >= 0 && 1 - reservePercent < leftSB.currPercent) {
-                leftSB.currPercent = 1 - reservePercent;
-            }
-        }
-        invalidate();
-    }
-
-    /**
-     * @return the two seekBar state , see {@link SeekBarState}
-     */
-    public SeekBarState[] getRangeSeekBarState() {
-        float range = maxProgress - minProgress;
-        SeekBarState leftSeekBarState = new SeekBarState();
-        leftSeekBarState.value = minProgress + range * leftSB.currPercent;
-
-        leftSeekBarState.indicatorText = String.valueOf(leftSeekBarState.value);
-        if (Utils.compareFloat(leftSB.currPercent, 0f) == 0) {
-            leftSeekBarState.isMin = true;
-        } else if (Utils.compareFloat(leftSB.currPercent, 1f) == 0) {
-            leftSeekBarState.isMax = true;
-        }
-
-        SeekBarState rightSeekBarState = new SeekBarState();
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSeekBarState.value = minProgress + range * rightSB.currPercent;
-            rightSeekBarState.indicatorText = String.valueOf(rightSeekBarState.value);
-            if (Utils.compareFloat(rightSB.currPercent, 0f) == 0) {
-                rightSeekBarState.isMin = true;
-            } else if (Utils.compareFloat(rightSB.currPercent, 1f) == 0) {
-                rightSeekBarState.isMax = true;
-            }
-        }
-
-        return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
-    }
-
-
-    @Override
-    public void setEnabled(boolean enabled) {
-        super.setEnabled(enabled);
-        this.isEnable = enabled;
-    }
-
-    public void setIndicatorText(String progress) {
-        leftSB.setIndicatorText(progress);
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSB.setIndicatorText(progress);
-        }
-    }
-
-    /**
-     * format number indicator text
-     *
-     * @param formatPattern format rules
-     */
-    public void setIndicatorTextDecimalFormat(String formatPattern) {
-        leftSB.setIndicatorTextDecimalFormat(formatPattern);
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSB.setIndicatorTextDecimalFormat(formatPattern);
-        }
-    }
-
-    /**
-     * format string indicator text
-     *
-     * @param formatPattern format rules
-     */
-    public void setIndicatorTextStringFormat(String formatPattern) {
-        leftSB.setIndicatorTextStringFormat(formatPattern);
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            rightSB.setIndicatorTextStringFormat(formatPattern);
-        }
-    }
 
     private void changeThumbActivateState(boolean hasActivate) {
         if (hasActivate && currTouchSB != null) {
@@ -464,7 +448,7 @@ public class RangeSeekBar extends View {
             isScaleThumb = true;
             currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() * currTouchSB.getThumbScaleRatio()));
             currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() * currTouchSB.getThumbScaleRatio()));
-            currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
+            currTouchSB.onSizeChanged(getProgressLeft(), getProgressBottom());
         }
     }
 
@@ -476,16 +460,16 @@ public class RangeSeekBar extends View {
             isScaleThumb = false;
             currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() / currTouchSB.getThumbScaleRatio()));
             currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() / currTouchSB.getThumbScaleRatio()));
-            currTouchSB.onSizeChanged(getLineLeft(), getLineBottom(), lineWidth);
+            currTouchSB.onSizeChanged(getProgressLeft(), getProgressBottom());
         }
     }
 
     //calculate currTouchSB percent by MotionEvent
     protected float calculateCurrentSeekBarPercent(float touchDownX) {
-        float percent = (touchDownX - getLineLeft()) * 1f / (lineWidth);
-        if (touchDownX < getLineLeft()) {
+        float percent = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
+        if (touchDownX < getProgressLeft()) {
             percent = 0;
-        } else if (touchDownX > getLineRight()) {
+        } else if (touchDownX > getProgressRight()) {
             percent = 1;
         }
         //RangeMode minimum interval
@@ -517,7 +501,7 @@ public class RangeSeekBar extends View {
                         currTouchSB = rightSB;
                         scaleCurrentSeekBarThumb();
                     } else {
-                        float percentClick = (touchDownX - getLineLeft()) * 1f / (lineWidth);
+                        float percentClick = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
                         float distanceLeft = Math.abs(leftSB.currPercent - percentClick);
                         float distanceRight = Math.abs(rightSB.currPercent - percentClick);
                         if (distanceLeft < distanceRight) {
@@ -603,6 +587,13 @@ public class RangeSeekBar extends View {
                 changeThumbActivateState(false);
                 break;
             case MotionEvent.ACTION_UP:
+                if (steps > 0 && stepsAutoBonding) {
+                    float percent = calculateCurrentSeekBarPercent(event.getX());
+                    float stepPercent = 1.0f / steps;
+                    int stepSelected = new BigDecimal(percent / stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
+                    currTouchSB.slide(stepSelected * stepPercent);
+                }
+
                 if (seekBarMode == SEEKBAR_MODE_RANGE) {
                     rightSB.setShowIndicatorEnable(false);
                 }
@@ -657,8 +648,151 @@ public class RangeSeekBar extends View {
 
     }
 
+    //******************* Attributes getter and setter *******************//
+
     public void setOnRangeChangedListener(OnRangeChangedListener listener) {
         callback = listener;
+    }
+
+    public void setProgress(float value) {
+        setProgress(value, maxProgress);
+    }
+
+    public void setProgress(float leftValue, float rightValue) {
+        leftValue = Math.min(leftValue, rightValue);
+        rightValue = Math.max(leftValue, rightValue);
+        if (rightValue - leftValue < minInterval) {
+            leftValue = rightValue - minInterval;
+        }
+
+        if (leftValue < minProgress) {
+            throw new IllegalArgumentException("setProgress() min < (preset min - offsetValue) . #min:" + leftValue + " #preset min:" + rightValue);
+        }
+        if (rightValue > maxProgress) {
+            throw new IllegalArgumentException("setProgress() max > (preset max - offsetValue) . #max:" + rightValue + " #preset max:" + rightValue);
+        }
+
+        float range = maxProgress - minProgress;
+        leftSB.currPercent = Math.abs(leftValue - minProgress) / range;
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            rightSB.currPercent = Math.abs(rightValue - minProgress) / range;
+        }
+
+        if (callback != null) {
+            callback.onRangeChanged(this, leftValue, rightValue, false);
+        }
+        invalidate();
+    }
+
+
+    /**
+     * 设置范围
+     *
+     * @param min 最小值
+     * @param max 最大值
+     */
+    public void setRange(float min, float max) {
+        setRange(min, max, minInterval);
+    }
+
+    /**
+     * 设置范围
+     *
+     * @param min         最小值
+     * @param max         最大值
+     * @param minInterval 最小间隔
+     */
+    public void setRange(float min, float max, float minInterval) {
+        if (max <= min) {
+            throw new IllegalArgumentException("setRange() max must be greater than min ! #max:" + max + " #min:" + min);
+        }
+        if (minInterval < 0) {
+            throw new IllegalArgumentException("setRange() interval must be greater than zero ! #minInterval:" + minInterval);
+        }
+        if (minInterval >= max - min) {
+            throw new IllegalArgumentException("setRange() interval must be less than (max - min) ! #minInterval:" + minInterval + " #max - min:" + (max - min));
+        }
+
+        maxProgress = max;
+        minProgress = min;
+        this.minInterval = minInterval;
+        reservePercent = minInterval / (max - min);
+
+        //set default value
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            if (leftSB.currPercent + reservePercent <= 1 && leftSB.currPercent + reservePercent > rightSB.currPercent) {
+                rightSB.currPercent = leftSB.currPercent + reservePercent;
+            } else if (rightSB.currPercent - reservePercent >= 0 && rightSB.currPercent - reservePercent < leftSB.currPercent) {
+                leftSB.currPercent = rightSB.currPercent - reservePercent;
+            }
+        }
+        invalidate();
+    }
+
+    /**
+     * @return the two seekBar state , see {@link SeekBarState}
+     */
+    public SeekBarState[] getRangeSeekBarState() {
+        SeekBarState leftSeekBarState = new SeekBarState();
+        leftSeekBarState.value = leftSB.getProgress();
+
+        leftSeekBarState.indicatorText = String.valueOf(leftSeekBarState.value);
+        if (Utils.compareFloat(leftSeekBarState.value, minProgress) == 0) {
+            leftSeekBarState.isMin = true;
+        } else if (Utils.compareFloat(leftSeekBarState.value, maxProgress) == 0) {
+            leftSeekBarState.isMax = true;
+        }
+
+        SeekBarState rightSeekBarState = new SeekBarState();
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            rightSeekBarState.value = rightSB.getProgress();
+            rightSeekBarState.indicatorText = String.valueOf(rightSeekBarState.value);
+            if (Utils.compareFloat(rightSB.currPercent, minProgress) == 0) {
+                rightSeekBarState.isMin = true;
+            } else if (Utils.compareFloat(rightSB.currPercent, maxProgress) == 0) {
+                rightSeekBarState.isMax = true;
+            }
+        }
+
+        return new SeekBarState[]{leftSeekBarState, rightSeekBarState};
+    }
+
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        this.isEnable = enabled;
+    }
+
+    public void setIndicatorText(String progress) {
+        leftSB.setIndicatorText(progress);
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            rightSB.setIndicatorText(progress);
+        }
+    }
+
+    /**
+     * format number indicator text
+     *
+     * @param formatPattern format rules
+     */
+    public void setIndicatorTextDecimalFormat(String formatPattern) {
+        leftSB.setIndicatorTextDecimalFormat(formatPattern);
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            rightSB.setIndicatorTextDecimalFormat(formatPattern);
+        }
+    }
+
+    /**
+     * format string indicator text
+     *
+     * @param formatPattern format rules
+     */
+    public void setIndicatorTextStringFormat(String formatPattern) {
+        leftSB.setIndicatorTextStringFormat(formatPattern);
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            rightSB.setIndicatorTextStringFormat(formatPattern);
+        }
     }
 
     /**
@@ -674,52 +808,25 @@ public class RangeSeekBar extends View {
         return rightSB;
     }
 
-    public float getSingleSeekBarProgress() {
-        return getLeftSeekBarProgress();
+
+    public int getProgressTop() {
+        return progressTop;
     }
 
-    public float getLeftSeekBarProgress() {
-        return getRangeSeekBarState()[0].value;
+    public int getProgressBottom() {
+        return progressBottom;
     }
 
-    public float getRightSeekBarProgress() {
-        return getRangeSeekBarState()[1].value;
+    public int getProgressLeft() {
+        return progressLeft;
     }
 
-    public int getLineTop() {
-        return lineTop;
+    public int getProgressRight() {
+        return progressRight;
     }
 
-    public void setLineTop(int lineTop) {
-        this.lineTop = lineTop;
-    }
-
-    public int getLineBottom() {
-        return lineBottom;
-    }
-
-    public void setLineBottom(int lineBottom) {
-        this.lineBottom = lineBottom;
-    }
-
-    public int getLineLeft() {
-        return lineLeft;
-    }
-
-    public void setLineLeft(int lineLeft) {
-        this.lineLeft = lineLeft;
-    }
-
-    public int getLineRight() {
-        return lineRight;
-    }
-
-    public void setLineRight(int lineRight) {
-        this.lineRight = lineRight;
-    }
-
-    public int getLinePaddingRight() {
-        return linePaddingRight;
+    public int getProgressPaddingRight() {
+        return progressPaddingRight;
     }
 
     public int getProgressHeight() {
@@ -738,7 +845,7 @@ public class RangeSeekBar extends View {
         return maxProgress;
     }
 
-    public void setProgressColor(int progressDefaultColor, int progressColor) {
+    public void setProgressColor(@ColorInt int progressDefaultColor, @ColorInt int progressColor) {
         this.progressDefaultColor = progressDefaultColor;
         this.progressColor = progressColor;
     }
@@ -747,7 +854,7 @@ public class RangeSeekBar extends View {
         return tickMarkTextColor;
     }
 
-    public void setTickMarkTextColor(int tickMarkTextColor) {
+    public void setTickMarkTextColor(@ColorInt int tickMarkTextColor) {
         this.tickMarkTextColor = tickMarkTextColor;
     }
 
@@ -755,7 +862,7 @@ public class RangeSeekBar extends View {
         return tickMarkInRangeTextColor;
     }
 
-    public void setTickMarkInRangeTextColor(int tickMarkInRangeTextColor) {
+    public void setTickMarkInRangeTextColor(@ColorInt int tickMarkInRangeTextColor) {
         this.tickMarkInRangeTextColor = tickMarkInRangeTextColor;
     }
 
@@ -763,7 +870,7 @@ public class RangeSeekBar extends View {
         return seekBarMode;
     }
 
-    public void setSeekBarMode(int seekBarMode) {
+    public void setSeekBarMode(@SeekBarModeDef int seekBarMode) {
         this.seekBarMode = seekBarMode;
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
     }
@@ -772,7 +879,7 @@ public class RangeSeekBar extends View {
         return tickMarkMode;
     }
 
-    public void setTickMarkMode(int tickMarkMode) {
+    public void setTickMarkMode(@TickMarkModeDef int tickMarkMode) {
         this.tickMarkMode = tickMarkMode;
     }
 
@@ -796,7 +903,7 @@ public class RangeSeekBar extends View {
         return tickMarkGravity;
     }
 
-    public void setTickMarkGravity(int tickMarkGravity) {
+    public void setTickMarkGravity(@TickMarkGravityDef int tickMarkGravity) {
         this.tickMarkGravity = tickMarkGravity;
     }
 
@@ -824,7 +931,7 @@ public class RangeSeekBar extends View {
         return progressColor;
     }
 
-    public void setProgressColor(int progressColor) {
+    public void setProgressColor(@ColorInt int progressColor) {
         this.progressColor = progressColor;
     }
 
@@ -832,16 +939,16 @@ public class RangeSeekBar extends View {
         return progressDefaultColor;
     }
 
-    public void setProgressDefaultColor(int progressDefaultColor) {
+    public void setProgressDefaultColor(@ColorInt int progressDefaultColor) {
         this.progressDefaultColor = progressDefaultColor;
     }
 
-    public int getLineWidth() {
-        return lineWidth;
+    public int getProgressWidth() {
+        return progressWidth;
     }
 
-    public void setLineWidth(int lineWidth) {
-        this.lineWidth = lineWidth;
+    public void setProgressWidth(int progressWidth) {
+        this.progressWidth = progressWidth;
     }
 
 
@@ -855,5 +962,45 @@ public class RangeSeekBar extends View {
 
     public void setEnableThumbOverlap(boolean enableThumbOverlap) {
         this.enableThumbOverlap = enableThumbOverlap;
+    }
+
+    public void setSteps(int steps) {
+        this.steps = steps;
+    }
+
+    public int getSteps() {
+        return steps;
+    }
+
+    public int getStepsColor() {
+        return stepsColor;
+    }
+
+    public void setStepsColor(@ColorInt int stepsColor) {
+        this.stepsColor = stepsColor;
+    }
+
+    public float getStepsWidth() {
+        return stepsWidth;
+    }
+
+    public void setStepsWidth(float stepsWidth) {
+        this.stepsWidth = stepsWidth;
+    }
+
+    public float getStepsHeight() {
+        return stepsHeight;
+    }
+
+    public void setStepsHeight(float stepsHeight) {
+        this.stepsHeight = stepsHeight;
+    }
+
+    public float getStepsRadius() {
+        return stepsRadius;
+    }
+
+    public void setStepsRadius(float stepsRadius) {
+        this.stepsRadius = stepsRadius;
     }
 }

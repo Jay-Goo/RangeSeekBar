@@ -6,13 +6,14 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:layout_marginTop="@dimen/activity_horizontal_margin"
     android:orientation="horizontal">
 
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar1"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -36,12 +37,14 @@
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar2"
-        android:layout_width="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
-        app:rsb_indicator_height="20dp"
         app:rsb_indicator_show_mode="alwaysShow"
         app:rsb_indicator_text_size="16sp"
-        app:rsb_indicator_width="80dp"
+        app:rsb_indicator_width="wrap_content"
+        app:rsb_indicator_height="wrap_content"
+        app:rsb_orientation="left"
+        app:rsb_gravity="bottom"
         app:rsb_mode="single"
         app:rsb_progress_color="@color/colorAccent"
         app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
@@ -51,15 +54,15 @@
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar3"
-        android:layout_width="70dp"
+        android:layout_width="110dp"
         android:layout_height="300dp"
         app:rsb_indicator_background_color="#a6c1ee"
-        app:rsb_indicator_height="25dp"
+        app:rsb_indicator_width="40dp"
+        app:rsb_indicator_height="60dp"
         app:rsb_indicator_margin="3dp"
         app:rsb_indicator_show_mode="alwaysShow"
-        app:rsb_indicator_width="80dp"
         app:rsb_max="100"
-        app:rsb_min="-100"
+        app:rsb_min="0"
         app:rsb_min_interval="80"
         app:rsb_mode="range"
         app:rsb_orientation="right"
@@ -72,7 +75,7 @@
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar4"
-        android:layout_width="70dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
         app:rsb_indicator_show_mode="alwaysHide"
         app:rsb_max="100"
@@ -86,7 +89,7 @@
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar5"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="300dp"
         app:rsb_indicator_show_mode="alwaysHide"
         app:rsb_mode="single"

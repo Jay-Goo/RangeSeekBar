@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.NinePatch;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -21,12 +22,27 @@ import android.util.Log;
  */
 public class Utils {
 
+    private static final String TAG = "RangeSeekBar";
+
+    public static void print(String log){
+        Log.d(TAG, log);
+    }
+
+    public static void print(Object... logs){
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object log: logs){
+            stringBuilder.append(log);
+        }
+        Log.d(TAG, stringBuilder.toString());
+    }
+
     /**
-     *  make a drawable to a bitmap
+     * make a drawable to a bitmap
+     *
      * @param drawable drawable you want convert
      * @return converted bitmap
      */
-    public static Bitmap drawableToBitmap(int width,int height, Drawable drawable) {
+    public static Bitmap drawableToBitmap(int width, int height, Drawable drawable) {
         Bitmap bitmap = null;
         try {
             if (drawable instanceof BitmapDrawable) {
@@ -45,7 +61,7 @@ public class Utils {
             Canvas canvas = new Canvas(bitmap);
             drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
             drawable.draw(canvas);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -56,8 +72,8 @@ public class Utils {
      * draw 9Path
      *
      * @param canvas Canvas
-     * @param bmp 9path bitmap
-     * @param rect 9path rect
+     * @param bmp    9path bitmap
+     * @param rect   9path rect
      */
     public static void drawNinePath(Canvas canvas, Bitmap bmp, Rect rect) {
         NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
@@ -65,13 +81,14 @@ public class Utils {
     }
 
     public static int dp2px(Context context, float dpValue) {
-        if (context == null || compareFloat(0f,dpValue) == 0)return 0;
+        if (context == null || compareFloat(0f, dpValue) == 0) return 0;
         final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     /**
      * Compare the size of two floating point numbers
+     *
      * @param a
      * @param b
      * @return 1 is a > b
@@ -92,10 +109,18 @@ public class Utils {
 
     public static float parseFloat(String s) {
         try {
-           return Float.parseFloat(s);
-        }catch (NumberFormatException e){
+            return Float.parseFloat(s);
+        } catch (NumberFormatException e) {
             return 0f;
         }
     }
 
+    public static Rect measureText(String text, float textSize){
+        Paint paint = new Paint();
+        Rect textRect = new Rect();
+        paint.setTextSize(textSize);
+        paint.getTextBounds(text, 0, text.length(), textRect);
+        paint.reset();
+        return textRect;
     }
+}

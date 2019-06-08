@@ -12,16 +12,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.text.DecimalFormat;
 
 
@@ -35,109 +38,111 @@ import java.text.DecimalFormat;
  */
 
 public class SeekBar {
-    //the indicator mode
-    public static final int INDICATOR_MODE_SHOW_WHEN_TOUCH = 0;
-    public static final int INDICATOR_MODE_ALWAYS_HIDE = 1;
-    public static final int INDICATOR_MODE_ALWAYS_SHOW_AFTER_TOUCH = 2;
-    public static final int INDICATOR_MODE_ALWAYS_SHOW = 3;
+    //the indicator show mode
+    public static final int INDICATOR_SHOW_WHEN_TOUCH = 0;
+    public static final int INDICATOR_ALWAYS_HIDE = 1;
+    public static final int INDICATOR_ALWAYS_SHOW_AFTER_TOUCH = 2;
+    public static final int INDICATOR_ALWAYS_SHOW = 3;
+    @IntDef({INDICATOR_SHOW_WHEN_TOUCH, INDICATOR_ALWAYS_HIDE, INDICATOR_ALWAYS_SHOW_AFTER_TOUCH,INDICATOR_ALWAYS_SHOW })
+    public @interface IndicatorModeDef {}
 
-    private int indicatorShowMode;
+    public static final int WRAP_CONTENT = -1;
+    public static final int MATCH_PARENT = -2;
+
+    int indicatorShowMode;
 
     //进度提示背景的高度，宽度如果是0的话会自适应调整
     //Progress prompted the background height, width,
-    //if width is 0, then adaptively adjust
-    // indicatorHeight must > 0 if you want use indicator
-    private int indicatorHeight;
-    private int indicatorWidth;
+    protected int indicatorHeight;
+    int indicatorWidth;
     //进度提示背景与按钮之间的距离
     //The progress indicates the distance between the background and the button
-    private int indicatorMargin;
-    private int indicatorDrawableId;
-    private int indicatorArrowSize;
-    private int indicatorTextSize;
-    private int indicatorTextColor;
-    private float indicatorRadius;
-    private int indicatorBackgroundColor;
-    private int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
-    private int thumbDrawableId;
-    private int thumbInactivatedDrawableId;
-    private int thumbWidth;
-    private int thumbHeight;
+    int indicatorMargin;
+    int indicatorDrawableId;
+    int indicatorArrowSize;
+    int indicatorTextSize;
+    int indicatorTextColor;
+    float indicatorRadius;
+    int indicatorBackgroundColor;
+    int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
+    int thumbDrawableId;
+    int thumbInactivatedDrawableId;
+    int thumbWidth;
+    int thumbHeight;
 
     //when you touch or move, the thumb will scale, default not scale
-    private float thumbScaleRatio;
+    float thumbScaleRatio;
 
     //****************** the above is attr value  ******************//
 
-    private int lineWidth;
-    protected int left, right, top, bottom;
-    protected float currPercent;
-    protected float material = 0;
-    private boolean isShowIndicator;
-    private boolean isLeft;
-    private Bitmap thumbBitmap;
-    private Bitmap thumbInactivatedBitmap;
-    private Bitmap indicatorBitmap;
-    private ValueAnimator anim;
-    private String userText2Draw;
-    private boolean isActivate = false;
-    private boolean isVisible = true;
-    private RangeSeekBar rangeSeekBar;
-    private String indicatorTextStringFormat;
-    private Path indicatorArrowPath = new Path();
-    private Rect indicatorTextRect = new Rect();
-    private Rect indicatorRect = new Rect();
-    private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private DecimalFormat indicatorTextDecimalFormat;
+    int left, right, top, bottom;
+    float currPercent;
+    float material = 0;
+    boolean isShowIndicator;
+    boolean isLeft;
+    Bitmap thumbBitmap;
+    Bitmap thumbInactivatedBitmap;
+    Bitmap indicatorBitmap;
+    ValueAnimator anim;
+    String userText2Draw;
+    boolean isActivate = false;
+    boolean isVisible = true;
+    RangeSeekBar rangeSeekBar;
+    String indicatorTextStringFormat;
+    Path indicatorArrowPath = new Path();
+    Rect indicatorTextRect = new Rect();
+    Rect indicatorRect = new Rect();
+    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    DecimalFormat indicatorTextDecimalFormat;
 
 
     public SeekBar(RangeSeekBar rangeSeekBar, AttributeSet attrs, boolean isLeft) {
         this.rangeSeekBar = rangeSeekBar;
         this.isLeft = isLeft;
         initAttrs(attrs);
-        initVariables();
         initBitmap();
+        initVariables();
     }
 
-    private void initAttrs(AttributeSet attrs){
+    private void initAttrs(AttributeSet attrs) {
         TypedArray t = getContext().obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
-        if (t == null)return;
+        if (t == null) return;
         indicatorMargin = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_margin, 0);
         indicatorDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_indicator_drawable, 0);
-        indicatorShowMode = t.getInt(R.styleable.RangeSeekBar_rsb_indicator_show_mode, INDICATOR_MODE_ALWAYS_HIDE);
-        indicatorHeight = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_height, 0);
-        indicatorWidth = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_width, 0);
-        indicatorTextSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_text_size, Utils.dp2px(getContext(), 14));
-        indicatorTextColor =  t.getColor(R.styleable.RangeSeekBar_rsb_indicator_text_color, Color.WHITE);
+        indicatorShowMode = t.getInt(R.styleable.RangeSeekBar_rsb_indicator_show_mode, INDICATOR_ALWAYS_HIDE);
+        indicatorHeight = t.getLayoutDimension(R.styleable.RangeSeekBar_rsb_indicator_height, WRAP_CONTENT);
+        indicatorWidth = t.getLayoutDimension(R.styleable.RangeSeekBar_rsb_indicator_width, WRAP_CONTENT);
+        indicatorTextSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_text_size, Utils.dp2px(getContext(), 14));
+        indicatorTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_indicator_text_color, Color.WHITE);
         indicatorBackgroundColor = t.getColor(R.styleable.RangeSeekBar_rsb_indicator_background_color, ContextCompat.getColor(getContext(), R.color.colorAccent));
-        indicatorPaddingLeft = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_left, 0);
-        indicatorPaddingRight = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_right, 0);
-        indicatorPaddingTop = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_top, 0);
-        indicatorPaddingBottom = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_bottom, 0);
-        indicatorArrowSize = (int)t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_arrow_size, 0);
+        indicatorPaddingLeft = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_left, 0);
+        indicatorPaddingRight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_right, 0);
+        indicatorPaddingTop = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_top, 0);
+        indicatorPaddingBottom = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_padding_bottom, 0);
+        indicatorArrowSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_arrow_size, 0);
         thumbDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_drawable, R.drawable.rsb_default_thumb);
         thumbInactivatedDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_thumb_inactivated_drawable, 0);
-        thumbWidth = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_width, Utils.dp2px(getContext(),26));
-        thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(),26));
+        thumbWidth = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_width, Utils.dp2px(getContext(), 26));
+        thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(), 26));
         thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
         indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
         t.recycle();
     }
 
-    private void initVariables(){
-        if (indicatorHeight <= 0 && indicatorShowMode != INDICATOR_MODE_ALWAYS_HIDE){
-            throw new IllegalArgumentException("if you want to show indicator, the indicatorHeight must > 0");
+    protected void initVariables() {
+        if (indicatorHeight == WRAP_CONTENT) {
+            indicatorHeight = Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom;
         }
-        if (indicatorArrowSize <= 0){
-            indicatorArrowSize = thumbWidth / 4;
+        if (indicatorArrowSize <= 0) {
+            indicatorArrowSize = (int) (getThumbScaleWidth() / 4);
         }
     }
 
-    private Context getContext(){
+    public Context getContext() {
         return rangeSeekBar.getContext();
     }
 
-    private Resources getResources(){
+    public Resources getResources() {
         if (getContext() != null) return getContext().getResources();
         return null;
     }
@@ -157,49 +162,127 @@ public class SeekBar {
      *
      * @param x position x
      * @param y position y
-     * @param parentLineWidth the RangSeerBar progress line width
      */
-    protected void onSizeChanged(int x, int y, int parentLineWidth) {
+    protected void onSizeChanged(int x, int y) {
         initVariables();
         initBitmap();
-        left = x - thumbWidth / 2;
-        right = x + thumbWidth / 2;
-        top = y - thumbHeight / 2;
-        bottom = y + thumbHeight / 2;
-        lineWidth = parentLineWidth;
+        left = (int) (x - getThumbScaleWidth() / 2);
+        right = (int) (x + getThumbScaleWidth() / 2);
+        top = (int) (y - getThumbScaleHeight() / 2);
+        bottom = (int) (y + getThumbScaleHeight() / 2);
+    }
+
+    public float getRawHeight() {
+        return getIndicatorHeight() + getIndicatorArrowSize() + getIndicatorMargin() + getThumbHeight() * getThumbScaleRatio();
+    }
+
+    /**
+     * 绘制按钮和提示背景和文字
+     * Draw buttons and tips for background and text
+     *
+     * @param canvas Canvas
+     */
+    protected void draw(Canvas canvas) {
+        if (!isVisible) {
+            return;
+        }
+        int offset = (int) (rangeSeekBar.getProgressWidth() * currPercent);
+        canvas.save();
+        canvas.translate(offset, 0);
+        // translate canvas, then don't care left
+        canvas.translate(left, 0);
+        if (indicatorShowMode == INDICATOR_ALWAYS_SHOW) {
+            setShowIndicatorEnable(true);
+        }
+        if (isShowIndicator) {
+            drawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
+        }
+        drawThumb(canvas);
+        canvas.restore();
+    }
+
+
+    /**
+     * 绘制按钮
+     * 如果没有图片资源，则绘制默认按钮
+     * <p>
+     * draw the thumb button
+     * If there is no image resource, draw the default button
+     *
+     * @param canvas canvas
+     */
+    protected void drawThumb(Canvas canvas) {
+        if (thumbInactivatedBitmap != null && !isActivate) {
+            canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
+        } else if (thumbBitmap != null) {
+            canvas.drawBitmap(thumbBitmap, 0, rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
+        }
+    }
+
+    /**
+     * 格式化提示文字
+     * format the indicator text
+     *
+     * @param text2Draw
+     * @return
+     */
+    protected String formatCurrentIndicatorText(String text2Draw) {
+        SeekBarState[] states = rangeSeekBar.getRangeSeekBarState();
+        if (TextUtils.isEmpty(text2Draw)) {
+            if (isLeft) {
+                if (indicatorTextDecimalFormat != null) {
+                    text2Draw = indicatorTextDecimalFormat.format(states[0].value);
+                } else {
+                    text2Draw = states[0].indicatorText;
+                }
+            } else {
+                if (indicatorTextDecimalFormat != null) {
+                    text2Draw = indicatorTextDecimalFormat.format(states[1].value);
+                } else {
+                    text2Draw = states[1].indicatorText;
+                }
+            }
+        }
+        if (indicatorTextStringFormat != null) {
+            text2Draw = String.format(indicatorTextStringFormat, text2Draw);
+        }
+        return text2Draw;
     }
 
     /**
      * This method will draw the indicator background dynamically according to the text.
      * you can use to set padding
-     * @param canvas Canvas
+     *
+     * @param canvas    Canvas
      * @param text2Draw Indicator text
      */
-    private void drawIndicator(Canvas canvas, String text2Draw){
-        if (text2Draw == null)return;
+    protected void drawIndicator(Canvas canvas, Paint paint, String text2Draw) {
+        if (text2Draw == null) return;
+        paint.setTextSize(indicatorTextSize);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(indicatorBackgroundColor);
-        int contentWidth = indicatorTextRect.width() + indicatorPaddingLeft + indicatorPaddingRight;
-        int realIndicatorWidth;
-        if (indicatorWidth <= 0) {
-            realIndicatorWidth = contentWidth;
-        }else if (indicatorWidth < contentWidth) {
-            realIndicatorWidth = contentWidth;
-        }else {
+        paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
+        int realIndicatorWidth = indicatorTextRect.width() + indicatorPaddingLeft + indicatorPaddingRight;
+        if (indicatorWidth > realIndicatorWidth) {
             realIndicatorWidth = indicatorWidth;
         }
 
-        indicatorRect.left = thumbWidth / 2 - realIndicatorWidth / 2;
-        indicatorRect.top = bottom - indicatorHeight - thumbHeight - indicatorMargin;
+        int realIndicatorHeight = indicatorTextRect.height() + indicatorPaddingTop + indicatorPaddingBottom;
+        if (indicatorHeight > realIndicatorHeight) {
+            realIndicatorHeight = indicatorHeight;
+        }
+
+        indicatorRect.left = (int) (thumbWidth / 2f - realIndicatorWidth / 2f);
+        indicatorRect.top = (int) (bottom - realIndicatorHeight - getThumbScaleHeight() - indicatorMargin);
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
-        indicatorRect.bottom = indicatorRect.top + indicatorHeight;
+        indicatorRect.bottom = indicatorRect.top + realIndicatorHeight;
         //draw default indicator arrow
-        if (indicatorBitmap == null){
+        if (indicatorBitmap == null) {
             //arrow three point
             //  b   c
             //    a
             int ax = thumbWidth / 2;
-            int ay = bottom - thumbHeight - indicatorMargin;
+            int ay = (int) (bottom - getThumbScaleHeight() - indicatorMargin);
             int bx = ax - indicatorArrowSize;
             int by = ay - indicatorArrowSize;
             int cx = ax + indicatorArrowSize;
@@ -215,41 +298,42 @@ public class SeekBar {
 
         //indicator background edge processing
         int defaultPaddingOffset = Utils.dp2px(getContext(), 1);
-        int leftOffset = indicatorRect.width() / 2 - (int) (lineWidth * currPercent) - rangeSeekBar.getLineLeft() + defaultPaddingOffset;
-        int rightOffset = indicatorRect.width() / 2 - (int) (lineWidth * (1 - currPercent)) - rangeSeekBar.getLinePaddingRight() + defaultPaddingOffset;
-        if (leftOffset > 0){
+        int leftOffset = indicatorRect.width() / 2 - (int) (rangeSeekBar.getProgressWidth() * currPercent) - rangeSeekBar.getProgressLeft() + defaultPaddingOffset;
+        int rightOffset = indicatorRect.width() / 2 - (int) (rangeSeekBar.getProgressWidth() * (1 - currPercent)) - rangeSeekBar.getProgressPaddingRight() + defaultPaddingOffset;
+
+        if (leftOffset > 0) {
             indicatorRect.left += leftOffset;
             indicatorRect.right += leftOffset;
-        }else if (rightOffset > 0){
+        } else if (rightOffset > 0) {
             indicatorRect.left -= rightOffset;
             indicatorRect.right -= rightOffset;
         }
 
         //draw indicator background
-        if (indicatorBitmap != null){
+        if (indicatorBitmap != null) {
             Utils.drawNinePath(canvas, indicatorBitmap, indicatorRect);
-        }else if (indicatorRadius > 0f){
+        } else if (indicatorRadius > 0f) {
             canvas.drawRoundRect(new RectF(indicatorRect), indicatorRadius, indicatorRadius, paint);
-        }else {
+        } else {
             canvas.drawRect(indicatorRect, paint);
         }
 
         //draw indicator content text
         int tx, ty;
-        if (indicatorPaddingLeft > 0){
+        if (indicatorPaddingLeft > 0) {
             tx = indicatorRect.left + indicatorPaddingLeft;
-        }else if (indicatorPaddingRight > 0){
+        } else if (indicatorPaddingRight > 0) {
             tx = indicatorRect.right - indicatorPaddingRight - indicatorTextRect.width();
         } else {
             tx = indicatorRect.left + (realIndicatorWidth - indicatorTextRect.width()) / 2;
         }
 
-        if (indicatorPaddingTop > 0){
+        if (indicatorPaddingTop > 0) {
             ty = indicatorRect.top + indicatorTextRect.height() + indicatorPaddingTop;
-        }else if (indicatorPaddingBottom > 0){
+        } else if (indicatorPaddingBottom > 0) {
             ty = indicatorRect.bottom - indicatorTextRect.height() - indicatorPaddingBottom;
-        }else {
-            ty = indicatorRect.bottom - (indicatorHeight - indicatorTextRect.height()) / 2 + 1;
+        } else {
+            ty = indicatorRect.bottom - (realIndicatorHeight - indicatorTextRect.height()) / 2 + 1;
         }
 
         //draw indicator text
@@ -258,81 +342,12 @@ public class SeekBar {
     }
 
     /**
-     * 绘制按钮和提示背景和文字
-     * Draw buttons and tips for background and text
-     *
-     * @param canvas Canvas
-     */
-    protected void draw(Canvas canvas) {
-        if (!isVisible){
-            return;
-        }
-        int offset = (int) (lineWidth * currPercent);
-        canvas.save();
-        canvas.translate(offset, 0);
-        SeekBarState[] states = rangeSeekBar.getRangeSeekBarState();
-        String text2Draw = userText2Draw;
-        if (isLeft) {
-            if (userText2Draw == null) {
-                if (indicatorTextDecimalFormat != null){
-                    text2Draw = indicatorTextDecimalFormat.format(states[0].value);
-                }else {
-                    text2Draw = states[0].indicatorText;
-                }
-            }
-        } else {
-            if (userText2Draw == null) {
-                if (indicatorTextDecimalFormat != null){
-                    text2Draw = indicatorTextDecimalFormat.format(states[1].value);
-                }else {
-                    text2Draw = states[1].indicatorText;
-                }
-            }
-        }
-        if (indicatorTextStringFormat != null){
-            text2Draw = String.format(indicatorTextStringFormat, text2Draw);
-        }
-        paint.setTextSize(indicatorTextSize);
-        if(text2Draw != null) {
-            paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
-        }
-        // translate canvas, then don't care left
-        canvas.translate(left, 0);
-        if (indicatorShowMode == INDICATOR_MODE_ALWAYS_SHOW) {
-            setShowIndicatorEnable(true);
-        }
-        if (isShowIndicator) {
-            drawIndicator(canvas, text2Draw);
-        }
-        drawThumb(canvas);
-        canvas.restore();
-    }
-
-    /**
-     * 绘制按钮
-     * 如果没有图片资源，则绘制默认按钮
-     * <p>
-     * draw the thumb button
-     * If there is no image resource, draw the default button
-     *
-     * @param canvas canvas
-     */
-    private void drawThumb(Canvas canvas) {
-        if (thumbInactivatedBitmap != null && !isActivate){
-                canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
-        }else if (thumbBitmap != null){
-            canvas.drawBitmap(thumbBitmap, 0, rangeSeekBar.getLineTop() + (rangeSeekBar.getProgressHeight() - thumbHeight) / 2f, null);
-        }
-    }
-
-
-    /**
      * 拖动检测
      *
      * @return is collide
      */
     protected boolean collide(float x, float y) {
-        int offset = (int) (lineWidth * currPercent);
+        int offset = (int) (rangeSeekBar.getProgressWidth() * currPercent);
         return x > left + offset && x < right + offset && y > top && y < bottom;
     }
 
@@ -344,14 +359,14 @@ public class SeekBar {
 
     protected void setShowIndicatorEnable(boolean isEnable) {
         switch (indicatorShowMode) {
-            case INDICATOR_MODE_SHOW_WHEN_TOUCH:
+            case INDICATOR_SHOW_WHEN_TOUCH:
                 isShowIndicator = isEnable;
                 break;
-            case INDICATOR_MODE_ALWAYS_SHOW:
-            case INDICATOR_MODE_ALWAYS_SHOW_AFTER_TOUCH:
+            case INDICATOR_ALWAYS_SHOW:
+            case INDICATOR_ALWAYS_SHOW_AFTER_TOUCH:
                 isShowIndicator = true;
                 break;
-            case INDICATOR_MODE_ALWAYS_HIDE:
+            case INDICATOR_ALWAYS_HIDE:
                 isShowIndicator = false;
                 break;
         }
@@ -381,7 +396,7 @@ public class SeekBar {
         userText2Draw = text;
     }
 
-    public void setIndicatorTextDecimalFormat(String formatPattern){
+    public void setIndicatorTextDecimalFormat(String formatPattern) {
         indicatorTextDecimalFormat = new DecimalFormat(formatPattern);
     }
 
@@ -389,7 +404,7 @@ public class SeekBar {
         return indicatorTextDecimalFormat;
     }
 
-    public void setIndicatorTextStringFormat(String formatPattern){
+    public void setIndicatorTextStringFormat(String formatPattern) {
         indicatorTextStringFormat = formatPattern;
     }
 
@@ -397,12 +412,13 @@ public class SeekBar {
         return indicatorDrawableId;
     }
 
-    public void setIndicatorDrawableId(int indicatorDrawableId) {
+    public void setIndicatorDrawableId(@DrawableRes int indicatorDrawableId) {
         if (indicatorDrawableId != 0) {
             this.indicatorDrawableId = indicatorDrawableId;
             indicatorBitmap = BitmapFactory.decodeResource(getResources(), indicatorDrawableId);
         }
     }
+
 
     public int getIndicatorArrowSize() {
         return indicatorArrowSize;
@@ -456,8 +472,29 @@ public class SeekBar {
         return indicatorShowMode;
     }
 
-    public void setIndicatorShowMode(int indicatorShowMode) {
+    public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
         this.indicatorShowMode = indicatorShowMode;
+    }
+
+    /**
+     * include indicator text Height、padding、margin
+     *
+     * @return The actual occupation height of indicator
+     */
+    public int getIndicatorRawHeight() {
+        if (indicatorHeight > 0) {
+            if (indicatorBitmap != null) {
+                return indicatorHeight + indicatorMargin;
+            } else {
+                return indicatorHeight + indicatorArrowSize + indicatorMargin;
+            }
+        } else {
+            if (indicatorBitmap != null) {
+                return Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin;
+            } else {
+                return Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin + indicatorArrowSize;
+            }
+        }
     }
 
     public int getIndicatorHeight() {
@@ -488,7 +525,7 @@ public class SeekBar {
         return indicatorTextColor;
     }
 
-    public void setIndicatorTextColor(int indicatorTextColor) {
+    public void setIndicatorTextColor(@ColorInt int indicatorTextColor) {
         this.indicatorTextColor = indicatorTextColor;
     }
 
@@ -496,7 +533,7 @@ public class SeekBar {
         return indicatorBackgroundColor;
     }
 
-    public void setIndicatorBackgroundColor(int indicatorBackgroundColor) {
+    public void setIndicatorBackgroundColor(@ColorInt int indicatorBackgroundColor) {
         this.indicatorBackgroundColor = indicatorBackgroundColor;
     }
 
@@ -504,13 +541,13 @@ public class SeekBar {
         return thumbInactivatedDrawableId;
     }
 
-    public void setThumbInactivatedDrawableId(int thumbInactivatedDrawableId) {
-        if (thumbInactivatedDrawableId != 0 && getResources() != null){
+    public void setThumbInactivatedDrawableId(@DrawableRes int thumbInactivatedDrawableId) {
+        if (thumbInactivatedDrawableId != 0 && getResources() != null) {
             this.thumbInactivatedDrawableId = thumbInactivatedDrawableId;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId, null));
-            }else {
-                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId));
+                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId, null));
+            } else {
+                thumbInactivatedBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbInactivatedDrawableId));
             }
         }
     }
@@ -519,13 +556,13 @@ public class SeekBar {
         return thumbDrawableId;
     }
 
-    public void setThumbDrawableId(int thumbDrawableId) {
+    public void setThumbDrawableId(@DrawableRes int thumbDrawableId) {
         if (thumbDrawableId != 0 && getResources() != null) {
             this.thumbDrawableId = thumbDrawableId;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                thumbBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbDrawableId, null));
-            }else {
-                thumbBitmap = Utils.drawableToBitmap(thumbWidth,thumbHeight, getResources().getDrawable(thumbDrawableId));
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId, null));
+            } else {
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId));
             }
         }
     }
@@ -536,6 +573,14 @@ public class SeekBar {
 
     public void setThumbWidth(int thumbWidth) {
         this.thumbWidth = thumbWidth;
+    }
+
+    public float getThumbScaleHeight() {
+        return thumbHeight * thumbScaleRatio;
+    }
+
+    public float getThumbScaleWidth() {
+        return thumbWidth * thumbScaleRatio;
     }
 
     public int getThumbHeight() {
@@ -554,13 +599,14 @@ public class SeekBar {
         isActivate = activate;
     }
 
-    public void setTypeface(Typeface typeFace){
+    public void setTypeface(Typeface typeFace) {
         paint.setTypeface(typeFace);
     }
 
 
     /**
      * when you touch or move, the thumb will scale, default not scale
+     *
      * @return default 1.0f
      */
     public float getThumbScaleRatio() {
@@ -573,9 +619,15 @@ public class SeekBar {
 
     /**
      * if visble is false, will clear the Canvas
+     *
      * @param visible
      */
     public void setVisible(boolean visible) {
         isVisible = visible;
+    }
+
+    public float getProgress() {
+        float range = rangeSeekBar.getMaxProgress() - rangeSeekBar.getMinProgress();
+        return rangeSeekBar.minProgress + range * currPercent;
     }
 }

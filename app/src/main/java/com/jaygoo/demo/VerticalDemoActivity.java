@@ -26,11 +26,11 @@ public class VerticalDemoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_vertical_demo);
 
         initView();
-        seekbar1.setProgress(-0.5f,0.8f);
-        seekbar1.setIndicatorTextDecimalFormat("0.00");
-
-        seekbar2.setIndicatorTextDecimalFormat("0");
-        seekbar2.setIndicatorTextStringFormat("%s%%");
+//        seekbar1.setProgress(-0.5f,0.8f);
+//        seekbar1.setIndicatorTextDecimalFormat("0.00");
+//
+//        seekbar2.setIndicatorTextDecimalFormat("0");
+//        seekbar2.setIndicatorTextStringFormat("%s%%");
     }
 
     private void initView(){

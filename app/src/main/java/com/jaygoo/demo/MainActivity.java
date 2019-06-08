@@ -10,6 +10,7 @@ import android.view.View;
 
 import com.jaygoo.widget.OnRangeChangedListener;
 import com.jaygoo.widget.RangeSeekBar;
+import com.jaygoo.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity {
 

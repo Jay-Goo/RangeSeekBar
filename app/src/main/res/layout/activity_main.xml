@@ -6,12 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar0"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:rsb_gravity="bottom"
         app:rsb_mode="single"
         app:rsb_thumb_drawable="@drawable/thumb_activated"
         app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated" />
@@ -19,19 +21,25 @@
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar1"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        app:rsb_indicator_height="20dp"
-        app:rsb_indicator_radius="8dp"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        app:rsb_gravity="bottom"
+        app:rsb_indicator_background_color="@color/colorRed"
+        app:rsb_indicator_height="wrap_content"
+        app:rsb_indicator_padding_bottom="10dp"
+        app:rsb_indicator_padding_left="15dp"
+        app:rsb_indicator_padding_right="15dp"
+        app:rsb_indicator_padding_top="10dp"
+        app:rsb_indicator_radius="5dp"
         app:rsb_indicator_show_mode="alwaysShow"
         app:rsb_indicator_text_size="12sp"
-        app:rsb_indicator_width="80dp"
-        app:rsb_indicator_background_color="@color/colorRed"
+        app:rsb_indicator_width="50dp"
         app:rsb_mode="single"
         app:rsb_progress_color="@color/colorRed"
         app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
         app:rsb_thumb_drawable="@drawable/thumb_driver"
-        app:rsb_thumb_width="30dp"
         app:rsb_thumb_height="25dp"
+        app:rsb_thumb_width="30dp"
         app:rsb_tick_mark_mode="number"
         app:rsb_tick_mark_text_array="@array/markArray" />
 
@@ -45,7 +53,7 @@
         app:rsb_indicator_height="40dp"
         app:rsb_indicator_padding_bottom="10dp"
         app:rsb_indicator_show_mode="showWhenTouch"
-        app:rsb_indicator_width="40dp"
+        app:rsb_indicator_width="50dp"
         app:rsb_max="1"
         app:rsb_min="-1"
         app:rsb_mode="range"
@@ -64,12 +72,10 @@
     <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar3"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
         app:rsb_indicator_background_color="#a6c1ee"
         app:rsb_indicator_height="25dp"
-        app:rsb_indicator_margin="3dp"
         app:rsb_indicator_show_mode="showWhenTouch"
         app:rsb_indicator_width="80dp"
         app:rsb_max="100"
@@ -102,7 +108,7 @@
         app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
         app:rsb_thumb_width="22dp" />
 
-    <com.jaygoo.widget.StepRangeSeekBar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -129,7 +135,7 @@
         app:rsb_tick_mark_text_color="@color/colorProgress"
         app:rsb_tick_mark_text_margin="17dp" />
 
-    <com.jaygoo.widget.StepRangeSeekBar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar6"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -156,12 +162,13 @@
         app:rsb_tick_mark_text_color="@color/colorProgress" />
 
 
-    <com.jaygoo.widget.StepRangeSeekBar
+    <com.jaygoo.widget.RangeSeekBar
         android:id="@+id/seekbar7"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
+        app:rsb_gravity="center"
         app:rsb_mode="single"
         app:rsb_progress_color="@color/colorAccent"
         app:rsb_progress_default_color="#f2f2f2"
