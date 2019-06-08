@@ -11,10 +11,9 @@
 
 # 注意
 
-**RangeSeekBar v2.x 强势来袭！！！**
 
-**v2.x的API 和 v1.x 有很大不同，这是因为我重构了项目。我强烈建议你使用v2.x因为它支持更强大的属性和方法. 如果你仍想使用v1.x, 请看** [RangeSeekBar v1.x Guide](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_RETIRED_ZH.md)
-
+**RangeSeekBar  v3.x 即将来临!! 更强大，更好用！ 文档即将更新，版本更新详情请看 [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
+**
 ## 用法
 
 ### Dependencies
