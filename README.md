@@ -4,22 +4,21 @@
 
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 
+
+
+# Attention
+
+**RangeSeekBar Version v3.x is coming!! More powerful and easy to use, and the document will be updated soon.**
+
+
+## Usage
+
+### Dependencies
 `Release Version` [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
 <div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/demo.gif" height="500px" ><img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/vertical_demo.gif" height="500px">
 </div>
-
-
-# Attention
-
-**RangeSeekBar v2.x is coming！！！**
-
-**The v2.x's API has a very different from v1.x because I rebuilt the project. I strongly suggest you to use v2.x because it has more powerful functions. If you still want to use v1.x, please to see** [RangeSeekBar v1.x Guide](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_RETIRED.md)
-
-## Usage
-
-### Dependencies
 
 ```xml
     allprojects {
