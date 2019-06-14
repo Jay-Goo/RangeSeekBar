@@ -24,18 +24,28 @@ import java.lang.annotation.RetentionPolicy;
 public class VerticalRangeSeekBar extends RangeSeekBar {
 
     //text direction of VerticalRangeSeekBar. include indicator and tickMark
-    /** @hide */
+
+    /**
+     * @hide
+     */
     @IntDef({TEXT_DIRECTION_VERTICAL, TEXT_DIRECTION_HORIZONTAL})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface TextDirectionDef {}
+    public @interface TextDirectionDef {
+    }
+
     public final static int TEXT_DIRECTION_VERTICAL = 1;
     public final static int TEXT_DIRECTION_HORIZONTAL = 2;
 
     //direction of VerticalRangeSeekBar
-    /** @hide */
+
+    /**
+     * @hide
+     */
     @IntDef({DIRECTION_LEFT, DIRECTION_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface DirectionDef {}
+    public @interface DirectionDef {
+    }
+
     public final static int DIRECTION_LEFT = 1;
     public final static int DIRECTION_RIGHT = 2;
 
@@ -69,7 +79,7 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
     protected void initSeekBar(AttributeSet attrs) {
         leftSB = new VerticalSeekBar(this, attrs, true);
         rightSB = new VerticalSeekBar(this, attrs, false);
-        rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
+        rightSB.setVisible(getSeekBarMode() != SEEKBAR_MODE_SINGLE);
     }
 
     @Override
@@ -95,8 +105,8 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
             widthSize = MeasureSpec.makeMeasureSpec(((ViewGroup) getParent()).getMeasuredHeight(), MeasureSpec.AT_MOST);
         } else {
             int heightNeeded;
-            if (gravity == Gravity.CENTER) {
-                heightNeeded = 2 * getProgressTop() + progressHeight;
+            if (getGravity() == Gravity.CENTER) {
+                heightNeeded = 2 * getProgressTop() + getProgressHeight();
             } else {
                 heightNeeded = (int) getRawHeight();
             }
@@ -119,19 +129,20 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
 
     @Override
     protected void onDrawTickMark(Canvas canvas) {
-        if (tickMarkTextArray != null) {
-            int trickPartWidth = progressWidth / (tickMarkTextArray.length - 1);
-            for (int i = 0; i < tickMarkTextArray.length; i++) {
-                final String text2Draw = tickMarkTextArray[i].toString();
+        if (getTickMarkTextArray() != null) {
+            int arrayLength = getTickMarkTextArray().length;
+            int trickPartWidth = getProgressWidth() / (arrayLength - 1);
+            for (int i = 0; i < arrayLength; i++) {
+                final String text2Draw = getTickMarkTextArray()[i].toString();
                 if (TextUtils.isEmpty(text2Draw)) continue;
                 paint.getTextBounds(text2Draw, 0, text2Draw.length(), tickMarkTextRect);
-                paint.setColor(tickMarkTextColor);
+                paint.setColor(getTickMarkTextColor());
                 //平分显示
                 float x;
-                if (tickMarkMode == TRICK_MARK_MODE_OTHER) {
-                    if (tickMarkGravity == TRICK_MARK_GRAVITY_RIGHT) {
+                if (getTickMarkMode() == TRICK_MARK_MODE_OTHER) {
+                    if (getTickMarkGravity() == TRICK_MARK_GRAVITY_RIGHT) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width();
-                    } else if (tickMarkGravity == TRICK_MARK_GRAVITY_CENTER) {
+                    } else if (getTickMarkGravity() == TRICK_MARK_GRAVITY_CENTER) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width() / 2f;
                     } else {
                         x = getProgressLeft() + i * trickPartWidth;
@@ -139,18 +150,18 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
                 } else {
                     float num = Utils.parseFloat(text2Draw);
                     SeekBarState[] states = getRangeSeekBarState();
-                    if (Utils.compareFloat(num, states[0].value) != -1 && Utils.compareFloat(num, states[1].value) != 1 && (seekBarMode == SEEKBAR_MODE_RANGE)) {
-                        paint.setColor(tickMarkInRangeTextColor);
+                    if (Utils.compareFloat(num, states[0].value) != -1 && Utils.compareFloat(num, states[1].value) != 1 && (getSeekBarMode() == SEEKBAR_MODE_RANGE)) {
+                        paint.setColor(getTickMarkInRangeTextColor());
                     }
                     //按实际比例显示
-                    x = getProgressLeft() + progressWidth * (num - minProgress) / (maxProgress - minProgress)
+                    x = getProgressLeft() + getProgressWidth() * (num - minProgress) / (maxProgress - minProgress)
                             - tickMarkTextRect.width() / 2f;
                 }
                 float y;
-                if (tickMarkLayoutGravity == Gravity.TOP) {
-                    y = getProgressTop() - tickMarkTextMargin;
+                if (getTickMarkLayoutGravity() == Gravity.TOP) {
+                    y = getProgressTop() - getTickMarkTextMargin();
                 } else {
-                    y = getProgressBottom() + tickMarkTextMargin + tickMarkTextRect.height();
+                    y = getProgressBottom() + getTickMarkTextMargin() + tickMarkTextRect.height();
                 }
                 int degrees = 0;
                 float rotateX = (x + tickMarkTextRect.width() / 2f);
@@ -177,16 +188,17 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
 
     @Override
     protected int getTickMarkRawHeight() {
-        if (maxTickMarkWidth > 0)return tickMarkTextMargin+ maxTickMarkWidth;
-        if (tickMarkTextArray != null && tickMarkTextArray.length > 0) {
-            maxTickMarkWidth = Utils.measureText(String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).width();
-            for (int i = 1; i < tickMarkTextArray.length; i++){
-                int width = Utils.measureText(String.valueOf(tickMarkTextArray[i]), tickMarkTextSize).width();
-                if (maxTickMarkWidth < width){
+        if (maxTickMarkWidth > 0) return getTickMarkTextMargin() + maxTickMarkWidth;
+        if (getTickMarkTextArray() != null && getTickMarkTextArray().length > 0) {
+            int arrayLength = getTickMarkTextArray().length;
+            maxTickMarkWidth = Utils.measureText(String.valueOf(getTickMarkTextArray()[0]), getTickMarkTextSize()).width();
+            for (int i = 1; i < arrayLength; i++) {
+                int width = Utils.measureText(String.valueOf(getTickMarkTextArray()[i]), getTickMarkTextSize()).width();
+                if (maxTickMarkWidth < width) {
                     maxTickMarkWidth = width;
                 }
             }
-            return tickMarkTextMargin+ maxTickMarkWidth;
+            return getTickMarkTextMargin() + maxTickMarkWidth;
         }
         return 0;
     }

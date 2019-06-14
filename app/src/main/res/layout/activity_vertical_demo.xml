@@ -17,7 +17,7 @@
         android:layout_height="300dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        app:rsb_indicator_drawable="@drawable/progress_hint_bg"
+        app:rsb_indicator_drawable="@drawable/indicator_nine_patch"
         app:rsb_indicator_height="40dp"
         app:rsb_indicator_padding_bottom="10dp"
         app:rsb_indicator_width="40dp"

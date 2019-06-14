@@ -76,8 +76,20 @@ public class Utils {
      * @param rect   9path rect
      */
     public static void drawNinePath(Canvas canvas, Bitmap bmp, Rect rect) {
+        NinePatch.isNinePatchChunk(bmp.getNinePatchChunk());
         NinePatch patch = new NinePatch(bmp, bmp.getNinePatchChunk(), null);
         patch.draw(canvas, rect);
+    }
+
+    public static void drawBitmap(Canvas canvas, Paint paint, Bitmap bmp, Rect rect) {
+        try {
+            if (NinePatch.isNinePatchChunk(bmp.getNinePatchChunk())){
+                drawNinePath(canvas, bmp, rect);
+                return;
+            }
+        }catch (Exception e){
+        }
+        canvas.drawBitmap(bmp, rect.left, rect.top, paint);
     }
 
     public static int dp2px(Context context, float dpValue) {

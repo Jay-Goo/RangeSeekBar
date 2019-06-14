@@ -31,28 +31,40 @@ public class RangeSeekBar extends View {
     public final static int SEEKBAR_MODE_SINGLE = 1;
     //RangeSeekBar
     public final static int SEEKBAR_MODE_RANGE = 2;
-    /** @hide */
+
+    /**
+     * @hide
+     */
     @IntDef({SEEKBAR_MODE_SINGLE, SEEKBAR_MODE_RANGE})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface SeekBarModeDef {}
+    public @interface SeekBarModeDef {
+    }
 
     //number according to the actual proportion of the number of arranged;
     public final static int TRICK_MARK_MODE_NUMBER = 0;
     //other equally arranged
     public final static int TRICK_MARK_MODE_OTHER = 1;
-    /** @hide */
+
+    /**
+     * @hide
+     */
     @IntDef({TRICK_MARK_MODE_NUMBER, TRICK_MARK_MODE_OTHER})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface TickMarkModeDef {}
+    public @interface TickMarkModeDef {
+    }
 
     //tick mark text gravity
     public final static int TRICK_MARK_GRAVITY_LEFT = 0;
     public final static int TRICK_MARK_GRAVITY_CENTER = 1;
     public final static int TRICK_MARK_GRAVITY_RIGHT = 2;
-    /** @hide */
+
+    /**
+     * @hide
+     */
     @IntDef({TRICK_MARK_GRAVITY_LEFT, TRICK_MARK_GRAVITY_CENTER, TRICK_MARK_GRAVITY_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
-    public @interface TickMarkGravityDef {}
+    public @interface TickMarkGravityDef {
+    }
 
     public static class Gravity {
         public final static int TOP = 0;
@@ -61,62 +73,60 @@ public class RangeSeekBar extends View {
     }
 
 
-    int progressTop, progressBottom, progressLeft, progressRight;
-    int seekBarMode;
+   private int progressTop, progressBottom, progressLeft, progressRight;
+    private int seekBarMode;
     //刻度模式：number根据数字实际比例排列；other 均分排列
-    int tickMarkMode;
+    private int tickMarkMode;
     //刻度与进度条间的间距
     //The spacing between the tick mark and the progress bar
-    int tickMarkTextMargin;
+    private int tickMarkTextMargin;
     //刻度文字与提示文字的大小
     //tick mark text and prompt text size
-    int tickMarkTextSize;
-    int tickMarkGravity;
-    int tickMarkLayoutGravity;
-    int tickMarkTextColor;
-    int tickMarkInRangeTextColor;
+    private int tickMarkTextSize;
+    private int tickMarkGravity;
+    private int tickMarkLayoutGravity;
+    private int tickMarkTextColor;
+    private int tickMarkInRangeTextColor;
     //刻度上显示的文字
     //The texts displayed on the scale
-    CharSequence[] tickMarkTextArray;
+    private CharSequence[] tickMarkTextArray;
     //进度条圆角
     //radius of progress bar
-    float progressRadius;
+    private float progressRadius;
     //进度中进度条的颜色
     //the color of seekBar in progress
-    int progressColor;
+    private int progressColor;
     //默认进度条颜色
     //the default color of the progress bar
-    int progressDefaultColor;
+    private int progressDefaultColor;
     //the progress height
-    int progressHeight;
+    private int progressHeight;
     // the progress width
-    int progressWidth;
+    private int progressWidth;
     //the range interval of RangeSeekBar
-    float minInterval;
+    private float minInterval;
 
-    int gravity;
+    private int gravity;
     //enable RangeSeekBar two thumb Overlap
-    boolean enableThumbOverlap;
-
+    private boolean enableThumbOverlap;
 
     //the color of step divs
-    int stepsColor;
+    private int stepsColor;
     //the width of each step
-    float stepsWidth;
+    private float stepsWidth;
     //the height of each step
-    float stepsHeight;
+    private float stepsHeight;
     //the radius of step divs
-    float stepsRadius;
+    private float stepsRadius;
     //steps is 0 will disable StepSeekBar
-    int steps;
+    private int steps;
     //the thumb will automatic bonding close to its value
-    boolean stepsAutoBonding;
+    private boolean stepsAutoBonding;
 
     //****************** the above is attr value  ******************//
     //用户设置的真实的最大值和最小值
     //True values set by the user
     float minProgress, maxProgress;
-
     float touchDownX;
     //剩余最小间隔的进度
     float reservePercent;
@@ -208,9 +218,7 @@ public class RangeSeekBar extends View {
             progressTop = (int) (maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
             if (tickMarkTextArray != null && tickMarkLayoutGravity == Gravity.TOP) {
                 progressTop = (int) Math.max(getTickMarkRawHeight(), maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
-                Utils.print("谁大：", maxIndicatorHeight + (thumbHeight - progressHeight) / 2f);
             }
-
             progressBottom = progressTop + progressHeight;
         } else if (gravity == Gravity.BOTTOM) {
             if (tickMarkTextArray != null && tickMarkLayoutGravity == Gravity.BOTTOM) {
@@ -259,7 +267,11 @@ public class RangeSeekBar extends View {
         } else {
             int heightNeeded;
             if (gravity == Gravity.CENTER) {
-                heightNeeded = 2 * getProgressTop() + progressHeight;
+                if (tickMarkTextArray != null && tickMarkLayoutGravity == Gravity.BOTTOM) {
+                    heightNeeded = (int) (2 * (getRawHeight() - getTickMarkRawHeight()));
+                } else {
+                    heightNeeded = (int) (2 * (getRawHeight() - Math.max(leftSB.getThumbScaleHeight(), rightSB.getThumbScaleHeight()) / 2));
+                }
             } else {
                 heightNeeded = (int) getRawHeight();
             }
@@ -270,7 +282,7 @@ public class RangeSeekBar extends View {
 
     protected int getTickMarkRawHeight() {
         if (tickMarkTextArray != null && tickMarkTextArray.length > 0) {
-            return tickMarkTextMargin + Utils.measureText(String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).height();
+            return tickMarkTextMargin + Utils.measureText(String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).height() + 3;
         }
         return 0;
     }
@@ -368,14 +380,14 @@ public class RangeSeekBar extends View {
         paint.setColor(progressColor);
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             foregroundLineRect.top = getProgressTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f + progressWidth * leftSB.currPercent;
-            foregroundLineRect.right = rightSB.left + rightSB.getThumbWidth() / 2f + progressWidth * rightSB.currPercent;
+            foregroundLineRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
+            foregroundLineRect.right = rightSB.left + rightSB.getThumbScaleWidth() / 2f + progressWidth * rightSB.currPercent;
             foregroundLineRect.bottom = getProgressBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
         } else {
             foregroundLineRect.top = getProgressTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbWidth() / 2f;
-            foregroundLineRect.right = leftSB.left + leftSB.getThumbWidth() / 2f + progressWidth * leftSB.currPercent;
+            foregroundLineRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f;
+            foregroundLineRect.right = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
             foregroundLineRect.bottom = getProgressBottom();
             canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
         }
@@ -446,9 +458,8 @@ public class RangeSeekBar extends View {
     private void scaleCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && !isScaleThumb) {
             isScaleThumb = true;
-            currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() * currTouchSB.getThumbScaleRatio()));
-            currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() * currTouchSB.getThumbScaleRatio()));
-            currTouchSB.onSizeChanged(getProgressLeft(), getProgressBottom());
+            currTouchSB.scaleThumb();
+
         }
     }
 
@@ -458,9 +469,7 @@ public class RangeSeekBar extends View {
     private void resetCurrentSeekBarThumb() {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && isScaleThumb) {
             isScaleThumb = false;
-            currTouchSB.setThumbWidth((int) (currTouchSB.getThumbWidth() / currTouchSB.getThumbScaleRatio()));
-            currTouchSB.setThumbHeight((int) (currTouchSB.getThumbHeight() / currTouchSB.getThumbScaleRatio()));
-            currTouchSB.onSizeChanged(getProgressLeft(), getProgressBottom());
+            currTouchSB.resetThumb();
         }
     }
 
@@ -1002,5 +1011,45 @@ public class RangeSeekBar extends View {
 
     public void setStepsRadius(float stepsRadius) {
         this.stepsRadius = stepsRadius;
+    }
+
+    public void setProgressTop(int progressTop) {
+        this.progressTop = progressTop;
+    }
+
+    public void setProgressBottom(int progressBottom) {
+        this.progressBottom = progressBottom;
+    }
+
+    public void setProgressLeft(int progressLeft) {
+        this.progressLeft = progressLeft;
+    }
+
+    public void setProgressRight(int progressRight) {
+        this.progressRight = progressRight;
+    }
+
+    public int getTickMarkLayoutGravity() {
+        return tickMarkLayoutGravity;
+    }
+
+    public void setTickMarkLayoutGravity(int tickMarkLayoutGravity) {
+        this.tickMarkLayoutGravity = tickMarkLayoutGravity;
+    }
+
+    public int getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(int gravity) {
+        this.gravity = gravity;
+    }
+
+    public boolean isStepsAutoBonding() {
+        return stepsAutoBonding;
+    }
+
+    public void setStepsAutoBonding(boolean stepsAutoBonding) {
+        this.stepsAutoBonding = stepsAutoBonding;
     }
 }

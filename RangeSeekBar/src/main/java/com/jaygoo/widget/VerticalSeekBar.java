@@ -73,23 +73,23 @@ public class VerticalSeekBar extends SeekBar {
 
     protected void drawVerticalIndicator(Canvas canvas, Paint paint, String text2Draw) {
         //measure indicator text
-        paint.setTextSize(indicatorTextSize);
+        paint.setTextSize(getIndicatorTextSize());
         paint.setStyle(Paint.Style.FILL);
-        paint.setColor(indicatorBackgroundColor);
+        paint.setColor(getIndicatorBackgroundColor());
         paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
 
-        int realIndicatorWidth = indicatorTextRect.height() + indicatorPaddingLeft + indicatorPaddingRight;
-        if (indicatorWidth > realIndicatorWidth) {
-            realIndicatorWidth = indicatorWidth;
+        int realIndicatorWidth = indicatorTextRect.height() + getIndicatorPaddingLeft() + getIndicatorPaddingRight();
+        if (getIndicatorWidth() > realIndicatorWidth) {
+            realIndicatorWidth = getIndicatorWidth();
         }
 
-        int realIndicatorHeight = indicatorTextRect.width() + indicatorPaddingTop + indicatorPaddingBottom;
-        if (indicatorHeight > realIndicatorHeight) {
-            realIndicatorHeight = indicatorHeight;
+        int realIndicatorHeight = indicatorTextRect.width() + getIndicatorPaddingTop() + getIndicatorPaddingBottom();
+        if (getIndicatorHeight() > realIndicatorHeight) {
+            realIndicatorHeight = getIndicatorHeight();
         }
 
-        indicatorRect.left = thumbWidth / 2 - realIndicatorWidth / 2;
-        indicatorRect.top = (int) (bottom - realIndicatorHeight - getThumbScaleHeight() - indicatorMargin);
+        indicatorRect.left = getThumbWidth() / 2 - realIndicatorWidth / 2;
+        indicatorRect.top = (int) (bottom - realIndicatorHeight - getThumbScaleHeight() - getIndicatorMargin());
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
         indicatorRect.bottom = indicatorRect.top + realIndicatorHeight;
 
@@ -98,19 +98,19 @@ public class VerticalSeekBar extends SeekBar {
             //arrow three point
             //  b   c
             //    a
-            int ax = thumbWidth / 2;
-            int ay = (int) (bottom - getThumbScaleHeight() - indicatorMargin);
-            int bx = ax - indicatorArrowSize;
-            int by = ay - indicatorArrowSize;
-            int cx = ax + indicatorArrowSize;
+            int ax = getThumbWidth() / 2;
+            int ay = (int) (bottom - getThumbScaleHeight() -  getIndicatorMargin());
+            int bx = ax - getIndicatorArrowSize();
+            int by = ay - getIndicatorArrowSize();
+            int cx = ax + getIndicatorArrowSize();
             indicatorArrowPath.reset();
             indicatorArrowPath.moveTo(ax, ay);
             indicatorArrowPath.lineTo(bx, by);
             indicatorArrowPath.lineTo(cx, by);
             indicatorArrowPath.close();
             canvas.drawPath(indicatorArrowPath, paint);
-            indicatorRect.bottom -= indicatorArrowSize;
-            indicatorRect.top -= indicatorArrowSize;
+            indicatorRect.bottom -= getIndicatorArrowSize();
+            indicatorRect.top -= getIndicatorArrowSize();
         }
 
         int defaultPaddingOffset = Utils.dp2px(getContext(), 1);
@@ -127,32 +127,33 @@ public class VerticalSeekBar extends SeekBar {
         //draw indicator background
         if (indicatorBitmap != null) {
             Utils.drawNinePath(canvas, indicatorBitmap, indicatorRect);
-        } else if (indicatorRadius > 0f) {
-            canvas.drawRoundRect(new RectF(indicatorRect), indicatorRadius, indicatorRadius, paint);
+        } else if (getIndicatorRadius() > 0f) {
+            canvas.drawRoundRect(new RectF(indicatorRect), getIndicatorRadius(), getIndicatorRadius(), paint);
         } else {
             canvas.drawRect(indicatorRect, paint);
         }
 
         //draw indicator content text
         int tx, ty;
-        if (indicatorPaddingLeft > 0) {
-            tx = indicatorRect.left + indicatorPaddingLeft;
-        } else if (indicatorPaddingRight > 0) {
-            tx = indicatorRect.right - indicatorPaddingRight - indicatorTextRect.width();
+        if (getIndicatorPaddingLeft() > 0) {
+            tx = indicatorRect.left + getIndicatorPaddingLeft();
+        } else if (getIndicatorPaddingRight() > 0) {
+            tx = indicatorRect.right - getIndicatorPaddingRight() - indicatorTextRect.width();
         } else {
             tx = indicatorRect.left + (realIndicatorWidth - indicatorTextRect.width()) / 2;
         }
 
-        if (indicatorPaddingTop > 0) {
-            ty = indicatorRect.top + indicatorTextRect.height() + indicatorPaddingTop;
-        } else if (indicatorPaddingBottom > 0) {
-            ty = indicatorRect.bottom - indicatorTextRect.height() - indicatorPaddingBottom;
+        if (getIndicatorPaddingTop() > 0) {
+            ty = indicatorRect.top + indicatorTextRect.height() + getIndicatorPaddingTop();
+        } else if (getIndicatorPaddingBottom() > 0) {
+            ty = indicatorRect.bottom - indicatorTextRect.height() - getIndicatorPaddingBottom();
         } else {
             ty = indicatorRect.bottom - (realIndicatorHeight - indicatorTextRect.height()) / 2 + 1;
         }
 
         //draw indicator text
-        paint.setColor(indicatorTextColor);
+        paint.setColor(getIndicatorTextColor());
+
         int degrees = 0;
         float rotateX = (tx + indicatorTextRect.width() / 2f);
         float rotateY = (ty - indicatorTextRect.height() / 2f);

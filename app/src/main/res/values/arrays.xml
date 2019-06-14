@@ -16,6 +16,14 @@
         <item>0.5</item>
         <item>0.9</item>
     </string-array>
+
+    <string-array name="markArray3">
+        <item>商家接单</item>
+        <item>骑手到店</item>
+        <item>配送中</item>
+        <item>已送达</item>
+    </string-array>
+
     <string-array name="negativeMarkArray">
         <item>-100</item>
         <item>中间</item>
