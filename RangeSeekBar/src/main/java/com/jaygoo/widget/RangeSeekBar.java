@@ -2,6 +2,7 @@ package com.jaygoo.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -9,6 +10,7 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.os.Parcelable;
 import android.support.annotation.ColorInt;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -73,7 +75,7 @@ public class RangeSeekBar extends View {
     }
 
 
-   private int progressTop, progressBottom, progressLeft, progressRight;
+    private int progressTop, progressBottom, progressLeft, progressRight;
     private int seekBarMode;
     //刻度模式：number根据数字实际比例排列；other 均分排列
     private int tickMarkMode;
@@ -99,6 +101,12 @@ public class RangeSeekBar extends View {
     //默认进度条颜色
     //the default color of the progress bar
     private int progressDefaultColor;
+
+    //the drawable of seekBar in progress
+    private int progressDrawableId;
+    //the default Drawable of the progress bar
+    private int progressDefaultDrawableId;
+
     //the progress height
     private int progressHeight;
     // the progress width
@@ -133,13 +141,16 @@ public class RangeSeekBar extends View {
     boolean isEnable = true;
     boolean isScaleThumb = false;
     Paint paint = new Paint();
-    RectF progressRect = new RectF();
-    RectF foregroundLineRect = new RectF();
+    RectF progressDefaultDstRect = new RectF();
+    RectF progressDstRect = new RectF();
+    Rect progressSrcRect = new Rect();
     RectF stepDivRect = new RectF();
     Rect tickMarkTextRect = new Rect();
     SeekBar leftSB;
     SeekBar rightSB;
     SeekBar currTouchSB;
+    Bitmap progressBitmap;
+    Bitmap progressDefaultBitmap;
     private int progressPaddingRight;
     private OnRangeChangedListener callback;
 
@@ -153,6 +164,15 @@ public class RangeSeekBar extends View {
         initAttrs(attrs);
         initPaint();
         initSeekBar(attrs);
+    }
+
+    private void initProgressBitmap() {
+        if (progressBitmap == null) {
+            progressBitmap = Utils.drawableToBitmap(getContext(), progressWidth, progressHeight, progressDrawableId);
+        }
+        if (progressDefaultBitmap == null) {
+            progressDefaultBitmap = Utils.drawableToBitmap(getContext(), progressWidth, progressHeight, progressDefaultDrawableId);
+        }
     }
 
     private void initSeekBar(AttributeSet attrs) {
@@ -173,6 +193,8 @@ public class RangeSeekBar extends View {
             progressColor = t.getColor(R.styleable.RangeSeekBar_rsb_progress_color, 0xFF4BD962);
             progressRadius = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_radius, -1);
             progressDefaultColor = t.getColor(R.styleable.RangeSeekBar_rsb_progress_default_color, 0xFFD7D7D7);
+            progressDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_progress_drawable, 0);
+            progressDefaultDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_progress_drawable_default, 0);
             progressHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_height, Utils.dp2px(getContext(), 2));
             tickMarkMode = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_mode, TRICK_MARK_MODE_NUMBER);
             tickMarkGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_gravity, TRICK_MARK_GRAVITY_CENTER);
@@ -237,12 +259,13 @@ public class RangeSeekBar extends View {
         progressLeft = maxThumbWidth / 2 + getPaddingLeft();
         progressRight = w - maxThumbWidth / 2 - getPaddingRight();
         progressWidth = progressRight - progressLeft;
-        progressRect.set(getProgressLeft(), getProgressTop(), getProgressRight(), getProgressBottom());
+        progressDefaultDstRect.set(getProgressLeft(), getProgressTop(), getProgressRight(), getProgressBottom());
         progressPaddingRight = w - progressRight;
         //default value
         if (progressRadius <= 0) {
             progressRadius = (int) ((getProgressBottom() - getProgressTop()) * 0.45f);
         }
+        initProgressBitmap();
     }
 
     //Android 7.0以后，优化了View的绘制，onMeasure和onSizeChanged调用顺序有所变化
@@ -375,22 +398,45 @@ public class RangeSeekBar extends View {
     //绘制进度条
     // draw the progress bar
     protected void onDrawProgressBar(Canvas canvas) {
-        paint.setColor(progressDefaultColor);
-        canvas.drawRoundRect(progressRect, progressRadius, progressRadius, paint);
-        paint.setColor(progressColor);
-        if (seekBarMode == SEEKBAR_MODE_RANGE) {
-            foregroundLineRect.top = getProgressTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
-            foregroundLineRect.right = rightSB.left + rightSB.getThumbScaleWidth() / 2f + progressWidth * rightSB.currPercent;
-            foregroundLineRect.bottom = getProgressBottom();
-            canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
+
+        //draw default progress
+        if (Utils.vertifyBitmap(progressDefaultBitmap)) {
+            canvas.drawBitmap(progressDefaultBitmap, null, progressDefaultDstRect, paint);
         } else {
-            foregroundLineRect.top = getProgressTop();
-            foregroundLineRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f;
-            foregroundLineRect.right = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
-            foregroundLineRect.bottom = getProgressBottom();
-            canvas.drawRoundRect(foregroundLineRect, progressRadius, progressRadius, paint);
+            paint.setColor(progressDefaultColor);
+            canvas.drawRoundRect(progressDefaultDstRect, progressRadius, progressRadius, paint);
         }
+
+        //draw progress
+        if (seekBarMode == SEEKBAR_MODE_RANGE) {
+            progressDstRect.top = getProgressTop();
+            progressDstRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
+            progressDstRect.right = rightSB.left + rightSB.getThumbScaleWidth() / 2f + progressWidth * rightSB.currPercent;
+            progressDstRect.bottom = getProgressBottom();
+        } else {
+            progressDstRect.top = getProgressTop();
+            progressDstRect.left = leftSB.left + leftSB.getThumbScaleWidth() / 2f;
+            progressDstRect.right = leftSB.left + leftSB.getThumbScaleWidth() / 2f + progressWidth * leftSB.currPercent;
+            progressDstRect.bottom = getProgressBottom();
+        }
+
+        if (Utils.vertifyBitmap(progressBitmap)) {
+            progressSrcRect.top = 0;
+            progressSrcRect.bottom = progressBitmap.getHeight();
+            int bitmapWidth = progressBitmap.getWidth();
+            if (seekBarMode == SEEKBAR_MODE_RANGE) {
+                progressSrcRect.left = (int) (bitmapWidth * leftSB.currPercent);
+                progressSrcRect.right = (int) (bitmapWidth * rightSB.currPercent);
+            }else {
+                progressSrcRect.left = 0;
+                progressSrcRect.right = (int) (bitmapWidth * leftSB.currPercent);
+            }
+            canvas.drawBitmap(progressBitmap, progressSrcRect, progressDstRect, null);
+        } else {
+            paint.setColor(progressColor);
+            canvas.drawRoundRect(progressDstRect, progressRadius, progressRadius, paint);
+        }
+
     }
 
     //draw steps
@@ -952,6 +998,26 @@ public class RangeSeekBar extends View {
         this.progressDefaultColor = progressDefaultColor;
     }
 
+    public int getProgressDrawableId() {
+        return progressDrawableId;
+    }
+
+    public void setProgressDrawableId(@DrawableRes int progressDrawableId) {
+        this.progressDrawableId = progressDrawableId;
+        progressBitmap = null;
+        initProgressBitmap();
+    }
+
+    public int getProgressDefaultDrawableId() {
+        return progressDefaultDrawableId;
+    }
+
+    public void setProgressDefaultDrawableId(@DrawableRes int progressDefaultDrawableId) {
+        this.progressDefaultDrawableId = progressDefaultDrawableId;
+        progressDefaultBitmap = null;
+        initProgressBitmap();
+    }
+
     public int getProgressWidth() {
         return progressWidth;
     }
@@ -1052,4 +1118,6 @@ public class RangeSeekBar extends View {
     public void setStepsAutoBonding(boolean stepsAutoBonding) {
         this.stepsAutoBonding = stepsAutoBonding;
     }
+
+
 }

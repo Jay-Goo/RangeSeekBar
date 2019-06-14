@@ -25,6 +25,16 @@
             android:layout_height="wrap_content"
             app:rsb_gravity="center"
             app:rsb_mode="single"
+            app:rsb_thumb_drawable="@drawable/thumb_gradient"
+            app:rsb_progress_drawable_default="@drawable/progress_defalut"
+            app:rsb_progress_drawable="@drawable/progress"
+            />
+
+        <com.jaygoo.widget.RangeSeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:rsb_gravity="center"
+            app:rsb_mode="single"
             app:rsb_thumb_width="20dp"
             app:rsb_thumb_height="20dp"
             app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
@@ -46,6 +56,8 @@
             app:rsb_indicator_padding_left="2dp"
             app:rsb_indicator_padding_right="2dp"
             />
+
+
 
         <com.jaygoo.widget.RangeSeekBar
             android:id="@+id/sb_single2"

@@ -38,7 +38,7 @@ class SingleSeekBarFragment: BaseFragment() {
 	}
 
 	override fun initView(view: View) {
-		sb_single3?.setIndicatorTextDecimalFormat("0")
+//		sb_single3?.setIndicatorTextDecimalFormat("0")
 	}
 
 

@@ -88,8 +88,8 @@ public class VerticalSeekBar extends SeekBar {
             realIndicatorHeight = getIndicatorHeight();
         }
 
-        indicatorRect.left = getThumbWidth() / 2 - realIndicatorWidth / 2;
-        indicatorRect.top = (int) (bottom - realIndicatorHeight - getThumbScaleHeight() - getIndicatorMargin());
+        indicatorRect.left = scaleThumbWidth / 2 - realIndicatorWidth / 2;
+        indicatorRect.top = (int) (bottom - realIndicatorHeight - scaleThumbHeight - getIndicatorMargin());
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
         indicatorRect.bottom = indicatorRect.top + realIndicatorHeight;
 
@@ -98,8 +98,8 @@ public class VerticalSeekBar extends SeekBar {
             //arrow three point
             //  b   c
             //    a
-            int ax = getThumbWidth() / 2;
-            int ay = (int) (bottom - getThumbScaleHeight() -  getIndicatorMargin());
+            int ax = scaleThumbWidth / 2;
+            int ay = indicatorRect.bottom;
             int bx = ax - getIndicatorArrowSize();
             int by = ay - getIndicatorArrowSize();
             int cx = ax + getIndicatorArrowSize();

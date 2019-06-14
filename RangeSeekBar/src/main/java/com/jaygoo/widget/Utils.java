@@ -9,6 +9,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
@@ -36,12 +38,20 @@ public class Utils {
         Log.d(TAG, stringBuilder.toString());
     }
 
-    /**
-     * make a drawable to a bitmap
-     *
-     * @param drawable drawable you want convert
-     * @return converted bitmap
-     */
+    public static Bitmap drawableToBitmap(Context context, int width, int height, int drawableId) {
+        if (context == null || width <= 0 || height <= 0 || drawableId == 0)return null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return Utils.drawableToBitmap(width, height, context.getResources().getDrawable(drawableId, null));
+        } else {
+            return Utils.drawableToBitmap(width, height, context.getResources().getDrawable(drawableId));
+        }
+    }
+        /**
+         * make a drawable to a bitmap
+         *
+         * @param drawable drawable you want convert
+         * @return converted bitmap
+         */
     public static Bitmap drawableToBitmap(int width, int height, Drawable drawable) {
         Bitmap bitmap = null;
         try {
@@ -64,7 +74,6 @@ public class Utils {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return bitmap;
     }
 
@@ -134,5 +143,12 @@ public class Utils {
         paint.getTextBounds(text, 0, text.length(), textRect);
         paint.reset();
         return textRect;
+    }
+
+    public static boolean vertifyBitmap(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled() || bitmap.getWidth() <= 0 || bitmap.getHeight() <= 0){
+            return false;
+        }
+        return true;
     }
 }

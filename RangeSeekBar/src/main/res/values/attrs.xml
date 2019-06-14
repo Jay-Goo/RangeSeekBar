@@ -69,10 +69,12 @@
 
         <!--the color of progress bar when in progress-->
         <attr name="rsb_progress_color" format="color"/>
-
-
         <!--the default color of the progress bar-->
         <attr name="rsb_progress_default_color" format="color"/>
+
+        <attr name="rsb_progress_drawable" format="reference"/>
+
+        <attr name="rsb_progress_drawable_default" format="reference"/>
 
         <!--SeekBar attrs-->
         <attr name="rsb_indicator_show_mode" format="enum">
