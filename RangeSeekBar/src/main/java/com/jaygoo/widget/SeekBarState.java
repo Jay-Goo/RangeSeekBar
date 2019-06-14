@@ -8,7 +8,7 @@ package com.jaygoo.widget;
  * 描    述: it works for draw indicator text
  * ================================================
  */
-class SeekBarState {
+public class SeekBarState {
     public String indicatorText;
     public float value; //now progress value
     public boolean isMin;

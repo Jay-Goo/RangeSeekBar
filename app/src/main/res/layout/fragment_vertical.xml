@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="horizontal"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp">
+
+
+    <com.jaygoo.widget.VerticalRangeSeekBar
+        android:id="@+id/sb_vertical_1"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:rsb_mode="single" />
+
+    <com.jaygoo.widget.VerticalRangeSeekBar
+        android:id="@+id/sb_vertical_2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        app:rsb_indicator_show_mode="alwaysShow"
+        app:rsb_indicator_text_size="16sp"
+        app:rsb_indicator_width="30dp"
+        app:rsb_indicator_height="40dp"
+        app:rsb_orientation="left"
+        app:rsb_gravity="bottom"
+        app:rsb_mode="single"
+        app:rsb_progress_color="@color/colorAccent"
+        app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+        app:rsb_thumb_drawable="@drawable/thumb_default"
+        app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_text_array="@array/markArray"  />
+
+    <!--<com.jaygoo.widget.VerticalRangeSeekBar-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:rsb_mode="single" />-->
+
+</LinearLayout>

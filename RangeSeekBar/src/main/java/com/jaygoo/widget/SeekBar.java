@@ -26,6 +26,7 @@ import android.util.AttributeSet;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.text.DecimalFormat;
+import java.util.IllegalFormatConversionException;
 
 
 /**
@@ -591,6 +592,19 @@ public class SeekBar {
         }
     }
 
+    public void setThumbDrawableId(@DrawableRes int thumbDrawableId) {
+        if (thumbWidth <= 0 || thumbHeight <= 0){
+            throw new IllegalArgumentException("please set thumbWidth and thumbHeight first!");
+        }
+        if (thumbDrawableId != 0 && getResources() != null) {
+            this.thumbDrawableId = thumbDrawableId;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId, null));
+            } else {
+                thumbBitmap = Utils.drawableToBitmap(thumbWidth, thumbHeight, getResources().getDrawable(thumbDrawableId));
+            }
+        }
+    }
 
     public int getThumbWidth() {
         return thumbWidth;

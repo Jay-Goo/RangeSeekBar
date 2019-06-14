@@ -1,10 +1,9 @@
-package com.jaygoo.demo
+package com.jaygoo.demo.fragments
 
-import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import com.jaygoo.demo.R
+import kotlinx.android.synthetic.main.fragment_step.*
+import java.util.ArrayList
 
 /**
 //                       _ooOoo_
@@ -30,25 +29,23 @@ import android.view.ViewGroup
 //             佛祖保佑             永无BUG
  * =====================================================
  * 作    者：JayGoo
- * 创建日期：2019-06-13
+ * 创建日期：2019-06-14
  * 描    述:
  * =====================================================
  */
-abstract class BaseFragment: Fragment() {
-	abstract fun getLayoutId():Int
-	abstract fun initView(view: View)
-
-	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-		return try {
-			inflater.inflate(getLayoutId(), container, false)
-		}catch (e:Exception){
-			super.onCreateView(inflater, container, savedInstanceState)
-		}
+class StepsSeekBarFragment : BaseFragment() {
+	override fun getLayoutId(): Int {
+		return R.layout.fragment_step
 	}
 
-	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-		super.onViewCreated(view, savedInstanceState)
-		initView(view)
+	override fun initView(view: View) {
+		val stepsDrawables = ArrayList<Int>()
+		stepsDrawables.add(R.drawable.step_1)
+		stepsDrawables.add(R.drawable.step_2)
+		stepsDrawables.add(R.drawable.step_3)
+		stepsDrawables.add(R.drawable.step_4)
+		sb_steps_1?.setStepsDrawable(stepsDrawables)
+		sb_steps_2?.setStepsDrawable(stepsDrawables)
 	}
 
 

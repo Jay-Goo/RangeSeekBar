@@ -78,12 +78,12 @@ public class VerticalSeekBar extends SeekBar {
         paint.setColor(getIndicatorBackgroundColor());
         paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
 
-        int realIndicatorWidth = indicatorTextRect.height() + getIndicatorPaddingLeft() + getIndicatorPaddingRight();
+        int realIndicatorWidth = indicatorTextRect.height() + getIndicatorPaddingTop() + getIndicatorPaddingBottom();
         if (getIndicatorWidth() > realIndicatorWidth) {
             realIndicatorWidth = getIndicatorWidth();
         }
 
-        int realIndicatorHeight = indicatorTextRect.width() + getIndicatorPaddingTop() + getIndicatorPaddingBottom();
+        int realIndicatorHeight = indicatorTextRect.width() + getIndicatorPaddingLeft() + getIndicatorPaddingRight();
         if (getIndicatorHeight() > realIndicatorHeight) {
             realIndicatorHeight = getIndicatorHeight();
         }
@@ -126,7 +126,7 @@ public class VerticalSeekBar extends SeekBar {
 
         //draw indicator background
         if (indicatorBitmap != null) {
-            Utils.drawNinePath(canvas, indicatorBitmap, indicatorRect);
+            Utils.drawBitmap(canvas, paint, indicatorBitmap, indicatorRect);
         } else if (getIndicatorRadius() > 0f) {
             canvas.drawRoundRect(new RectF(indicatorRect), getIndicatorRadius(), getIndicatorRadius(), paint);
         } else {

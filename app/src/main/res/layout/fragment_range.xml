@@ -1,6 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:background="@android:color/white"
+    android:orientation="vertical">
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_mode="range"
+        app:rsb_thumb_drawable="@drawable/thumb_gradient"
+        app:rsb_progress_drawable_default="@drawable/progress_defalut"
+        app:rsb_progress_drawable="@drawable/progress"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_mode="range"
+        app:rsb_thumb_drawable="@drawable/thumb_colorful"
+        app:rsb_progress_drawable_default="@drawable/progress_defalut"
+        app:rsb_progress_drawable="@drawable/progress"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_mode="range"
+        app:rsb_progress_color="@color/colorProgress"
+        app:rsb_min_interval="30"
+        app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
+        app:rsb_indicator_show_mode="showWhenTouch"
+        app:rsb_indicator_height="30dp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_indicator_background_color="@color/colorProgress"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_mode="range"
+        app:rsb_progress_color="@color/colorAccent"
+        app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
+        app:rsb_thumb_drawable="@drawable/thumb_activated"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_5"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        app:rsb_mode="range"
+        app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
+        app:rsb_progress_color="@color/colorAccent"
+        app:rsb_tick_mark_layout_gravity="top"
+        app:rsb_tick_mark_text_array="@array/markArray4"
+        app:rsb_tick_mark_gravity="center"
+        app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_text_margin="20dp"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="bottom"
+        app:rsb_mode="range"
+        app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
+        app:rsb_progress_color="@color/colorProgress"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_text_array="@array/wordsArray"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_text_margin="20dp"
+        app:rsb_tick_mark_text_color="@color/colorProgress"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_range_8"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="bottom"
+        app:rsb_mode="range"
+        app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
+        app:rsb_progress_color="@color/colorProgress"
+        />
 </LinearLayout>

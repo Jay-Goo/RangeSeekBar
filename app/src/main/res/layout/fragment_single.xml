@@ -21,6 +21,7 @@
             />
 
         <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/sb_single2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:rsb_gravity="center"
@@ -31,6 +32,7 @@
             />
 
         <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/sb_single3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:rsb_gravity="center"
@@ -43,6 +45,7 @@
             />
 
         <com.jaygoo.widget.RangeSeekBar
+            android:id="@+id/sb_single4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:rsb_gravity="center"
@@ -60,7 +63,7 @@
 
 
         <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single2"
+            android:id="@+id/sb_single5"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:rsb_gravity="bottom"
@@ -84,7 +87,7 @@
             app:rsb_tick_mark_text_array="@array/markArray" />
 
         <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single3"
+            android:id="@+id/sb_single6"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -93,7 +96,7 @@
             app:rsb_indicator_drawable="@drawable/indicator_cloud"
             app:rsb_indicator_height="46dp"
             app:rsb_indicator_padding_bottom="15dp"
-            app:rsb_indicator_show_mode="alwaysShow"
+            app:rsb_indicator_show_mode="alwaysShowAfterTouch"
             app:rsb_indicator_text_color="@android:color/darker_gray"
             app:rsb_indicator_text_size="12sp"
             app:rsb_indicator_width="50dp"

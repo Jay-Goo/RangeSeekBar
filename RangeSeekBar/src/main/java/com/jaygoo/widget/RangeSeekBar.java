@@ -22,6 +22,8 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.jaygoo.widget.SeekBar.INDICATOR_ALWAYS_HIDE;
 import static com.jaygoo.widget.SeekBar.INDICATOR_ALWAYS_SHOW;
@@ -130,6 +132,7 @@ public class RangeSeekBar extends View {
     private int steps;
     //the thumb will automatic bonding close to its value
     private boolean stepsAutoBonding;
+    private int stepsDrawableId;
 
     //****************** the above is attr value  ******************//
     //用户设置的真实的最大值和最小值
@@ -151,6 +154,7 @@ public class RangeSeekBar extends View {
     SeekBar currTouchSB;
     Bitmap progressBitmap;
     Bitmap progressDefaultBitmap;
+    List<Bitmap> stepsBitmaps = new ArrayList<>();
     private int progressPaddingRight;
     private OnRangeChangedListener callback;
 
@@ -164,6 +168,7 @@ public class RangeSeekBar extends View {
         initAttrs(attrs);
         initPaint();
         initSeekBar(attrs);
+        initStepsBitmap();
     }
 
     private void initProgressBitmap() {
@@ -172,6 +177,21 @@ public class RangeSeekBar extends View {
         }
         if (progressDefaultBitmap == null) {
             progressDefaultBitmap = Utils.drawableToBitmap(getContext(), progressWidth, progressHeight, progressDefaultDrawableId);
+        }
+    }
+
+    private boolean verifyStepsMode(){
+        if (steps < 1 || stepsHeight <= 0 || stepsWidth <= 0) return false;
+        return true;
+    }
+
+    private void initStepsBitmap(){
+        if (!verifyStepsMode() || stepsDrawableId == 0) return;
+        if (stepsBitmaps.isEmpty()){
+            Bitmap bitmap = Utils.drawableToBitmap(getContext(), (int)stepsWidth, (int)stepsHeight, stepsDrawableId);
+            for (int i = 0; i <= steps; i++){
+                stepsBitmaps.add(bitmap);
+            }
         }
     }
 
@@ -209,6 +229,7 @@ public class RangeSeekBar extends View {
             stepsRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_step_radius, 0);
             stepsWidth = t.getDimension(R.styleable.RangeSeekBar_rsb_step_width, 0);
             stepsHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_step_height, 0);
+            stepsDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_step_drawable, 0);
             stepsAutoBonding = t.getBoolean(R.styleable.RangeSeekBar_rsb_step_auto_bonding, true);
             t.recycle();
         } catch (Exception e) {
@@ -441,14 +462,18 @@ public class RangeSeekBar extends View {
 
     //draw steps
     protected void onDrawSteps(Canvas canvas) {
-        if (steps < 1 || stepsHeight <= 0 || stepsWidth <= 0) return;
+        if (!verifyStepsMode()) return;
         int stepMarks = getProgressWidth() / (steps);
         float extHeight = (stepsHeight - getProgressHeight()) / 2f;
         for (int k = 0; k <= steps; k++) {
             float x = getProgressLeft() + k * stepMarks - stepsWidth / 2f;
-            paint.setColor(stepsColor);
             stepDivRect.set(x, getProgressTop() - extHeight, x + stepsWidth, getProgressBottom() + extHeight);
-            canvas.drawRoundRect(stepDivRect, stepsRadius, stepsRadius, paint);
+            if (stepsBitmaps.isEmpty() || stepsBitmaps.size() <= k) {
+                paint.setColor(stepsColor);
+                canvas.drawRoundRect(stepDivRect, stepsRadius, stepsRadius, paint);
+            }else {
+                canvas.drawBitmap(stepsBitmaps.get(k), null, stepDivRect, paint);
+            }
         }
     }
 
@@ -459,7 +484,6 @@ public class RangeSeekBar extends View {
             leftSB.setShowIndicatorEnable(true);
         }
         leftSB.draw(canvas);
-
         //draw right SeekBar
         if (seekBarMode == SEEKBAR_MODE_RANGE) {
             if (rightSB.getIndicatorShowMode() == INDICATOR_ALWAYS_SHOW) {
@@ -642,7 +666,7 @@ public class RangeSeekBar extends View {
                 changeThumbActivateState(false);
                 break;
             case MotionEvent.ACTION_UP:
-                if (steps > 0 && stepsAutoBonding) {
+                if (verifyStepsMode() && stepsAutoBonding) {
                     float percent = calculateCurrentSeekBarPercent(event.getX());
                     float stepPercent = 1.0f / steps;
                     int stepSelected = new BigDecimal(percent / stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
@@ -1119,5 +1143,39 @@ public class RangeSeekBar extends View {
         this.stepsAutoBonding = stepsAutoBonding;
     }
 
+    public int getStepsDrawableId() {
+        return stepsDrawableId;
+    }
 
+    public void setStepsDrawableId(int stepsDrawableId) {
+        this.stepsBitmaps.clear();
+        this.stepsDrawableId = stepsDrawableId;
+        initStepsBitmap();
+    }
+
+    public List<Bitmap> getStepsBitmaps() {
+        return stepsBitmaps;
+    }
+
+    public void setStepsBitmaps(List<Bitmap> stepsBitmaps) {
+        if (stepsBitmaps == null || stepsBitmaps.isEmpty() || stepsBitmaps.size() <= steps){
+          throw new IllegalArgumentException("stepsBitmaps must > steps !");
+        }
+        this.stepsBitmaps.clear();
+        this.stepsBitmaps.addAll(stepsBitmaps);
+    }
+
+    public void setStepsDrawable(List<Integer> stepsDrawableIds) {
+        if (stepsDrawableIds == null || stepsDrawableIds.isEmpty() || stepsDrawableIds.size() <= steps){
+            throw new IllegalArgumentException("stepsDrawableIds must > steps !");
+        }
+        if (!verifyStepsMode()){
+            throw new IllegalArgumentException("stepsWidth must > 0, stepsHeight must > 0,steps must > 0 First!!");
+        }
+        List<Bitmap> stepsBitmaps = new ArrayList<>();
+        for (int i = 0; i < stepsDrawableIds.size(); i++){
+            stepsBitmaps.add(Utils.drawableToBitmap(getContext(), (int)stepsWidth, (int)stepsHeight, stepsDrawableIds.get(i)));
+        }
+        setStepsBitmaps(stepsBitmaps);
+    }
 }

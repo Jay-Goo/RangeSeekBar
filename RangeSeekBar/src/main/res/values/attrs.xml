@@ -117,6 +117,7 @@
         <attr name="rsb_step_height" format="dimension"/>
         <attr name="rsb_step_radius" format="dimension"/>
         <attr name="rsb_step_auto_bonding" format="boolean"/>
+        <attr name="rsb_step_drawable" format="reference"/>
 
     </declare-styleable>
 

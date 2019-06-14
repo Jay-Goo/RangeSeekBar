@@ -1,8 +1,10 @@
-package com.jaygoo.demo
+package com.jaygoo.demo.fragments
 
+import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.LayoutInflater
 import android.view.View
-import kotlinx.android.synthetic.main.fragment_single.*
+import android.view.ViewGroup
 
 /**
 //                       _ooOoo_
@@ -32,14 +34,20 @@ import kotlinx.android.synthetic.main.fragment_single.*
  * 描    述:
  * =====================================================
  */
-class SingleSeekBarFragment: BaseFragment() {
-	override fun getLayoutId(): Int {
-		return R.layout.fragment_single
+abstract class BaseFragment: Fragment() {
+	abstract fun getLayoutId():Int
+	abstract fun initView(view: View)
+
+	override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+		return try {
+			inflater.inflate(getLayoutId(), container, false)
+		}catch (e:Exception){
+			super.onCreateView(inflater, container, savedInstanceState)
+		}
 	}
 
-	override fun initView(view: View) {
-//		sb_single3?.setIndicatorTextDecimalFormat("0")
+	override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+		super.onViewCreated(view, savedInstanceState)
+		initView(view)
 	}
-
-
 }

@@ -1,20 +1,18 @@
 package com.jaygoo.demo;
 
-import android.content.Intent;
-import android.graphics.Typeface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.View;
 
-import com.jaygoo.widget.OnRangeChangedListener;
-import com.jaygoo.widget.RangeSeekBar;
-import com.jaygoo.widget.Utils;
+import com.jaygoo.demo.fragments.BaseFragment;
+import com.jaygoo.demo.fragments.RangeSeekBarFragment;
+import com.jaygoo.demo.fragments.SingleSeekBarFragment;
+import com.jaygoo.demo.fragments.SingleSeekBarVerticalFragment;
+import com.jaygoo.demo.fragments.StepsSeekBarFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,9 +33,9 @@ public class MainActivity extends AppCompatActivity {
     private void initView(){
         fragments.clear();
         fragments.add(new SingleSeekBarFragment());
-        fragments.add(new SingleSeekBarFragment());
-        fragments.add(new SingleSeekBarFragment());
-        fragments.add(new SingleSeekBarFragment());
+        fragments.add(new RangeSeekBarFragment());
+        fragments.add(new StepsSeekBarFragment());
+        fragments.add(new SingleSeekBarVerticalFragment());
         fragments.add(new SingleSeekBarFragment());
         fragments.add(new SingleSeekBarFragment());
         fragments.add(new SingleSeekBarFragment());

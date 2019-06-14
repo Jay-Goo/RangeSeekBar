@@ -85,7 +85,7 @@
         app:rsb_orientation="right"
         app:rsb_progress_color="@color/colorProgress"
         app:rsb_progress_height="4dp"
-        app:rsb_thumb_drawable="@drawable/thumb_yellow" />
+        app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke" />
 
     <com.jaygoo.widget.VerticalRangeSeekBar
         android:id="@+id/seekbar5"
