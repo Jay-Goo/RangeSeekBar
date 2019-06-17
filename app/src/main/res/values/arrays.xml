@@ -31,6 +31,11 @@
         <item>75</item>
         <item>100</item>
     </string-array>
+
+    <string-array name="markArray5">
+        <item>-100</item>
+        <item>100</item>
+    </string-array>
     <string-array name="negativeMarkArray">
         <item>-100</item>
         <item>中间</item>

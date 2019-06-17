@@ -1,5 +1,6 @@
 package com.jaygoo.demo.fragments
 
+import android.graphics.Typeface
 import android.view.View
 import com.jaygoo.demo.R
 import com.jaygoo.widget.OnRangeChangedListener
@@ -48,6 +49,7 @@ class SingleSeekBarFragment: BaseFragment() {
 		sb_single4?.setIndicatorTextStringFormat("%s%%")
 		sb_single5?.setIndicatorTextDecimalFormat("0")
 
+		sb_single6?.setTypeface(Typeface.SANS_SERIF)
 		sb_single6?.setOnRangeChangedListener(object :OnRangeChangedListener{
 			override fun onRangeChanged(rangeSeekBar: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
 				when {

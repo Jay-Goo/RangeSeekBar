@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String[] types = new String[]{"SINGLE", "RANGE", "STEP","VERTICAL","CUSTOM"};
+    private static String[] types = new String[]{"SINGLE", "RANGE", "STEP","VERTICAL"};
 
     List<BaseFragment> fragments = new ArrayList<>();
 
@@ -36,7 +36,6 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new RangeSeekBarFragment());
         fragments.add(new StepsSeekBarFragment());
         fragments.add(new VerticalSeekBarFragment());
-        fragments.add(new SingleSeekBarFragment());
 
         ViewPager viewPager = findViewById(R.id.view_pager);
         TabLayout tabLayout = findViewById(R.id.layout_tab);

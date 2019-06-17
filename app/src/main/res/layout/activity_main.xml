@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         android:background="@android:color/white"
         app:tabGravity="center"
-        app:tabMode="scrollable"
+        app:tabMode="fixed"
         app:tabIndicatorHeight="3dp"
         app:tabIndicatorColor="@color/colorAccent"
         app:tabTextColor="@color/colorAccent">

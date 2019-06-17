@@ -43,6 +43,8 @@
         app:rsb_indicator_height="30dp"
         app:rsb_indicator_width="50dp"
         app:rsb_indicator_background_color="@color/colorProgress"
+        app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_text_array="@array/markArray5"
         />
 
     <com.jaygoo.widget.RangeSeekBar

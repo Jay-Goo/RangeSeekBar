@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/white"
     android:orientation="vertical"
     android:paddingLeft="10dp"
     android:paddingRight="10dp">
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -79,6 +83,20 @@
             app:rsb_tick_mark_mode="number"
             app:rsb_tick_mark_text_array="@array/markArray" />
 
+        <com.jaygoo.widget.VerticalRangeSeekBar
+            android:id="@+id/sb_vertical_5"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:rsb_orientation="right"
+            app:rsb_thumb_drawable="@drawable/thumb_activated"
+            app:rsb_thumb_inactivated_drawable="@drawable/thumb_inactivated"
+            app:rsb_mode="single"
+            app:rsb_indicator_text_orientation="horizontal"
+            app:rsb_indicator_show_mode="showWhenTouch"
+            app:rsb_indicator_height="26dp"
+            app:rsb_indicator_width="50dp"
+            />
+
     </LinearLayout>
 
     <LinearLayout
@@ -90,28 +108,83 @@
         android:paddingRight="10dp">
 
         <com.jaygoo.widget.VerticalRangeSeekBar
+            android:id="@+id/sb_vertical_6"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:rsb_mode="single"
+            app:rsb_thumb_width="18dp"
+            app:rsb_thumb_height="18dp"
+            app:rsb_thumb_scale_ratio="1.25"
+            app:rsb_thumb_drawable="@drawable/thumb_green"
+            app:rsb_progress_color="@color/colorAccent"
+            app:rsb_steps="5"
+            app:rsb_step_width="10dp"
+            app:rsb_step_height="10dp"
+            app:rsb_step_color="@color/colorAccent"
+            app:rsb_step_radius="5dp"
+            app:rsb_step_auto_bonding="true"
+           />
+
+        <com.jaygoo.widget.VerticalRangeSeekBar
+            android:id="@+id/sb_vertical_7"
             android:layout_width="90dp"
             android:layout_height="match_parent"
+            app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
+            app:rsb_gravity="center"
+            app:rsb_mode="range"
+            app:rsb_progress_color="@color/colorProgress"
+            app:rsb_steps="5"
+            app:rsb_step_width="10dp"
+            app:rsb_step_height="10dp"
+            app:rsb_step_color="@color/colorProgress"
+            app:rsb_step_radius="5dp"
+            app:rsb_step_auto_bonding="false"
+            />
+
+
+        <com.jaygoo.widget.VerticalRangeSeekBar
+            android:id="@+id/sb_vertical_8"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             app:rsb_gravity="bottom"
-            app:rsb_indicator_height="wrap_content"
-            app:rsb_indicator_padding_bottom="10dp"
-            app:rsb_indicator_padding_left="10dp"
-            app:rsb_indicator_padding_right="10dp"
-            app:rsb_indicator_padding_top="10dp"
-            app:rsb_indicator_show_mode="alwaysShow"
-            app:rsb_indicator_width="wrap_content"
-            app:rsb_mode="single"
-            app:rsb_orientation="left"
+            app:rsb_mode="range"
+            app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
             app:rsb_progress_color="@color/colorAccent"
-            app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
-            app:rsb_thumb_drawable="@drawable/thumb_default"
+            app:rsb_steps="4"
+            app:rsb_step_width="5dp"
+            app:rsb_step_height="20dp"
+            app:rsb_step_color="@color/colorAccent"
+            app:rsb_step_drawable="@drawable/step_diy"
+            app:rsb_step_auto_bonding="true"
+            app:rsb_tick_mark_layout_gravity="bottom"
+            app:rsb_tick_mark_text_array="@array/markArray4"
+            app:rsb_tick_mark_gravity="center"
             app:rsb_tick_mark_mode="number"
-            app:rsb_tick_mark_text_array="@array/markArray" />
+            app:rsb_tick_mark_text_margin="20dp"
+            app:rsb_indicator_show_mode="alwaysShowAfterTouch"
+            app:rsb_indicator_width="40dp"
+            app:rsb_indicator_height="40dp"
+            />
 
-        <!--<com.jaygoo.widget.VerticalRangeSeekBar-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="match_parent"-->
-        <!--app:rsb_mode="single" />-->
-
+        <com.jaygoo.widget.VerticalRangeSeekBar
+            android:id="@+id/sb_vertical_9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
+            app:rsb_orientation="right"
+            app:rsb_gravity="bottom"
+            app:rsb_mode="range"
+            app:rsb_progress_color="@color/colorProgress"
+            app:rsb_steps="3"
+            app:rsb_step_width="20dp"
+            app:rsb_step_height="20dp"
+            app:rsb_step_auto_bonding="true"
+            app:rsb_indicator_show_mode="showWhenTouch"
+            app:rsb_indicator_width="40dp"
+            app:rsb_indicator_height="wrap_content"
+            app:rsb_indicator_padding_top="10dp"
+            app:rsb_indicator_padding_bottom="10dp"
+            />
     </LinearLayout>
 </LinearLayout>
+</HorizontalScrollView>
