@@ -2,6 +2,7 @@ package com.jaygoo.widget;
 
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -78,18 +79,18 @@ public class VerticalSeekBar extends SeekBar {
         paint.setColor(getIndicatorBackgroundColor());
         paint.getTextBounds(text2Draw, 0, text2Draw.length(), indicatorTextRect);
 
-        int realIndicatorWidth = indicatorTextRect.height() + getIndicatorPaddingTop() + getIndicatorPaddingBottom();
+        int realIndicatorWidth = indicatorTextRect.height() + getIndicatorPaddingLeft() + getIndicatorPaddingRight();
         if (getIndicatorWidth() > realIndicatorWidth) {
             realIndicatorWidth = getIndicatorWidth();
         }
 
-        int realIndicatorHeight = indicatorTextRect.width() + getIndicatorPaddingLeft() + getIndicatorPaddingRight();
+        int realIndicatorHeight = indicatorTextRect.width() + getIndicatorPaddingTop() + getIndicatorPaddingBottom();
         if (getIndicatorHeight() > realIndicatorHeight) {
             realIndicatorHeight = getIndicatorHeight();
         }
 
         indicatorRect.left = scaleThumbWidth / 2 - realIndicatorWidth / 2;
-        indicatorRect.top = (int) (bottom - realIndicatorHeight - scaleThumbHeight - getIndicatorMargin());
+        indicatorRect.top = bottom - realIndicatorHeight - scaleThumbHeight - getIndicatorMargin();
         indicatorRect.right = indicatorRect.left + realIndicatorWidth;
         indicatorRect.bottom = indicatorRect.top + realIndicatorHeight;
 
@@ -134,22 +135,8 @@ public class VerticalSeekBar extends SeekBar {
         }
 
         //draw indicator content text
-        int tx, ty;
-        if (getIndicatorPaddingLeft() > 0) {
-            tx = indicatorRect.left + getIndicatorPaddingLeft();
-        } else if (getIndicatorPaddingRight() > 0) {
-            tx = indicatorRect.right - getIndicatorPaddingRight() - indicatorTextRect.width();
-        } else {
-            tx = indicatorRect.left + (realIndicatorWidth - indicatorTextRect.width()) / 2;
-        }
-
-        if (getIndicatorPaddingTop() > 0) {
-            ty = indicatorRect.top + indicatorTextRect.height() + getIndicatorPaddingTop();
-        } else if (getIndicatorPaddingBottom() > 0) {
-            ty = indicatorRect.bottom - indicatorTextRect.height() - getIndicatorPaddingBottom();
-        } else {
-            ty = indicatorRect.bottom - (realIndicatorHeight - indicatorTextRect.height()) / 2 + 1;
-        }
+        int tx = indicatorRect.left + (indicatorRect.width() - indicatorTextRect.width()) / 2 + getIndicatorPaddingLeft() - getIndicatorPaddingRight();
+        int ty = indicatorRect.bottom - (indicatorRect.height() - indicatorTextRect.height()) / 2 + getIndicatorPaddingTop() - getIndicatorPaddingBottom();
 
         //draw indicator text
         paint.setColor(getIndicatorTextColor());

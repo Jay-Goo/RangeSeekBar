@@ -11,7 +11,7 @@ import android.os.Bundle;
 import com.jaygoo.demo.fragments.BaseFragment;
 import com.jaygoo.demo.fragments.RangeSeekBarFragment;
 import com.jaygoo.demo.fragments.SingleSeekBarFragment;
-import com.jaygoo.demo.fragments.SingleSeekBarVerticalFragment;
+import com.jaygoo.demo.fragments.VerticalSeekBarFragment;
 import com.jaygoo.demo.fragments.StepsSeekBarFragment;
 
 import java.util.ArrayList;
@@ -19,7 +19,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private static String[] types = new String[]{"SINGLE", "RANGE", "STEP","SINGLE-VERTICAL", "RANGE-VERTICAL", "STEP-VERTICAL", "custom"};
+    private static String[] types = new String[]{"SINGLE", "RANGE", "STEP","VERTICAL","CUSTOM"};
 
     List<BaseFragment> fragments = new ArrayList<>();
 
@@ -35,9 +35,7 @@ public class MainActivity extends AppCompatActivity {
         fragments.add(new SingleSeekBarFragment());
         fragments.add(new RangeSeekBarFragment());
         fragments.add(new StepsSeekBarFragment());
-        fragments.add(new SingleSeekBarVerticalFragment());
-        fragments.add(new SingleSeekBarFragment());
-        fragments.add(new SingleSeekBarFragment());
+        fragments.add(new VerticalSeekBarFragment());
         fragments.add(new SingleSeekBarFragment());
 
         ViewPager viewPager = findViewById(R.id.view_pager);

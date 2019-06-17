@@ -421,7 +421,7 @@ public class RangeSeekBar extends View {
     protected void onDrawProgressBar(Canvas canvas) {
 
         //draw default progress
-        if (Utils.vertifyBitmap(progressDefaultBitmap)) {
+        if (Utils.verifyBitmap(progressDefaultBitmap)) {
             canvas.drawBitmap(progressDefaultBitmap, null, progressDefaultDstRect, paint);
         } else {
             paint.setColor(progressDefaultColor);
@@ -441,7 +441,7 @@ public class RangeSeekBar extends View {
             progressDstRect.bottom = getProgressBottom();
         }
 
-        if (Utils.vertifyBitmap(progressBitmap)) {
+        if (Utils.verifyBitmap(progressBitmap)) {
             progressSrcRect.top = 0;
             progressSrcRect.bottom = progressBitmap.getHeight();
             int bitmapWidth = progressBitmap.getWidth();

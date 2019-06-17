@@ -3,6 +3,7 @@ package com.jaygoo.widget;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.NinePatch;
 import android.graphics.Paint;
@@ -10,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -26,32 +28,33 @@ public class Utils {
 
     private static final String TAG = "RangeSeekBar";
 
-    public static void print(String log){
+    public static void print(String log) {
         Log.d(TAG, log);
     }
 
-    public static void print(Object... logs){
+    public static void print(Object... logs) {
         StringBuilder stringBuilder = new StringBuilder();
-        for (Object log: logs){
+        for (Object log : logs) {
             stringBuilder.append(log);
         }
         Log.d(TAG, stringBuilder.toString());
     }
 
     public static Bitmap drawableToBitmap(Context context, int width, int height, int drawableId) {
-        if (context == null || width <= 0 || height <= 0 || drawableId == 0)return null;
+        if (context == null || width <= 0 || height <= 0 || drawableId == 0) return null;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             return Utils.drawableToBitmap(width, height, context.getResources().getDrawable(drawableId, null));
         } else {
             return Utils.drawableToBitmap(width, height, context.getResources().getDrawable(drawableId));
         }
     }
-        /**
-         * make a drawable to a bitmap
-         *
-         * @param drawable drawable you want convert
-         * @return converted bitmap
-         */
+
+    /**
+     * make a drawable to a bitmap
+     *
+     * @param drawable drawable you want convert
+     * @return converted bitmap
+     */
     public static Bitmap drawableToBitmap(int width, int height, Drawable drawable) {
         Bitmap bitmap = null;
         try {
@@ -92,11 +95,11 @@ public class Utils {
 
     public static void drawBitmap(Canvas canvas, Paint paint, Bitmap bmp, Rect rect) {
         try {
-            if (NinePatch.isNinePatchChunk(bmp.getNinePatchChunk())){
+            if (NinePatch.isNinePatchChunk(bmp.getNinePatchChunk())) {
                 drawNinePath(canvas, bmp, rect);
                 return;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         canvas.drawBitmap(bmp, rect.left, rect.top, paint);
     }
@@ -136,7 +139,7 @@ public class Utils {
         }
     }
 
-    public static Rect measureText(String text, float textSize){
+    public static Rect measureText(String text, float textSize) {
         Paint paint = new Paint();
         Rect textRect = new Rect();
         paint.setTextSize(textSize);
@@ -145,10 +148,17 @@ public class Utils {
         return textRect;
     }
 
-    public static boolean vertifyBitmap(Bitmap bitmap) {
-        if (bitmap == null || bitmap.isRecycled() || bitmap.getWidth() <= 0 || bitmap.getHeight() <= 0){
+    public static boolean verifyBitmap(Bitmap bitmap) {
+        if (bitmap == null || bitmap.isRecycled() || bitmap.getWidth() <= 0 || bitmap.getHeight() <= 0) {
             return false;
         }
         return true;
+    }
+
+    public static int getColor(Context context, @ColorRes int colorId) {
+        if (context != null) {
+            return ContextCompat.getColor(context.getApplicationContext(), colorId);
+        }
+        return Color.WHITE;
     }
 }

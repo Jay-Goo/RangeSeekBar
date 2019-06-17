@@ -233,6 +233,19 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
         }
     }
 
+    /**
+     * if is single mode, please use it to get the SeekBar
+     *
+     * @return left seek bar
+     */
+    public VerticalSeekBar getLeftSeekBar() {
+        return (VerticalSeekBar) leftSB;
+    }
+
+    public VerticalSeekBar getRightSeekBar() {
+        return (VerticalSeekBar) rightSB;
+    }
+
     public int getOrientation() {
         return orientation;
     }
