@@ -69,9 +69,6 @@ class VerticalSeekBarFragment: BaseFragment() {
 		sb_vertical_4?.setIndicatorTextStringFormat("%s%%")
 		sb_vertical_4?.setProgress(30f, 60.6f)
 
-		sb_vertical_5?.setProgress(30f)
-		sb_vertical_5?.setIndicatorTextDecimalFormat("0")
-
 		sb_vertical_6?.setProgress(30f)
 
 		sb_vertical_7?.setProgress(40f, 80f)
@@ -124,7 +121,7 @@ class VerticalSeekBarFragment: BaseFragment() {
 		}else if (Utils.compareFloat(value, 100/3f, 3) == 0){
 			seekbar.setIndicatorText("naughty")
 		}else if (Utils.compareFloat(value, 200/3f, 3) == 0){
-			seekbar.setIndicatorText("oh Lovely")
+			seekbar.setIndicatorText("lovely")
 		}else{
 			seekbar.showIndicator(false)
 		}

@@ -38,7 +38,7 @@
         app:rsb_tick_mark_layout_gravity="bottom"
         app:rsb_tick_mark_text_margin="15dp"
         app:rsb_progress_color="@color/colorProgress"
-        app:rsb_min_interval="30"
+        app:rsb_min_interval="50"
         app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
         app:rsb_indicator_show_mode="alwaysShow"
         app:rsb_indicator_height="30dp"
