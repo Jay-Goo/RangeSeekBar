@@ -12,12 +12,12 @@
 
 **RangeSeekBar  v3.x 即将来临!! 更强大，更好用！ 文档和新版本即将更新，具体更新内容请看 [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)**
 **
+
 ## 用法
 
 ### Dependencies
-`Release Version`[![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
+`Release Version` [![](https://jitpack.io/v/Jay-Goo/RangeSeekBar.svg)](https://jitpack.io/#Jay-Goo/RangeSeekBar)
 
-	
 ```xml
     allprojects {
 		repositories {
@@ -27,50 +27,37 @@
 	}
 
 	dependencies {
-		// sample: implementation 'com.github.Jay-Goo:RangeSeekBar:v2.0.4'
+		// sample: implementation 'com.github.Jay-Goo:RangeSeekBar:v3.0.0'
 	        implementation 'com.github.Jay-Goo:RangeSeekBar:Release Version'
 	}
 
 ```
+## 如何使用
+
+请看 [WIKI！WIKI！WIKI！](https://github.com/Jay-Goo/RangeSeekBar/wiki)，重要的事情说三遍！
 
 
-### RangeSeekBar
-```
- <com.jaygoo.widget.RangeSeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:rsb_mode="single"
-        />
-```
+## 给我一个Star
+如果你喜欢这个项目，给`RangeSeekBar`一个 `Star` 是对我最大的鼓励！
 
-### VerticalRangeSeekBar
-```
-  <com.jaygoo.widget.VerticalRangeSeekBar
-        android:layout_width="50dp"
-        android:layout_height="300dp"
-        app:rsb_mode="range"
-	app:rsb_orientation="right"
-        />
-```
-你可以认为`VerticalRangeSeekBar` 是 `RangeSeekBar` 旋转90度得到的,它和 `RangeSeekBar` 的属性用法一致.唯一的不同就是 
-`rsb_orientation`，它是用来控制旋转的方向的.
+## 一杯咖啡
+大家都知道开源是件很辛苦的事情，这个项目是我工作之余完成的，平时工作很忙，但大家提的需求基本上我都尽量满足，如果这个项目帮助你节省了大量时间，你可以给我一杯咖啡的鼓励，不在于钱多钱少，在于这份鼓励给我继续的力量~
+<div style="text-align: center;">
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/pay.png" height="200px"/>
+</div>
 
-##  属性
- 如果你想了解更多地属性，请参看 [attrs](https://github.com/Jay-Goo/RangeSeekBar/blob/master/RangeSeekBar/src/main/res/values/attrs.xml)
+## 联系我
 
-## WIKI
-你可以从[wiki](https://github.com/Jay-Goo/RangeSeekBar/wiki)获取更多的信息和用法.
-### [快速入门](https://github.com/Jay-Goo/RangeSeekBar/wiki/FAQ)
-### [属性方法](https://github.com/Jay-Goo/RangeSeekBar/wiki/Attribute-methods)
-### [更新日志](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)
-### [贡献者](https://github.com/Jay-Goo/RangeSeekBar/wiki/Contributors)
+- Email： 1015121748@qq.com
+- QQ群: 573830030 有时候工作很忙没空看Issue,大家可以通过QQ群联系我。
+<div style="text-align: center;">
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/qq.png" style="margin: 0 auto;" height="250px"/>
+</div>
 
-## 给我个Star吧
-真心希望你能喜欢RangeSeekBar， `Star` 是对我最大的支持，谢谢！
 
 ## License
 
-Copyright 2018 JayGoo
+Copyright 2018-2019 JayGoo
 
 Licensed under the Apache License.
 

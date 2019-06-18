@@ -16,7 +16,8 @@
 
 [APK download](https://github.com/Jay-Goo/RangeSeekBar/blob/master/app/release/app-release.apk)
 
-[fir.im](https://fir.im/91up)
+[fir.im](https://fir.im/91up) <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/qr.png" height="150px"/>
+
 ## Usage
 
 ### Dependencies
@@ -55,13 +56,13 @@ Open source is a hard job, and a cup of coffee may be a good reward.
 - Email： 1015121748@qq.com
 - QQ Group: 573830030
 <div style="text-align: center;">
-<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/qq.png" style="margin: 0 auto;" height="200px"/>
+<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/qq.png" style="margin: 0 auto;" height="250px"/>
 </div>
 
 
 ## License
 
-Copyright 2018 JayGoo
+Copyright 2018-2019 JayGoo
 
 Licensed under the Apache License.
 
