@@ -2,7 +2,6 @@ package com.jaygoo.widget;
 
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
@@ -62,13 +61,13 @@ public class VerticalSeekBar extends SeekBar {
     }
 
     @Override
-    protected void drawIndicator(Canvas canvas, Paint paint, String text2Draw) {
+    protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
         if (text2Draw == null) return;
         //draw indicator
         if (indicatorTextOrientation == TEXT_DIRECTION_VERTICAL) {
             drawVerticalIndicator(canvas, paint, text2Draw);
         } else {
-            super.drawIndicator(canvas, paint, text2Draw);
+            super.onDrawIndicator(canvas, paint, text2Draw);
         }
     }
 

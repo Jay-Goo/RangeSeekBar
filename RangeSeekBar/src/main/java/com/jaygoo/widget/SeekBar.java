@@ -23,10 +23,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
 import java.text.DecimalFormat;
-import java.util.IllegalFormatConversionException;
 
 
 /**
@@ -81,7 +78,7 @@ public class SeekBar {
     int left, right, top, bottom;
     float currPercent;
     float material = 0;
-    boolean isShowIndicator;
+    private boolean isShowIndicator;
     boolean isLeft;
     Bitmap thumbBitmap;
     Bitmap thumbInactivatedBitmap;
@@ -217,9 +214,9 @@ public class SeekBar {
         // translate canvas, then don't care left
         canvas.translate(left, 0);
         if (isShowIndicator) {
-            drawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
+            onDrawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
         }
-        drawThumb(canvas);
+        onDrawThumb(canvas);
         canvas.restore();
     }
 
@@ -233,7 +230,7 @@ public class SeekBar {
      *
      * @param canvas canvas
      */
-    protected void drawThumb(Canvas canvas) {
+    protected void onDrawThumb(Canvas canvas) {
         if (thumbInactivatedBitmap != null && !isActivate) {
             canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f, null);
         } else if (thumbBitmap != null) {
@@ -278,7 +275,7 @@ public class SeekBar {
      * @param canvas    Canvas
      * @param text2Draw Indicator text
      */
-    protected void drawIndicator(Canvas canvas, Paint paint, String text2Draw) {
+    protected void onDrawIndicator(Canvas canvas, Paint paint, String text2Draw) {
         if (text2Draw == null) return;
         paint.setTextSize(indicatorTextSize);
         paint.setStyle(Paint.Style.FILL);
@@ -494,6 +491,14 @@ public class SeekBar {
         return indicatorShowMode;
     }
 
+    /**
+     * the indicator show mode
+     * {@link #INDICATOR_SHOW_WHEN_TOUCH}
+     * {@link #INDICATOR_ALWAYS_SHOW}
+     * {@link #INDICATOR_ALWAYS_SHOW_AFTER_TOUCH}
+     * {@link #INDICATOR_ALWAYS_SHOW}
+     * @param indicatorShowMode
+     */
     public void setIndicatorShowMode(@IndicatorModeDef int indicatorShowMode) {
         this.indicatorShowMode = indicatorShowMode;
     }
@@ -680,6 +685,6 @@ public class SeekBar {
 
     public float getProgress() {
         float range = rangeSeekBar.getMaxProgress() - rangeSeekBar.getMinProgress();
-        return rangeSeekBar.minProgress + range * currPercent;
+        return rangeSeekBar.getMinProgress() + range * currPercent;
     }
 }

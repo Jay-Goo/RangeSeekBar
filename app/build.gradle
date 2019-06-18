@@ -19,6 +19,16 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    signingConfigs {
+        release {
+            storeFile file("RangeSeekBar.jks")
+            storePassword "123456"
+            keyAlias "RangeSeekBar"
+            keyPassword "123456"
+        }
+    }
+
 }
 
 dependencies {

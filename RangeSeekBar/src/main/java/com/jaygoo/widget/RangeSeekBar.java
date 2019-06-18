@@ -60,16 +60,32 @@ public class RangeSeekBar extends View {
     }
 
     //tick mark text gravity
-    public final static int TRICK_MARK_GRAVITY_LEFT = 0;
-    public final static int TRICK_MARK_GRAVITY_CENTER = 1;
-    public final static int TRICK_MARK_GRAVITY_RIGHT = 2;
+    public final static int TICK_MARK_GRAVITY_LEFT = 0;
+    public final static int TICK_MARK_GRAVITY_CENTER = 1;
+    public final static int TICK_MARK_GRAVITY_RIGHT = 2;
 
     /**
      * @hide
      */
-    @IntDef({TRICK_MARK_GRAVITY_LEFT, TRICK_MARK_GRAVITY_CENTER, TRICK_MARK_GRAVITY_RIGHT})
+    @IntDef({TICK_MARK_GRAVITY_LEFT, TICK_MARK_GRAVITY_CENTER, TICK_MARK_GRAVITY_RIGHT})
     @Retention(RetentionPolicy.SOURCE)
     public @interface TickMarkGravityDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({Gravity.TOP, Gravity.BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface TickMarkLayoutGravityDef {
+    }
+
+    /**
+     * @hide
+     */
+    @IntDef({Gravity.TOP, Gravity.CENTER, Gravity.BOTTOM})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface GravityDef {
     }
 
     public static class Gravity {
@@ -77,7 +93,6 @@ public class RangeSeekBar extends View {
         public final static int BOTTOM = 1;
         public final static int CENTER = 2;
     }
-
 
     private int progressTop, progressBottom, progressLeft, progressRight;
     private int seekBarMode;
@@ -135,15 +150,14 @@ public class RangeSeekBar extends View {
     //the thumb will automatic bonding close to its value
     private boolean stepsAutoBonding;
     private int stepsDrawableId;
-
-    //****************** the above is attr value  ******************//
-    //用户设置的真实的最大值和最小值
     //True values set by the user
-    float minProgress, maxProgress;
+    private float minProgress, maxProgress;
+    //****************** the above is attr value  ******************//
+
+    private boolean isEnable = true;
     float touchDownX,touchDownY;
     //剩余最小间隔的进度
     float reservePercent;
-    boolean isEnable = true;
     boolean isScaleThumb = false;
     Paint paint = new Paint();
     RectF progressDefaultDstRect = new RectF();
@@ -218,7 +232,7 @@ public class RangeSeekBar extends View {
             progressDefaultDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_progress_drawable_default, 0);
             progressHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_progress_height, Utils.dp2px(getContext(), 2));
             tickMarkMode = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_mode, TRICK_MARK_MODE_NUMBER);
-            tickMarkGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_gravity, TRICK_MARK_GRAVITY_CENTER);
+            tickMarkGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_gravity, TICK_MARK_GRAVITY_CENTER);
             tickMarkLayoutGravity = t.getInt(R.styleable.RangeSeekBar_rsb_tick_mark_layout_gravity, Gravity.TOP);
             tickMarkTextArray = t.getTextArray(R.styleable.RangeSeekBar_rsb_tick_mark_text_array);
             tickMarkTextMargin = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_margin, Utils.dp2px(getContext(), 7));
@@ -369,16 +383,16 @@ public class RangeSeekBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        onDrawTickMark(canvas);
-        onDrawProgressBar(canvas);
-        onDrawSteps(canvas);
+        onDrawTickMark(canvas, paint);
+        onDrawProgressBar(canvas, paint);
+        onDrawSteps(canvas, paint);
         onDrawSeekBar(canvas);
     }
 
     //绘制刻度，并且根据当前位置是否在刻度范围内设置不同的颜色显示
     // Draw the scales, and according to the current position is set within
     // the scale range of different color display
-    protected void onDrawTickMark(Canvas canvas) {
+    protected void onDrawTickMark(Canvas canvas, Paint paint) {
         if (tickMarkTextArray != null) {
             int trickPartWidth = progressWidth / (tickMarkTextArray.length - 1);
             for (int i = 0; i < tickMarkTextArray.length; i++) {
@@ -389,9 +403,9 @@ public class RangeSeekBar extends View {
                 //平分显示
                 float x;
                 if (tickMarkMode == TRICK_MARK_MODE_OTHER) {
-                    if (tickMarkGravity == TRICK_MARK_GRAVITY_RIGHT) {
+                    if (tickMarkGravity == TICK_MARK_GRAVITY_RIGHT) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width();
-                    } else if (tickMarkGravity == TRICK_MARK_GRAVITY_CENTER) {
+                    } else if (tickMarkGravity == TICK_MARK_GRAVITY_CENTER) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width() / 2f;
                     } else {
                         x = getProgressLeft() + i * trickPartWidth;
@@ -419,7 +433,7 @@ public class RangeSeekBar extends View {
 
     //绘制进度条
     // draw the progress bar
-    protected void onDrawProgressBar(Canvas canvas) {
+    protected void onDrawProgressBar(Canvas canvas, Paint paint) {
 
         //draw default progress
         if (Utils.verifyBitmap(progressDefaultBitmap)) {
@@ -462,7 +476,7 @@ public class RangeSeekBar extends View {
     }
 
     //draw steps
-    protected void onDrawSteps(Canvas canvas) {
+    protected void onDrawSteps(Canvas canvas, Paint paint) {
         if (!verifyStepsMode()) return;
         int stepMarks = getProgressWidth() / (steps);
         float extHeight = (stepsHeight - getProgressHeight()) / 2f;
@@ -530,7 +544,6 @@ public class RangeSeekBar extends View {
         if (currTouchSB != null && currTouchSB.getThumbScaleRatio() > 1f && !isScaleThumb) {
             isScaleThumb = true;
             currTouchSB.scaleThumb();
-
         }
     }
 
@@ -956,6 +969,11 @@ public class RangeSeekBar extends View {
         return seekBarMode;
     }
 
+    /**
+     * {@link #SEEKBAR_MODE_SINGLE} is single SeekBar
+     * {@link #SEEKBAR_MODE_RANGE} is range SeekBar
+     * @param seekBarMode
+     */
     public void setSeekBarMode(@SeekBarModeDef int seekBarMode) {
         this.seekBarMode = seekBarMode;
         rightSB.setVisible(seekBarMode != SEEKBAR_MODE_SINGLE);
@@ -965,6 +983,11 @@ public class RangeSeekBar extends View {
         return tickMarkMode;
     }
 
+    /**
+     * {@link #TICK_MARK_GRAVITY_LEFT} is number tick mark, it will locate the position according to the value.
+     * {@link #TICK_MARK_GRAVITY_RIGHT} is text tick mark, it will be equally positioned.
+     * @param tickMarkMode
+     */
     public void setTickMarkMode(@TickMarkModeDef int tickMarkMode) {
         this.tickMarkMode = tickMarkMode;
     }
@@ -989,6 +1012,13 @@ public class RangeSeekBar extends View {
         return tickMarkGravity;
     }
 
+    /**
+     * the tick mark text gravity
+     * {@link #TICK_MARK_GRAVITY_LEFT}
+     * {@link #TICK_MARK_GRAVITY_RIGHT}
+     * {@link #TICK_MARK_GRAVITY_CENTER}
+     * @param tickMarkGravity
+     */
     public void setTickMarkGravity(@TickMarkGravityDef int tickMarkGravity) {
         this.tickMarkGravity = tickMarkGravity;
     }
@@ -1130,7 +1160,12 @@ public class RangeSeekBar extends View {
         return tickMarkLayoutGravity;
     }
 
-    public void setTickMarkLayoutGravity(int tickMarkLayoutGravity) {
+    /**
+     * the tick mark layout gravity
+     * Gravity.TOP and Gravity.BOTTOM
+     * @param tickMarkLayoutGravity
+     */
+    public void setTickMarkLayoutGravity(@TickMarkLayoutGravityDef int tickMarkLayoutGravity) {
         this.tickMarkLayoutGravity = tickMarkLayoutGravity;
     }
 
@@ -1138,7 +1173,12 @@ public class RangeSeekBar extends View {
         return gravity;
     }
 
-    public void setGravity(int gravity) {
+    /**
+     * the RangeSeekBar gravity
+     * Gravity.TOP and Gravity.BOTTOM
+     * @param gravity
+     */
+    public void setGravity(@GravityDef int gravity) {
         this.gravity = gravity;
     }
 
@@ -1154,7 +1194,7 @@ public class RangeSeekBar extends View {
         return stepsDrawableId;
     }
 
-    public void setStepsDrawableId(int stepsDrawableId) {
+    public void setStepsDrawableId(@DrawableRes int stepsDrawableId) {
         this.stepsBitmaps.clear();
         this.stepsDrawableId = stepsDrawableId;
         initStepsBitmap();

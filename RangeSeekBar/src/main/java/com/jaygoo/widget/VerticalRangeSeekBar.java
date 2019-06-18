@@ -3,6 +3,7 @@ package com.jaygoo.widget;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.support.annotation.IntDef;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -128,7 +129,7 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
     }
 
     @Override
-    protected void onDrawTickMark(Canvas canvas) {
+    protected void onDrawTickMark(Canvas canvas, Paint paint) {
         if (getTickMarkTextArray() != null) {
             int arrayLength = getTickMarkTextArray().length;
             int trickPartWidth = getProgressWidth() / (arrayLength - 1);
@@ -140,9 +141,9 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
                 //平分显示
                 float x;
                 if (getTickMarkMode() == TRICK_MARK_MODE_OTHER) {
-                    if (getTickMarkGravity() == TRICK_MARK_GRAVITY_RIGHT) {
+                    if (getTickMarkGravity() == TICK_MARK_GRAVITY_RIGHT) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width();
-                    } else if (getTickMarkGravity() == TRICK_MARK_GRAVITY_CENTER) {
+                    } else if (getTickMarkGravity() == TICK_MARK_GRAVITY_CENTER) {
                         x = getProgressLeft() + i * trickPartWidth - tickMarkTextRect.width() / 2f;
                     } else {
                         x = getProgressLeft() + i * trickPartWidth;
@@ -154,7 +155,7 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
                         paint.setColor(getTickMarkInRangeTextColor());
                     }
                     //按实际比例显示
-                    x = getProgressLeft() + getProgressWidth() * (num - minProgress) / (maxProgress - minProgress)
+                    x = getProgressLeft() + getProgressWidth() * (num - getMinProgress()) / (getMaxProgress() - getMinProgress())
                             - tickMarkTextRect.width() / 2f;
                 }
                 float y;
@@ -250,6 +251,12 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
         return orientation;
     }
 
+    /**
+     * set VerticalRangeSeekBar Orientation
+     * {@link #DIRECTION_LEFT}
+     * {@link #DIRECTION_RIGHT}
+     * @param orientation
+     */
     public void setOrientation(@DirectionDef int orientation) {
         this.orientation = orientation;
     }
@@ -258,6 +265,12 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
         return tickMarkDirection;
     }
 
+    /**
+     * set tick mark text direction
+     * {@link #TEXT_DIRECTION_VERTICAL}
+     * {@link #TEXT_DIRECTION_HORIZONTAL}
+     * @param tickMarkDirection
+     */
     public void setTickMarkDirection(@TextDirectionDef int tickMarkDirection) {
         this.tickMarkDirection = tickMarkDirection;
     }
