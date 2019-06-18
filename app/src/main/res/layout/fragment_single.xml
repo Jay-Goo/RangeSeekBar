@@ -1,116 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/activity_vertical_margin"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/activity_main"
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:orientation="vertical">
+        app:rsb_gravity="center"
+        app:rsb_mode="single" />
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rsb_gravity="center"
-            app:rsb_mode="single"
-            />
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_mode="single"
+        app:rsb_progress_drawable="@drawable/progress"
+        app:rsb_progress_drawable_default="@drawable/progress_defalut"
+        app:rsb_thumb_drawable="@drawable/thumb_gradient" />
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rsb_gravity="center"
-            app:rsb_mode="single"
-            app:rsb_thumb_drawable="@drawable/thumb_gradient"
-            app:rsb_progress_drawable_default="@drawable/progress_defalut"
-            app:rsb_progress_drawable="@drawable/progress"
-            />
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_mode="single"
+        app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
+        app:rsb_thumb_height="20dp"
+        app:rsb_thumb_inactivated_drawable="@drawable/thumb_activated"
+        app:rsb_thumb_scale_ratio="1.4"
+        app:rsb_thumb_width="20dp" />
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single3"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rsb_gravity="center"
-            app:rsb_mode="single"
-            app:rsb_thumb_width="20dp"
-            app:rsb_thumb_height="20dp"
-            app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
-            app:rsb_thumb_inactivated_drawable="@drawable/thumb_activated"
-            app:rsb_thumb_scale_ratio="1.4"
-            />
-
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rsb_gravity="center"
-            app:rsb_mode="single"
-            app:rsb_thumb_width="20dp"
-            app:rsb_thumb_height="20dp"
-            app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
-            app:rsb_thumb_inactivated_drawable="@drawable/thumb_activated"
-            app:rsb_indicator_show_mode="showWhenTouch"
-            app:rsb_indicator_height="30dp"
-            app:rsb_indicator_padding_left="2dp"
-            app:rsb_indicator_padding_right="2dp"
-            />
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="center"
+        app:rsb_indicator_height="30dp"
+        app:rsb_indicator_padding_left="2dp"
+        app:rsb_indicator_padding_right="2dp"
+        app:rsb_indicator_show_mode="showWhenTouch"
+        app:rsb_mode="single"
+        app:rsb_thumb_drawable="@drawable/thumb_green_alpha"
+        app:rsb_thumb_height="20dp"
+        app:rsb_thumb_inactivated_drawable="@drawable/thumb_activated"
+        app:rsb_thumb_width="20dp" />
 
 
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rsb_gravity="bottom"
+        app:rsb_indicator_background_color="@color/colorRed"
+        app:rsb_indicator_height="wrap_content"
+        app:rsb_indicator_padding_bottom="10dp"
+        app:rsb_indicator_padding_left="15dp"
+        app:rsb_indicator_padding_right="15dp"
+        app:rsb_indicator_padding_top="10dp"
+        app:rsb_indicator_radius="5dp"
+        app:rsb_indicator_show_mode="alwaysShow"
+        app:rsb_indicator_text_size="12sp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_mode="single"
+        app:rsb_progress_color="@color/colorRed"
+        app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+        app:rsb_thumb_drawable="@drawable/thumb_driver"
+        app:rsb_thumb_height="25dp"
+        app:rsb_thumb_width="30dp"
+        app:rsb_tick_mark_mode="number"
+        app:rsb_tick_mark_text_array="@array/markArray" />
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:rsb_gravity="bottom"
-            app:rsb_indicator_background_color="@color/colorRed"
-            app:rsb_indicator_height="wrap_content"
-            app:rsb_indicator_padding_bottom="10dp"
-            app:rsb_indicator_padding_left="15dp"
-            app:rsb_indicator_padding_right="15dp"
-            app:rsb_indicator_padding_top="10dp"
-            app:rsb_indicator_radius="5dp"
-            app:rsb_indicator_show_mode="alwaysShow"
-            app:rsb_indicator_text_size="12sp"
-            app:rsb_indicator_width="50dp"
-            app:rsb_mode="single"
-            app:rsb_progress_color="@color/colorRed"
-            app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
-            app:rsb_thumb_drawable="@drawable/thumb_driver"
-            app:rsb_thumb_height="25dp"
-            app:rsb_thumb_width="30dp"
-            app:rsb_tick_mark_mode="number"
-            app:rsb_tick_mark_text_array="@array/markArray" />
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:rsb_gravity="bottom"
+        app:rsb_indicator_drawable="@drawable/indicator_cloud"
+        app:rsb_indicator_height="46dp"
+        app:rsb_indicator_padding_bottom="15dp"
+        app:rsb_indicator_show_mode="alwaysShowAfterTouch"
+        app:rsb_indicator_text_color="@android:color/darker_gray"
+        app:rsb_indicator_text_size="12sp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_mode="single"
+        app:rsb_progress_color="@color/colorRed"
+        app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+        app:rsb_thumb_drawable="@drawable/thumb_driver"
+        app:rsb_thumb_height="25dp"
+        app:rsb_thumb_width="30dp"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_text_array="@array/markArray3"
+        app:rsb_tick_mark_text_color="@color/colorRed"
+        app:rsb_tick_mark_text_margin="15dp" />
+</LinearLayout>
 
-        <com.jaygoo.widget.RangeSeekBar
-            android:id="@+id/sb_single6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            app:rsb_gravity="bottom"
-            app:rsb_indicator_drawable="@drawable/indicator_cloud"
-            app:rsb_indicator_height="46dp"
-            app:rsb_indicator_padding_bottom="15dp"
-            app:rsb_indicator_show_mode="alwaysShowAfterTouch"
-            app:rsb_indicator_text_color="@android:color/darker_gray"
-            app:rsb_indicator_text_size="12sp"
-            app:rsb_indicator_width="50dp"
-            app:rsb_mode="single"
-            app:rsb_progress_color="@color/colorRed"
-            app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
-            app:rsb_thumb_drawable="@drawable/thumb_driver"
-            app:rsb_thumb_height="25dp"
-            app:rsb_thumb_width="30dp"
-            app:rsb_tick_mark_text_margin="15dp"
-            app:rsb_tick_mark_layout_gravity="bottom"
-            app:rsb_tick_mark_text_color="@color/colorRed"
-            app:rsb_tick_mark_mode="other"
-            app:rsb_tick_mark_text_array="@array/markArray3" />
-    </LinearLayout>
-
-</ScrollView>

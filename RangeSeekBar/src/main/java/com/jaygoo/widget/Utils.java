@@ -131,6 +131,27 @@ public class Utils {
         }
     }
 
+    /**
+     * Compare the size of two floating point numbers with accuracy
+     *
+     * @param a
+     * @param b
+     * @return 1 is a > b
+     * -1 is a < b
+     * 0 is a == b
+     */
+    public static int compareFloat(float a, float b, int degree) {
+        if (Math.abs(a-b) < Math.pow(0.1, degree)) {
+            return 0;
+        } else {
+            if (a < b) {
+                return -1;
+            } else {
+                return 1;
+            }
+        }
+    }
+
     public static float parseFloat(String s) {
         try {
             return Float.parseFloat(s);

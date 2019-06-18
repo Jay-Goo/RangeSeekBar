@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="@dimen/activity_vertical_margin"
-    android:background="@android:color/white"
     android:orientation="vertical">
 
     <com.jaygoo.widget.RangeSeekBar
@@ -36,12 +35,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:rsb_mode="range"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_text_margin="15dp"
         app:rsb_progress_color="@color/colorProgress"
         app:rsb_min_interval="30"
         app:rsb_thumb_drawable="@drawable/thumb_yellow_stroke"
-        app:rsb_indicator_show_mode="showWhenTouch"
+        app:rsb_indicator_show_mode="alwaysShow"
         app:rsb_indicator_height="30dp"
         app:rsb_indicator_width="50dp"
+        app:rsb_indicator_margin="5dp"
         app:rsb_indicator_background_color="@color/colorProgress"
         app:rsb_tick_mark_mode="number"
         app:rsb_tick_mark_text_array="@array/markArray5"

@@ -31,6 +31,8 @@ import static com.jaygoo.widget.SeekBar.INDICATOR_ALWAYS_SHOW;
 
 public class RangeSeekBar extends View {
 
+    private final static int MIN_INTERCEPT_DISTANCE = 100;
+
     //normal seekBar mode
     public final static int SEEKBAR_MODE_SINGLE = 1;
     //RangeSeekBar
@@ -138,7 +140,7 @@ public class RangeSeekBar extends View {
     //用户设置的真实的最大值和最小值
     //True values set by the user
     float minProgress, maxProgress;
-    float touchDownX;
+    float touchDownX,touchDownY;
     //剩余最小间隔的进度
     float reservePercent;
     boolean isEnable = true;
@@ -157,7 +159,6 @@ public class RangeSeekBar extends View {
     List<Bitmap> stepsBitmaps = new ArrayList<>();
     private int progressPaddingRight;
     private OnRangeChangedListener callback;
-
 
     public RangeSeekBar(Context context) {
         this(context, null);
@@ -180,16 +181,16 @@ public class RangeSeekBar extends View {
         }
     }
 
-    private boolean verifyStepsMode(){
+    private boolean verifyStepsMode() {
         if (steps < 1 || stepsHeight <= 0 || stepsWidth <= 0) return false;
         return true;
     }
 
-    private void initStepsBitmap(){
+    private void initStepsBitmap() {
         if (!verifyStepsMode() || stepsDrawableId == 0) return;
-        if (stepsBitmaps.isEmpty()){
-            Bitmap bitmap = Utils.drawableToBitmap(getContext(), (int)stepsWidth, (int)stepsHeight, stepsDrawableId);
-            for (int i = 0; i <= steps; i++){
+        if (stepsBitmaps.isEmpty()) {
+            Bitmap bitmap = Utils.drawableToBitmap(getContext(), (int) stepsWidth, (int) stepsHeight, stepsDrawableId);
+            for (int i = 0; i <= steps; i++) {
                 stepsBitmaps.add(bitmap);
             }
         }
@@ -448,7 +449,7 @@ public class RangeSeekBar extends View {
             if (seekBarMode == SEEKBAR_MODE_RANGE) {
                 progressSrcRect.left = (int) (bitmapWidth * leftSB.currPercent);
                 progressSrcRect.right = (int) (bitmapWidth * rightSB.currPercent);
-            }else {
+            } else {
                 progressSrcRect.left = 0;
                 progressSrcRect.right = (int) (bitmapWidth * leftSB.currPercent);
             }
@@ -471,7 +472,7 @@ public class RangeSeekBar extends View {
             if (stepsBitmaps.isEmpty() || stepsBitmaps.size() <= k) {
                 paint.setColor(stepsColor);
                 canvas.drawRoundRect(stepDivRect, stepsRadius, stepsRadius, paint);
-            }else {
+            } else {
                 canvas.drawBitmap(stepsBitmaps.get(k), null, stepDivRect, paint);
             }
         }
@@ -545,6 +546,7 @@ public class RangeSeekBar extends View {
 
     //calculate currTouchSB percent by MotionEvent
     protected float calculateCurrentSeekBarPercent(float touchDownX) {
+        if (currTouchSB == null)return 0;
         float percent = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
         if (touchDownX < getProgressLeft()) {
             percent = 0;
@@ -569,9 +571,11 @@ public class RangeSeekBar extends View {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (!isEnable) return true;
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 touchDownX = getEventX(event);
+                touchDownY = getEventY(event);
                 if (seekBarMode == SEEKBAR_MODE_RANGE) {
                     if (rightSB.currPercent >= 1 && leftSB.collide(getEventX(event), getEventY(event))) {
                         currTouchSB = leftSB;
@@ -580,15 +584,16 @@ public class RangeSeekBar extends View {
                         currTouchSB = rightSB;
                         scaleCurrentSeekBarThumb();
                     } else {
-                        float percentClick = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
-                        float distanceLeft = Math.abs(leftSB.currPercent - percentClick);
-                        float distanceRight = Math.abs(rightSB.currPercent - percentClick);
+                        float performClick = (touchDownX - getProgressLeft()) * 1f / (progressWidth);
+                        float distanceLeft = Math.abs(leftSB.currPercent - performClick);
+                        float distanceRight = Math.abs(rightSB.currPercent - performClick);
                         if (distanceLeft < distanceRight) {
                             currTouchSB = leftSB;
                         } else {
                             currTouchSB = rightSB;
                         }
-                        currTouchSB.slide(percentClick);
+                        performClick = calculateCurrentSeekBarPercent(touchDownX);
+                        currTouchSB.slide(performClick);
                     }
                 } else {
                     currTouchSB = leftSB;
@@ -614,12 +619,14 @@ public class RangeSeekBar extends View {
                     if (x - touchDownX > 0) {
                         //method to move right
                         if (currTouchSB != rightSB) {
+                            currTouchSB.setShowIndicatorEnable(false);
                             resetCurrentSeekBarThumb();
                             currTouchSB = rightSB;
                         }
                     } else {
                         //method to move left
                         if (currTouchSB != leftSB) {
+                            currTouchSB.setShowIndicatorEnable(false);
                             resetCurrentSeekBarThumb();
                             currTouchSB = leftSB;
                         }
@@ -667,7 +674,7 @@ public class RangeSeekBar extends View {
                 break;
             case MotionEvent.ACTION_UP:
                 if (verifyStepsMode() && stepsAutoBonding) {
-                    float percent = calculateCurrentSeekBarPercent(event.getX());
+                    float percent = calculateCurrentSeekBarPercent(getEventX(event));
                     float stepPercent = 1.0f / steps;
                     int stepSelected = new BigDecimal(percent / stepPercent).setScale(0, RoundingMode.HALF_UP).intValue();
                     currTouchSB.slide(stepSelected * stepPercent);
@@ -1158,23 +1165,23 @@ public class RangeSeekBar extends View {
     }
 
     public void setStepsBitmaps(List<Bitmap> stepsBitmaps) {
-        if (stepsBitmaps == null || stepsBitmaps.isEmpty() || stepsBitmaps.size() <= steps){
-          throw new IllegalArgumentException("stepsBitmaps must > steps !");
+        if (stepsBitmaps == null || stepsBitmaps.isEmpty() || stepsBitmaps.size() <= steps) {
+            throw new IllegalArgumentException("stepsBitmaps must > steps !");
         }
         this.stepsBitmaps.clear();
         this.stepsBitmaps.addAll(stepsBitmaps);
     }
 
     public void setStepsDrawable(List<Integer> stepsDrawableIds) {
-        if (stepsDrawableIds == null || stepsDrawableIds.isEmpty() || stepsDrawableIds.size() <= steps){
+        if (stepsDrawableIds == null || stepsDrawableIds.isEmpty() || stepsDrawableIds.size() <= steps) {
             throw new IllegalArgumentException("stepsDrawableIds must > steps !");
         }
-        if (!verifyStepsMode()){
+        if (!verifyStepsMode()) {
             throw new IllegalArgumentException("stepsWidth must > 0, stepsHeight must > 0,steps must > 0 First!!");
         }
         List<Bitmap> stepsBitmaps = new ArrayList<>();
-        for (int i = 0; i < stepsDrawableIds.size(); i++){
-            stepsBitmaps.add(Utils.drawableToBitmap(getContext(), (int)stepsWidth, (int)stepsHeight, stepsDrawableIds.get(i)));
+        for (int i = 0; i < stepsDrawableIds.size(); i++) {
+            stepsBitmaps.add(Utils.drawableToBitmap(getContext(), (int) stepsWidth, (int) stepsHeight, stepsDrawableIds.get(i)));
         }
         setStepsBitmaps(stepsBitmaps);
     }

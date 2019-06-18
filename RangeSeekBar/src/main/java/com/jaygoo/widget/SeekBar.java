@@ -216,9 +216,6 @@ public class SeekBar {
         canvas.translate(offset, 0);
         // translate canvas, then don't care left
         canvas.translate(left, 0);
-        if (indicatorShowMode == INDICATOR_ALWAYS_SHOW) {
-            setShowIndicatorEnable(true);
-        }
         if (isShowIndicator) {
             drawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
         }
@@ -501,11 +498,19 @@ public class SeekBar {
         this.indicatorShowMode = indicatorShowMode;
     }
 
+    public void showIndicator(boolean isShown) {
+        isShowIndicator = isShown;
+    }
+
+    public boolean isShowIndicator() {
+        return isShowIndicator;
+    }
+
     /**
-     * include indicator text Height、padding、margin
-     *
-     * @return The actual occupation height of indicator
-     */
+         * include indicator text Height、padding、margin
+         *
+         * @return The actual occupation height of indicator
+         */
     public int getIndicatorRawHeight() {
         if (indicatorHeight > 0) {
             if (indicatorBitmap != null) {

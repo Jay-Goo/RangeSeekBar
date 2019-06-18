@@ -67,7 +67,7 @@ class VerticalSeekBarFragment: BaseFragment() {
 		sb_vertical_3?.setIndicatorTextDecimalFormat("0")
 		sb_vertical_4?.setIndicatorTextDecimalFormat("0")
 		sb_vertical_4?.setIndicatorTextStringFormat("%s%%")
-		sb_vertical_4?.setProgress(30f, 40.6f)
+		sb_vertical_4?.setProgress(30f, 60.6f)
 
 		sb_vertical_5?.setProgress(30f)
 		sb_vertical_5?.setIndicatorTextDecimalFormat("0")

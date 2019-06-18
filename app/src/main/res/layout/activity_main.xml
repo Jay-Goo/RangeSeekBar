@@ -3,23 +3,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:background="@android:color/white"
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:id="@+id/layout_tab"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:background="@android:color/white"
+        android:background="@color/colorPrimary"
         app:tabGravity="center"
         app:tabMode="fixed"
         app:tabIndicatorHeight="3dp"
-        app:tabIndicatorColor="@color/colorAccent"
-        app:tabTextColor="@color/colorAccent">
+        app:tabIndicatorColor="@android:color/white"
+        app:tabTextColor="@android:color/white">
 
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
