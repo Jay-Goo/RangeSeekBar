@@ -1,6 +1,9 @@
 ---
 name: Issue template
 about: 'Create a issue to help us improve '
+title: 
+labels: 
+assignees: 
 
 ---
 
