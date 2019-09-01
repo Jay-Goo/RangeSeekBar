@@ -7,12 +7,6 @@
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen3.gif" height="500px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen4.gif" height="500px">
 </div>
 
-# 注意
-
-
-**RangeSeekBar  v3.x 即将来临!! 更强大，更好用！ 文档和新版本即将更新，具体更新内容请看 [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)**
-**
-
 ## 用法
 
 ### Dependencies

@@ -8,10 +8,6 @@
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen3.gif" height="500px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen4.gif" height="500px">
 </div>
 
-# Attention
-
-**RangeSeekBar Version v3.x is coming!! More powerful and easy to use, and the document will be updated soon. For details, please see [V3.0.0](https://github.com/Jay-Goo/RangeSeekBar/wiki/ChangeLog)**
-
 # Demo
 
 [APK download](https://github.com/Jay-Goo/RangeSeekBar/blob/master/app/release/app-release.apk)
