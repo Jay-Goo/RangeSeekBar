@@ -761,7 +761,11 @@ public class RangeSeekBar extends View {
         leftValue = Math.min(leftValue, rightValue);
         rightValue = Math.max(leftValue, rightValue);
         if (rightValue - leftValue < minInterval) {
-            leftValue = rightValue - minInterval;
+            if (leftValue - minProgress > maxProgress - rightValue) {
+                leftValue = rightValue - minInterval;
+            } else {
+                rightValue = leftValue + minInterval;
+            }
         }
 
         if (leftValue < minProgress) {
