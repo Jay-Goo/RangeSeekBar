@@ -238,7 +238,7 @@ public class RangeSeekBar extends View {
             tickMarkTextMargin = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_margin, Utils.dp2px(getContext(), 7));
             tickMarkTextSize = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_tick_mark_text_size, Utils.dp2px(getContext(), 12));
             tickMarkTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressDefaultColor);
-            tickMarkInRangeTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_text_color, progressColor);
+            tickMarkInRangeTextColor = t.getColor(R.styleable.RangeSeekBar_rsb_tick_mark_in_range_text_color, progressColor);
             steps = t.getInt(R.styleable.RangeSeekBar_rsb_steps, 0);
             stepsColor = t.getColor(R.styleable.RangeSeekBar_rsb_step_color, 0xFF9d9d9d);
             stepsRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_step_radius, 0);
@@ -829,7 +829,7 @@ public class RangeSeekBar extends View {
     }
 
     /**
-     * @return the two seekBar state , see {@link SeekBarState}
+     * @return the two seekBar state , see {@link com.jaygoo.widget.SeekBarState}
      */
     public SeekBarState[] getRangeSeekBarState() {
         SeekBarState leftSeekBarState = new SeekBarState();
