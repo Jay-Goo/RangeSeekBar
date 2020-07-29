@@ -20,6 +20,7 @@ import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 
@@ -62,6 +63,7 @@ public class SeekBar {
     private int indicatorArrowSize;
     private int indicatorTextSize;
     private int indicatorTextColor;
+    private int indicatorTextFontFamily;
     private float indicatorRadius;
     private int indicatorBackgroundColor;
     private int indicatorPaddingLeft, indicatorPaddingRight, indicatorPaddingTop, indicatorPaddingBottom;
@@ -127,6 +129,7 @@ public class SeekBar {
         thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(), 26));
         thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
         indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
+        indicatorTextFontFamily = t.getResourceId(R.styleable.RangeSeekBar_android_fontFamily , 0);
         t.recycle();
     }
 
@@ -214,6 +217,9 @@ public class SeekBar {
         // translate canvas, then don't care left
         canvas.translate(left, 0);
         if (isShowIndicator) {
+            if(indicatorTextFontFamily != 0) {
+                paint.setTypeface(ResourcesCompat.getFont(getContext(), indicatorTextFontFamily));
+            }
             onDrawIndicator(canvas, paint, formatCurrentIndicatorText(userText2Draw));
         }
         onDrawThumb(canvas);
