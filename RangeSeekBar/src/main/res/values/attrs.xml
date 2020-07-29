@@ -28,6 +28,9 @@
         <!-- 0 for the normal mode, greater than 1 to switch to scale mode-->
         <attr name="rsb_tick_mark_number" format="integer"/>
 
+        <!--Font family for indicator and tick mark text -->
+        <attr name="android:fontFamily"/>
+
         <!--Scale mode
         Number according to the scale of the actual proportion of the distribution of the location (markTextArray must be a number)
         Other bisects the current layout (markTextArray can be any character)

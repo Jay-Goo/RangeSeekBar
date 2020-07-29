@@ -12,6 +12,7 @@ import android.os.Parcelable;
 import android.support.annotation.ColorInt;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
+import android.support.v4.content.res.ResourcesCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -107,6 +108,7 @@ public class RangeSeekBar extends View {
     private int tickMarkGravity;
     private int tickMarkLayoutGravity;
     private int tickMarkTextColor;
+    private int tickMarkTextFontFamily;
     private int tickMarkInRangeTextColor;
     //刻度上显示的文字
     //The texts displayed on the scale
@@ -220,6 +222,8 @@ public class RangeSeekBar extends View {
     private void initAttrs(AttributeSet attrs) {
         try {
             TypedArray t = getContext().obtainStyledAttributes(attrs, R.styleable.RangeSeekBar);
+            tickMarkTextFontFamily =
+                    t.getResourceId(R.styleable.RangeSeekBar_android_fontFamily , 0);
             seekBarMode = t.getInt(R.styleable.RangeSeekBar_rsb_mode, SEEKBAR_MODE_RANGE);
             minProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_min, 0);
             maxProgress = t.getFloat(R.styleable.RangeSeekBar_rsb_max, 100);
@@ -513,6 +517,8 @@ public class RangeSeekBar extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(progressDefaultColor);
         paint.setTextSize(tickMarkTextSize);
+        if (tickMarkTextFontFamily != 0)
+            paint.setTypeface(ResourcesCompat.getFont(getContext(), tickMarkTextFontFamily));
     }
 
 
