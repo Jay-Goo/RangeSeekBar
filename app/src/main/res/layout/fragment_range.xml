@@ -34,6 +34,7 @@
         android:id="@+id/sb_range_3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:fontFamily="@font/iransans1"
         app:rsb_mode="range"
         app:rsb_tick_mark_layout_gravity="bottom"
         app:rsb_tick_mark_text_margin="15dp"
