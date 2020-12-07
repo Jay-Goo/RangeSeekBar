@@ -7,7 +7,7 @@
     android:background="@android:color/white"
     android:orientation="vertical">
 
-    <android.support.design.widget.TabLayout
+    <com.google.android.material.tabs.TabLayout
         android:id="@+id/layout_tab"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -18,13 +18,13 @@
         app:tabIndicatorColor="@android:color/white"
         app:tabTextColor="@android:color/white">
 
-    </android.support.design.widget.TabLayout>
+    </com.google.android.material.tabs.TabLayout>
 
-    <android.support.v4.view.ViewPager
+    <androidx.viewpager.widget.ViewPager
         android:id="@+id/view_pager"
         android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-    </android.support.v4.view.ViewPager>
+    </androidx.viewpager.widget.ViewPager>
 </LinearLayout>
