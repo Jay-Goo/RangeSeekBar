@@ -60,6 +60,9 @@
 
         <attr name="rsb_tick_mark_text_color" format="color" />
 
+        <!--Font family for indicator and tick mark text -->
+        <attr name="android:fontFamily"/>
+
         <!--it just work in range && number mode now-->
         <attr name="rsb_tick_mark_in_range_text_color" format="color" />
 

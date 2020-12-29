@@ -23,6 +23,7 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.text.DecimalFormat;
 
@@ -70,6 +71,7 @@ public class SeekBar {
     private int thumbInactivatedDrawableId;
     private int thumbWidth;
     private int thumbHeight;
+    private int textFontFamily;
 
     //when you touch or move, the thumb will scale, default not scale
     float thumbScaleRatio;
@@ -104,6 +106,9 @@ public class SeekBar {
         initAttrs(attrs);
         initBitmap();
         initVariables();
+        if(textFontFamily != 0) {
+            paint.setTypeface(ResourcesCompat.getFont(getContext(), textFontFamily));
+        }
     }
 
     private void initAttrs(AttributeSet attrs) {
@@ -128,6 +133,7 @@ public class SeekBar {
         thumbHeight = (int) t.getDimension(R.styleable.RangeSeekBar_rsb_thumb_height, Utils.dp2px(getContext(), 26));
         thumbScaleRatio = t.getFloat(R.styleable.RangeSeekBar_rsb_thumb_scale_ratio, 1f);
         indicatorRadius = t.getDimension(R.styleable.RangeSeekBar_rsb_indicator_radius, 0f);
+        textFontFamily = t.getResourceId(R.styleable.RangeSeekBar_android_fontFamily , 0);
         t.recycle();
     }
 
@@ -135,7 +141,7 @@ public class SeekBar {
         scaleThumbWidth = thumbWidth;
         scaleThumbHeight = thumbHeight;
         if (indicatorHeight == WRAP_CONTENT) {
-            indicatorHeight = Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom;
+            indicatorHeight = Utils.measureText(paint, "8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom;
         }
         if (indicatorArrowSize <= 0) {
             indicatorArrowSize = (int) (thumbWidth / 4);
@@ -526,9 +532,9 @@ public class SeekBar {
             }
         } else {
             if (indicatorBitmap != null) {
-                return Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin;
+                return Utils.measureText(paint, "8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin;
             } else {
-                return Utils.measureText("8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin + indicatorArrowSize;
+                return Utils.measureText(paint, "8", indicatorTextSize).height() + indicatorPaddingTop + indicatorPaddingBottom + indicatorMargin + indicatorArrowSize;
             }
         }
     }

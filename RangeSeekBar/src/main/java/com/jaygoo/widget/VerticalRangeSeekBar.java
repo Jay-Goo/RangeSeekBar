@@ -193,9 +193,9 @@ public class VerticalRangeSeekBar extends RangeSeekBar {
         if (maxTickMarkWidth > 0) return getTickMarkTextMargin() + maxTickMarkWidth;
         if (getTickMarkTextArray() != null && getTickMarkTextArray().length > 0) {
             int arrayLength = getTickMarkTextArray().length;
-            maxTickMarkWidth = Utils.measureText(String.valueOf(getTickMarkTextArray()[0]), getTickMarkTextSize()).width();
+            maxTickMarkWidth = Utils.measureText(paint, String.valueOf(getTickMarkTextArray()[0]), getTickMarkTextSize()).width();
             for (int i = 1; i < arrayLength; i++) {
-                int width = Utils.measureText(String.valueOf(getTickMarkTextArray()[i]), getTickMarkTextSize()).width();
+                int width = Utils.measureText(paint, String.valueOf(getTickMarkTextArray()[i]), getTickMarkTextSize()).width();
                 if (maxTickMarkWidth < width) {
                     maxTickMarkWidth = width;
                 }

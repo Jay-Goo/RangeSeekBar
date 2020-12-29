@@ -49,8 +49,35 @@ class SingleSeekBarFragment: BaseFragment() {
 		sb_single4?.setIndicatorTextStringFormat("%s%%")
 		sb_single5?.setIndicatorTextDecimalFormat("0")
 
-		sb_single6?.setTypeface(Typeface.SANS_SERIF)
+		// 自定义Typeface
+		sb_single6?.setTypeface(Typeface.MONOSPACE)
 		sb_single6?.setOnRangeChangedListener(object :OnRangeChangedListener{
+			override fun onRangeChanged(rangeSeekBar: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
+				when {
+					leftValue < 33.33 -> rangeSeekBar.leftSeekBar.setIndicatorText("赶往店中")
+					leftValue < 66.66 -> rangeSeekBar.leftSeekBar.setIndicatorText("制作中")
+					else -> rangeSeekBar.leftSeekBar.setIndicatorText("配送中")
+				}
+
+				if (rangeSeekBar.rangeSeekBarState[0].isMin){
+					rangeSeekBar.leftSeekBar.setIndicatorText("商家接单")
+				}else if (rangeSeekBar.rangeSeekBarState[0].isMax){
+					rangeSeekBar.leftSeekBar.setIndicatorText("已送达")
+				}
+			}
+
+			override fun onStartTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
+
+			}
+
+			override fun onStopTrackingTouch(view: RangeSeekBar?, isLeft: Boolean) {
+
+			}
+
+		})
+
+		// 设置 android:fontFamily
+		sb_single7?.setOnRangeChangedListener(object :OnRangeChangedListener{
 			override fun onRangeChanged(rangeSeekBar: RangeSeekBar, leftValue: Float, rightValue: Float, isFromUser: Boolean) {
 				when {
 					leftValue < 33.33 -> rangeSeekBar.leftSeekBar.setIndicatorText("赶往店中")

@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.IntDef;
+import androidx.core.content.res.ResourcesCompat;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -154,6 +155,7 @@ public class RangeSeekBar extends View {
     private int stepsDrawableId;
     //True values set by the user
     private float minProgress, maxProgress;
+    private int textFontFamily;
     //****************** the above is attr value  ******************//
 
     private boolean isEnable = true;
@@ -248,6 +250,7 @@ public class RangeSeekBar extends View {
             stepsHeight = t.getDimension(R.styleable.RangeSeekBar_rsb_step_height, 0);
             stepsDrawableId = t.getResourceId(R.styleable.RangeSeekBar_rsb_step_drawable, 0);
             stepsAutoBonding = t.getBoolean(R.styleable.RangeSeekBar_rsb_step_auto_bonding, true);
+            textFontFamily = t.getResourceId(R.styleable.RangeSeekBar_android_fontFamily , 0);
             t.recycle();
         } catch (Exception e) {
             e.printStackTrace();
@@ -343,7 +346,7 @@ public class RangeSeekBar extends View {
 
     protected int getTickMarkRawHeight() {
         if (tickMarkTextArray != null && tickMarkTextArray.length > 0) {
-            return tickMarkTextMargin + Utils.measureText(String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).height() + 3;
+            return tickMarkTextMargin + Utils.measureText(paint, String.valueOf(tickMarkTextArray[0]), tickMarkTextSize).height() + 3;
         }
         return 0;
     }
@@ -515,6 +518,9 @@ public class RangeSeekBar extends View {
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(progressDefaultColor);
         paint.setTextSize(tickMarkTextSize);
+        if(textFontFamily != 0) {
+            paint.setTypeface(ResourcesCompat.getFont(getContext(), textFontFamily));
+        }
     }
 
 

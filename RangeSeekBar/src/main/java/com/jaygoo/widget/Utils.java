@@ -161,12 +161,12 @@ public class Utils {
         }
     }
 
-    public static Rect measureText(String text, float textSize) {
-        Paint paint = new Paint();
+    public static Rect measureText(Paint paint, String text, float textSize) {
         Rect textRect = new Rect();
+        float oldTextSize = paint.getTextSize();
         paint.setTextSize(textSize);
         paint.getTextBounds(text, 0, text.length(), textRect);
-        paint.reset();
+        paint.setTextSize(oldTextSize);
         return textRect;
     }
 

@@ -100,6 +100,35 @@
         app:rsb_tick_mark_mode="other"
         app:rsb_tick_mark_text_array="@array/markArray3"
         app:rsb_tick_mark_text_color="@color/colorRed"
-        app:rsb_tick_mark_text_margin="15dp" />
+        app:rsb_tick_mark_text_margin="15dp"
+        android:fontFamily="@font/font_bold"
+        />
+
+    <com.jaygoo.widget.RangeSeekBar
+        android:id="@+id/sb_single7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        app:rsb_gravity="bottom"
+        app:rsb_indicator_drawable="@drawable/indicator_cloud"
+        app:rsb_indicator_height="46dp"
+        app:rsb_indicator_padding_bottom="15dp"
+        app:rsb_indicator_show_mode="alwaysShowAfterTouch"
+        app:rsb_indicator_text_color="@android:color/darker_gray"
+        app:rsb_indicator_text_size="12sp"
+        app:rsb_indicator_width="50dp"
+        app:rsb_mode="single"
+        app:rsb_progress_color="@color/colorRed"
+        app:rsb_progress_default_color="@color/rsbColorSeekBarDefault"
+        app:rsb_thumb_drawable="@drawable/thumb_driver"
+        app:rsb_thumb_height="25dp"
+        app:rsb_thumb_width="30dp"
+        app:rsb_tick_mark_layout_gravity="bottom"
+        app:rsb_tick_mark_mode="other"
+        app:rsb_tick_mark_text_array="@array/markArray3"
+        app:rsb_tick_mark_text_color="@color/colorRed"
+        app:rsb_tick_mark_text_margin="15dp"
+        />
 </LinearLayout>
 
