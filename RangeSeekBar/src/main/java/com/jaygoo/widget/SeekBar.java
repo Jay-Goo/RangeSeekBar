@@ -73,6 +73,8 @@ public class SeekBar {
     private int thumbHeight;
     private int textFontFamily;
 
+    private final RectF thumbDstRect = new RectF();
+
     //when you touch or move, the thumb will scale, default not scale
     float thumbScaleRatio;
 
@@ -238,10 +240,15 @@ public class SeekBar {
      * @param canvas canvas
      */
     protected void onDrawThumb(Canvas canvas) {
+        float thumbTop = rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f;
         if (thumbInactivatedBitmap != null && !isActivate) {
-            canvas.drawBitmap(thumbInactivatedBitmap, 0, rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f, null);
+            thumbDstRect.set(0, thumbTop, thumbInactivatedBitmap.getWidth(),
+                    thumbTop + thumbInactivatedBitmap.getHeight());
+            canvas.drawBitmap(thumbInactivatedBitmap, null, thumbDstRect, null);
         } else if (thumbBitmap != null) {
-            canvas.drawBitmap(thumbBitmap, 0, rangeSeekBar.getProgressTop() + (rangeSeekBar.getProgressHeight() - scaleThumbHeight) / 2f, null);
+            thumbDstRect.set(0, thumbTop, thumbBitmap.getWidth(),
+                    thumbTop + thumbBitmap.getHeight());
+            canvas.drawBitmap(thumbBitmap, null, thumbDstRect, null);
         }
     }
 
