@@ -2,6 +2,7 @@
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/logo.png" style="margin: 0 auto;" />
 </div>
 
+
 ## [文档还是中文好](https://github.com/Jay-Goo/RangeSeekBar/blob/master/README_ZH.md)
 <div>
 <img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen1.gif" height="500px" >&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="https://github.com/Jay-Goo/RangeSeekBar/blob/master/Gif/screen2.gif" height="500px"><br/>
@@ -59,6 +60,7 @@ Open source is a hard job, and a cup of coffee may be a good reward.
 ## License
 
 Copyright 2018-2019 JayGoo
+
 
 Licensed under the Apache License.
 
